@@ -8,6 +8,9 @@ with a hash-chained audit ledger. Built from `../build_plan.md`.
 ## Run it
 
 ```bash
+git clone https://github.com/VIKNESH1211/Agentic-Model-Risk-Factory.git
+cd Agentic-Model-Risk-Factory
+cp .env.example .env   # add GROQ_API_KEY (free) or leave LLM_PROVIDER=offline
 make setup        # Python 3.11 venv (uv) + npm install
 make sandbox      # builds the no-network R image, exports the germancredit dataset
 make test         # unit + golden tests
