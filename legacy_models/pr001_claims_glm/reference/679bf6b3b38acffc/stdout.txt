@@ -1,0 +1,4 @@
+[harness] sourcing /model/pr001_claims_freq.R 
+[harness] legacy finished in 3.2 s; running epilogue
+[epilogue] residual deviance: 25333.67  null deviance: 25506.97 
+[harness] exports: coef.csv, scores.csv 

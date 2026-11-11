@@ -1,0 +1,12 @@
+{
+  "task": "conclude_validate",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "The validation stage processed 1,000 rows with a train/test/oot split, detected one issue, and identified a high\u2011severity finding that the challenger was trained and assessed on the same rows. Additional medium\u2011severity findings and code review issues were also noted.",
+    "recommendation": "hold",
+    "reasons": [
+      "High\u2011severity finding F-02 indicates data leakage between training and evaluation of the challenger.",
+      "Medium\u2011severity findings and code review issues raise concerns about model fairness and code quality."
+    ]
+  }
+}

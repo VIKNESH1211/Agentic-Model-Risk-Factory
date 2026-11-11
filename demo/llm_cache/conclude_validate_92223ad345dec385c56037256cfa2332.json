@@ -1,0 +1,12 @@
+{
+  "task": "conclude_validate",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "The validation stage produced 1,000 scored rows with a champion score of 0.998 versus a challenger score of 0.607, yet a high\u2011severity finding (F\u201102) indicates the challenger was trained and assessed on the same rows. Additional medium\u2011severity findings flag approval\u2011rate disparity by age band (F\u201101) and the challenger\u2019s use of age and personal status/sex (F\u201103).",
+    "recommendation": "hold",
+    "reasons": [
+      "High\u2011severity finding that the challenger was trained and evaluated on the same data set, compromising model integrity.",
+      "Medium\u2011severity findings reveal potential bias and inappropriate feature usage that warrant further investigation."
+    ]
+  }
+}

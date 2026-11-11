@@ -1,0 +1,12 @@
+{
+  "task": "conclude_document",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "Stage 'document' for model FR-001 is complete with 8 drafted sections, but the tool reports one code smell and no injection flags; lineage shows no upstream or downstream links. No high\u2011severity findings were detected. However, two critical gaps are noted: no ongoing\u2011monitoring plan or thresholds are documented, and development/validation data are missing from the repository, deferring validation.",
+    "recommendation": "hold",
+    "reasons": [
+      "Missing ongoing\u2011monitoring plan or thresholds documented",
+      "Development and validation data not available in repository; validation deferred"
+    ]
+  }
+}

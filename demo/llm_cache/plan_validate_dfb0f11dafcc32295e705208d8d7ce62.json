@@ -1,0 +1,29 @@
+{
+  "task": "plan_validate",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "steps": [
+      {
+        "tool": "refit",
+        "why": "Re-fit model to ensure baseline performance and detect data drift."
+      },
+      {
+        "tool": "detectors",
+        "why": "Assess performance, calibration, stability, fairness, and data quality."
+      },
+      {
+        "tool": "code_review",
+        "why": "Review legacy code for rule violations and potential biases."
+      },
+      {
+        "tool": "impact",
+        "why": "Translate findings into monetary impact and customer risk."
+      }
+    ],
+    "optional": [
+      "challenger",
+      "slice_search"
+    ],
+    "rationale": "We perform a refit to confirm the model's current performance and detect any drift. Subsequent detectors and code review ensure compliance, while impact quantifies business risk."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "task": "tier_rationale",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "tier_rationale": "The model employs a Poisson GLM with an exposure offset and relevant risk factors on a large policy dataset, meeting the materiality and customer impact thresholds required for Tier A. Its transparent statistical methodology and direct feed into the pricing engine further justify the highest tier assignment.",
+    "purpose": "Predict motor claim frequency for pricing decisions."
+  }
+}

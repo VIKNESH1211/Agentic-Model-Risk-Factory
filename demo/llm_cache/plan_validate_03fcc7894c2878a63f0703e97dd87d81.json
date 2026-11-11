@@ -1,0 +1,30 @@
+{
+  "task": "plan_validate",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "steps": [
+      {
+        "tool": "refit",
+        "why": "Re-fit model to confirm reproducibility and baseline performance."
+      },
+      {
+        "tool": "detectors",
+        "why": "Run performance, calibration, stability, fairness, and data quality checks."
+      },
+      {
+        "tool": "code_review",
+        "why": "Review legacy code for compliance with coding standards and potential errors."
+      },
+      {
+        "tool": "impact",
+        "why": "Translate findings into monetary impact and customer implications."
+      }
+    ],
+    "optional": [
+      "challenger",
+      "slice_search",
+      "stress_test"
+    ],
+    "rationale": "We include a challenger to benchmark against a modern algorithm, slice_search to detect underperforming segments, and stress_test to evaluate robustness under perturbations. These analyses provide a comprehensive view of model performance, fairness, and resilience beyond baseline checks."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "task": "tier_rationale",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "tier_rationale": "The deterministic rule classified FR-001 as Tier B because its materiality and customer impact are moderate, reflecting a model that uses a simple GLM on a subset of PCA features and a non\u2011tuned 0.5 threshold for a highly imbalanced fraud dataset. This configuration suggests a reasonable but not high risk of false positives and false negatives, justifying a middle\u2011tier assignment.",
+    "purpose": "Detect fraudulent credit\u2011card transactions."
+  }
+}

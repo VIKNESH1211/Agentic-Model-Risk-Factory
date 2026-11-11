@@ -1,0 +1,7 @@
+{
+  "task": "exec_summary_CR-002_try1",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "summary": "An independent validation of the Random\u2011forest PD challenger benchmark was performed to assess its predictive power and compliance. The Gini \u2014 train, Gini \u2014 test, Gini \u2014 out\u2011of\u2011time (simulated), KS \u2014 out\u2011of\u2011time, AUC \u2014 hold\u2011out, Brier score \u2014 hold\u2011out, Predicted\u202f\u00d7\u202fobserved \u2014 hold\u2011out, Observed outcome rate \u2014 hold\u2011out, Approval rate at coded cutoff, Champion Gini \u2014 hold\u2011out, and Challenger Gini \u2014 hold\u2011out metrics are reported as {{m:run_66dc13:gini.train}}, {{m:run_66dc13:gini.test}}, {{m:run_66dc13:gini.oot}}, {{m:run_66dc13:ks.oot}}, {{m:run_66dc13:auc.holdout}}, {{m:run_66dc13:brier.holdout}}, {{m:run_66dc13:calibration_ratio.holdout}}, {{m:run_66dc13:bad_rate.holdout}}, {{m:run_66dc13:approval_rate.holdout}}, {{m:run_66dc13:gini.champion.holdout}}, and {{m:run_66dc13:gini.challenger.holdout}} respectively. The validation identified high\u2011severity findings count as {{m:run_66dc13:findings.high}}, medium\u2011severity findings count as {{m:run_66dc13:findings.medium}}, and total findings count as {{m:run_66dc13:findings.total}}. The overall rating is Requires remediation before continued use."
+  }
+}

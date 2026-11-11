@@ -1,0 +1,36 @@
+{
+  "task": "plan_redevelop",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "steps": [
+      {
+        "tool": "data_room",
+        "why": "assemble the files the legacy code expects"
+      },
+      {
+        "tool": "sandbox.Rscript",
+        "why": "run the unmodified legacy code with no network"
+      },
+      {
+        "tool": "llm.translate",
+        "why": "draft the Python translation"
+      },
+      {
+        "tool": "parity.precheck",
+        "why": "compare the translation with legacy on every row"
+      },
+      {
+        "tool": "llm.repair",
+        "why": "feed a failure back for one repair"
+      },
+      {
+        "tool": "parity.certify",
+        "why": "issue the certificate"
+      }
+    ],
+    "optional": [
+      "fuzz"
+    ],
+    "rationale": "The process ensures the Python reimplementation matches the legacy behavior by running the original R code, translating, and verifying row\u2011by\u2011row parity, then certifying once all tests pass. Fuzzing is added to catch edge cases that may not appear in the standard dataset, providing additional confidence in robustness."
+  }
+}

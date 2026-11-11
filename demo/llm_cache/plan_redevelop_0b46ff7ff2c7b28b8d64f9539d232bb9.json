@@ -1,0 +1,36 @@
+{
+  "task": "plan_redevelop",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "steps": [
+      {
+        "tool": "data_room",
+        "why": "assemble the legacy code files into the expected environment"
+      },
+      {
+        "tool": "llm.translate",
+        "why": "draft a Python translation of the GLM model"
+      },
+      {
+        "tool": "sandbox.Rscript",
+        "why": "execute the unmodified legacy R code in a network\u2011isolated sandbox"
+      },
+      {
+        "tool": "parity.precheck",
+        "why": "compare row\u2011by\u2011row outputs of the translation against the legacy execution"
+      },
+      {
+        "tool": "llm.repair",
+        "why": "repair any detected discrepancies in the translation"
+      },
+      {
+        "tool": "parity.certify",
+        "why": "issue a certification once parity is achieved"
+      }
+    ],
+    "optional": [
+      "fuzz"
+    ],
+    "rationale": "The fuzz analysis will expose edge cases that may not surface in typical data, ensuring robustness of the translation. This comprehensive approach guarantees functional equivalence and reliability of the rebuilt model."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "task": "tier_rationale",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "tier_rationale": "The model was placed in Tier C because the deterministic rule based on materiality and customer impact classifies benchmark challengers as low\u2011risk. As a non\u2011production benchmark, it has limited downstream impact on decisions.",
+    "purpose": "Benchmark the performance of a random\u2011forest PD model against the champion CR\u2011001."
+  }
+}

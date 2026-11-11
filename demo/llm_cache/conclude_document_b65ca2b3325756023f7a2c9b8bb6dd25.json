@@ -1,0 +1,13 @@
+{
+  "task": "conclude_document",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "Stage 'document' for model FR-001 is complete with 8 drafted sections and no high\u2011severity findings, but the parser flagged one smell and the lineage builder reported no upstream or downstream links. The documentation lacks an ongoing\u2011monitoring plan or thresholds and the development/validation data are not present in the repository, delaying validation.",
+    "recommendation": "hold",
+    "reasons": [
+      "Missing ongoing\u2011monitoring plan or thresholds documented, which is critical for model risk oversight.",
+      "Development and validation data are not available in the repository, preventing timely validation and increasing uncertainty.",
+      "Parser identified one smell, indicating potential code quality or documentation issues that should be addressed before promotion."
+    ]
+  }
+}

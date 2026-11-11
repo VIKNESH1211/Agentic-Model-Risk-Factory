@@ -1,0 +1,14 @@
+{
+  "task": "conclude_discover",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "The discovery stage found an R script with 17 lines and a single library import, containing a Poisson GLM with an exposure offset. No high\u2011severity findings or code smells were detected, and the injection guard is clean. The model is classified as tier A.",
+    "recommendation": "promote",
+    "reasons": [
+      "No high\u2011severity findings reported",
+      "Zero code smells detected",
+      "Injection guard clean",
+      "Model classified as tier A"
+    ]
+  }
+}

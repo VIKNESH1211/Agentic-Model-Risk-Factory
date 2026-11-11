@@ -1,0 +1,22 @@
+{
+  "task": "plan_monitor_setup",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "steps": [
+      {
+        "tool": "deploy",
+        "why": "Deploy the validated model as a live endpoint to start serving predictions."
+      },
+      {
+        "tool": "baseline",
+        "why": "Freeze current score and input distributions to establish a reference for drift detection."
+      },
+      {
+        "tool": "alert_rules",
+        "why": "Arm PSI, CSI, latency, no-decision, and A/E alerts to monitor model performance and safety."
+      }
+    ],
+    "optional": [],
+    "rationale": "Deploying the model ensures it is available for real-time credit limit decisions. Baseline and alert rules provide continuous monitoring to detect drift and performance issues promptly."
+  }
+}

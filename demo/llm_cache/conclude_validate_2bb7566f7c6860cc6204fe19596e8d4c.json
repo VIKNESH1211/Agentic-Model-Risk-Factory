@@ -1,0 +1,12 @@
+{
+  "task": "conclude_validate",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "The validation stage processed 1,000 rows across train, test, and oot splits, scored the model, and detected one detector firing. Three findings were identified: a medium severity approval\u2011rate disparity by age band, a high severity issue where limits inherit every defect of CR\u2011001, and a medium severity hardcoded multiplier from a 2019 strategy deck. One high\u2011severity finding remains open.",
+    "recommendation": "hold",
+    "reasons": [
+      "High\u2011severity finding F-02 indicates critical risk that must be addressed before promotion.",
+      "The presence of open high\u2011severity issues requires human review to ensure model safety and compliance."
+    ]
+  }
+}

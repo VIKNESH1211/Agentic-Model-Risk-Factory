@@ -1,0 +1,34 @@
+{
+  "task": "plan_discover",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "steps": [
+      {
+        "tool": "file_walker",
+        "why": "Identify all source files for CR-003"
+      },
+      {
+        "tool": "r_parser",
+        "why": "Extract methods, inputs, and outputs to understand functionality"
+      },
+      {
+        "tool": "code_smell_scan",
+        "why": "Detect hardcoded paths, magic numbers, and stale TODOs that may indicate technical debt"
+      },
+      {
+        "tool": "injection_guard",
+        "why": "Ensure no malicious instructions are embedded in the code"
+      },
+      {
+        "tool": "tiering_rule",
+        "why": "Determine materiality and customer-impact tier for risk assessment"
+      },
+      {
+        "tool": "llm.classify",
+        "why": "Generate a draft rationale for the assigned tier"
+      }
+    ],
+    "optional": [],
+    "rationale": "The CR-003 model is a credit limit assignment strategy that translates rules into factory-run decisions. Its B-tier classification suggests moderate risk, warranting a thorough review of code quality and potential hidden vulnerabilities."
+  }
+}

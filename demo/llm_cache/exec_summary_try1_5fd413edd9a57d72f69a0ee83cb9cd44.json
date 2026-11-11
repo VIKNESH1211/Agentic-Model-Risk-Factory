@@ -1,0 +1,7 @@
+{
+  "task": "exec_summary_try1",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "summary": "The independent validation confirms that the model\u2019s predictive power, as measured by {{m:run_e7d573:gini.test}} and {{m:run_e7d573:gini.oot}}, remains acceptable but exhibits drift in out\u2011of\u2011time performance. Stability diagnostics such as {{m:run_e7d573:ks.oot}} and {{m:run_e7d573:psi.score.oot}} reveal degradation that warrants attention. The review identified {{m:run_e7d573:findings.high}} high\u2011severity issues and {{m:run_e7d573:findings.medium}} medium\u2011severity issues, for a total of {{m:run_e7d573:findings.total}} findings, leading to an overall rating of Requires remediation before continued use. Critical concerns include a decision cutoff that conflicts with the documented credit policy, missing decisions for certain inputs, and a prompt\u2011injection artifact embedded in the source code. Additional observations involve age\u2011band approval\u2011rate disparity and silent imputation of credit amounts, which together suggest the model requires remediation before further deployment."
+  }
+}

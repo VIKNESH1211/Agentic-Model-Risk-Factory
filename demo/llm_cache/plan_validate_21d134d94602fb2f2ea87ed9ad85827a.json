@@ -1,0 +1,29 @@
+{
+  "task": "plan_validate",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "steps": [
+      {
+        "tool": "refit",
+        "why": "Re-fit model to ensure independent training and baseline performance."
+      },
+      {
+        "tool": "detectors",
+        "why": "Run performance, calibration, stability, fairness, and data quality checks."
+      },
+      {
+        "tool": "code_review",
+        "why": "Review legacy code for compliance and potential issues."
+      },
+      {
+        "tool": "impact",
+        "why": "Translate findings into financial impact and customer implications."
+      }
+    ],
+    "optional": [
+      "challenger",
+      "slice_search"
+    ],
+    "rationale": "The mandatory tools provide a comprehensive assessment of the model\u2019s technical and business aspects. Optional challenger and slice_search analyses help benchmark against a stronger algorithm and uncover problematic segments."
+  }
+}

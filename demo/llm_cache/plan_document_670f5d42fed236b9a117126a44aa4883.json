@@ -1,0 +1,26 @@
+{
+  "task": "plan_document",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "steps": [
+      {
+        "tool": "r_parser",
+        "why": "re-read the code to understand implementation"
+      },
+      {
+        "tool": "lineage_builder",
+        "why": "trace inputs/outputs to other models"
+      },
+      {
+        "tool": "data_profiler",
+        "why": "profile model inputs to assess data quality"
+      },
+      {
+        "tool": "llm.draft",
+        "why": "draft documentation sections based on gathered info"
+      }
+    ],
+    "optional": [],
+    "rationale": "The steps follow a logical flow from code comprehension to data profiling and documentation drafting, ensuring all required information is captured. This approach satisfies the model\u2011risk documentation requirements for CR\u2011002."
+  }
+}

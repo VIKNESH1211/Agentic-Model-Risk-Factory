@@ -1,0 +1,7 @@
+{
+  "task": "exec_summary_try1",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "summary": "The validation examined the model\u2019s discrimination and calibration across test and out\u2011of\u2011time samples. The test Gini metric is reported as {{m:run_b459d1:gini.test}} while the out\u2011of\u2011time Gini is {{m:run_b459d1:gini.oot}} indicating that the out\u2011of\u2011time Gini is lower than the test sample. Calibration on the holdout set is {{m:run_b459d1:calibration_ratio.holdout}} and the meaning notes that calibration is within tolerance. The population shift metric shows {{m:run_b459d1:psi.score.oot}} with the meaning that the score population is shifted amber. The demographic impact metric is {{m:run_b459d1:di_ratio.age_band}} indicating that the age\u2011band approval ratio is below the four\u2011fifths rule. The overall rating is Requires remediation before continued use, and the top findings include a high\u2011severity population shift and a medium\u2011severity approval\u2011rate disparity by age band."
+  }
+}

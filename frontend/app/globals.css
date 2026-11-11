@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+/* ── Design tokens: dark "mission control" ─────────────────────────────── */
+:root {
+  --ink: #0b1020;
+  --ink-2: #0f1630;
+  --panel: #121a33;
+  --panel-2: #172042;
+  --line: rgba(148, 163, 255, 0.14);
+  --line-strong: rgba(148, 163, 255, 0.28);
+  --text: #e6e9f5;
+  --muted: #8f98b8;
+  --faint: #5d6688;
+  --pass: #22c55e;
+  --warn: #f5a524;
+  --fail: #f04461;
+  --agent: #a78bfa;
+  --teal: #2dd4bf;
+  --info: #60a5fa;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-pass: var(--pass);
+  --color-warn: var(--warn);
+  --color-fail: var(--fail);
+  --color-agent: var(--agent);
+  --color-teal: var(--teal);
+  --color-info: var(--info);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains);
+}
+
+html, body { background: var(--ink); color: var(--text); }
+body {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 16px;
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(167, 139, 250, 0.08), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, rgba(45, 212, 191, 0.06), transparent 60%),
+    var(--ink);
+  min-height: 100vh;
+}
+
+.panel {
+  background: linear-gradient(180deg, rgba(23, 32, 66, 0.85), rgba(18, 26, 51, 0.85));
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.01) inset, 0 10px 30px -12px rgba(0,0,0,0.6);
+}
+.panel-title { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.mono { font-family: var(--font-jetbrains), ui-monospace, monospace; }
+.num { font-variant-numeric: tabular-nums; }
+
+.glow-agent { box-shadow: 0 0 0 1px rgba(167,139,250,.55), 0 0 28px -2px rgba(167,139,250,.55); }
+.glow-teal { box-shadow: 0 0 0 1px rgba(45,212,191,.5), 0 0 24px -4px rgba(45,212,191,.5); }
+.glow-fail { box-shadow: 0 0 0 1px rgba(240,68,97,.6), 0 0 24px -4px rgba(240,68,97,.6); }
+
+.btn {
+  display: inline-flex; align-items: center; gap: .5rem; border-radius: 10px; padding: .55rem .95rem;
+  font-weight: 600; font-size: 14px; border: 1px solid var(--line-strong); background: rgba(255,255,255,0.03);
+  transition: all .15s ease; cursor: pointer;
+}
+.btn:hover { background: rgba(255,255,255,0.07); border-color: rgba(148,163,255,.45); }
+.btn:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn-primary { background: linear-gradient(180deg, #2dd4bf, #14b8a6); color: #04201c; border-color: transparent; }
+.btn-primary:hover { background: linear-gradient(180deg, #5eead4, #2dd4bf); }
+.btn-danger { border-color: rgba(240,68,97,.5); color: #ffb3c0; }
+.btn-danger:hover { background: rgba(240,68,97,.12); }
+
+.pill {
+  display: inline-flex; align-items: center; gap: 4px; padding: 0 .45rem; border-radius: 7px;
+  font-family: var(--font-jetbrains), monospace; font-size: .92em; font-weight: 600; line-height: 1.55;
+  background: rgba(45,212,191,.12); color: #7af0dd; border: 1px solid rgba(45,212,191,.35);
+  cursor: pointer; transition: all .12s ease; white-space: nowrap;
+}
+.pill:hover { background: rgba(45,212,191,.22); border-color: rgba(45,212,191,.75); transform: translateY(-1px); }
+.pill-missing { background: rgba(240,68,97,.12); color: #ff9db0; border-color: rgba(240,68,97,.4); }
+
+.scroll-thin::-webkit-scrollbar { width: 8px; height: 8px; }
+.scroll-thin::-webkit-scrollbar-thumb { background: rgba(148,163,255,.18); border-radius: 8px; }
+
+@keyframes pulse-dot { 0%,100% { opacity: 1 } 50% { opacity: .35 } }
+.live-dot { animation: pulse-dot 1.6s ease-in-out infinite; }
+@keyframes scan { 0% { background-position: -200% 0 } 100% { background-position: 200% 0 } }
+.agent-scan {
+  background-image: linear-gradient(90deg, transparent, rgba(167,139,250,.18), transparent);
+  background-size: 200% 100%; animation: scan 1.8s linear infinite;
+}
+
+/* report prose */
+.prose-report h1 { font-size: 1.9rem; font-weight: 700; margin: .2rem 0 1rem; letter-spacing: -.01em; }
+.prose-report h2 { font-size: 1.25rem; font-weight: 700; margin: 2rem 0 .7rem; color: #cfd6ff; padding-top: .4rem; border-top: 1px solid var(--line); }
+.prose-report p { line-height: 1.85; margin: .6rem 0; color: #d6daea; }
+.prose-report strong { color: #fff; }
+.prose-report table { width: 100%; border-collapse: collapse; margin: .8rem 0; font-size: .95rem; }
+.prose-report th { text-align: left; color: var(--muted); font-weight: 600; font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; border-bottom: 1px solid var(--line-strong); padding: .5rem .6rem; }
+.prose-report td { border-bottom: 1px solid var(--line); padding: .55rem .6rem; vertical-align: top; }
+.prose-report blockquote { border-left: 3px solid var(--warn); background: rgba(245,165,36,.07); padding: .6rem 1rem; border-radius: 0 8px 8px 0; margin: 1rem 0; }
+.prose-report code { font-family: var(--font-jetbrains), monospace; font-size: .85em; color: #c4b5fd; background: rgba(167,139,250,.1); padding: 0 .3rem; border-radius: 5px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+}
+
+/* React Flow dark tweaks */
+.react-flow__attribution { display: none; }
+.react-flow__controls button { background: var(--panel-2); border-color: var(--line); fill: var(--text); }

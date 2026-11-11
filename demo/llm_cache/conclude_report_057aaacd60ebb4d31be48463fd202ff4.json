@@ -1,0 +1,11 @@
+{
+  "task": "conclude_report",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "The report stage for model FR-001 has finished with tool observations indicating a live source draft and a clean token check. However, there is one high\u2011severity finding still open. The report ID is rep_run_a8410e and the token count is 26.",
+    "recommendation": "hold",
+    "reasons": [
+      "One high\u2011severity finding remains open, requiring human review before promotion."
+    ]
+  }
+}

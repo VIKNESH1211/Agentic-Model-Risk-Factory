@@ -1,0 +1,7 @@
+{
+  "task": "exec_summary_FR-001_try1",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "summary": "The FR-001 Card transaction fraud detector model has been independently validated for its ability to identify fraudulent financial transactions. Key performance indicators show a Gini \u2014 test of {{m:run_5049de:gini.test}}, a Gini \u2014 out-of-time of {{m:run_5049de:gini.oot}}, a KS \u2014 out-of-time of {{m:run_5049de:ks.oot}}, an AUC \u2014 hold-out of {{m:run_5049de:auc.holdout}}, a Brier score \u2014 hold-out of {{m:run_5049de:brier.holdout}}, a Predicted \u00d7 observed \u2014 hold-out of {{m:run_5049de:calibration_ratio.holdout}}, and an Observed outcome rate \u2014 hold-out of {{m:run_5049de:bad_rate.holdout}}. At the coded threshold the model achieves a Recall at coded threshold of {{m:run_5049de:recall_at.holdout}}, a Precision at coded threshold of {{m:run_5049de:precision_at.holdout}}, an Average precision (PR-AUC) of {{m:run_5049de:avg_precision.holdout}}, and an Alert rate of {{m:run_5049de:alert_rate.holdout}}. The validation identified {{m:run_5049de:findings.high}} high\u2011severity finding, {{m:run_5049de:findings.medium}} medium\u2011severity finding, for a total of {{m:run_5049de:findings.total}} findings, and parity checks report {{m:run_5049de:coef_max_abs_diff}} for coefficient maximum absolute difference, {{m:run_5049de:score_max_abs_diff}} for score maximum absolute difference, and {{m:run_5049de:rows_compared}} rows compared. Overall rating is Requires remediation before continued use."
+  }
+}

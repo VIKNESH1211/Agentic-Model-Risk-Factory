@@ -1,0 +1,7 @@
+{
+  "task": "exec_summary_try1",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "summary": "The out\u2011of\u2011time Gini metric {{m:run_ca84e5:gini.oot}} indicates that the out\u2011of\u2011time Gini is HIGHER than (no deterioration vs) the test sample. The calibration ratio on the holdout set {{m:run_ca84e5:calibration_ratio.holdout}} shows that calibration is WITHIN tolerance. The population stability index {{m:run_ca84e5:psi.score.oot}} confirms that the score population is STABLE (below amber threshold). The demographic impact ratio for age band {{m:run_ca84e5:di_ratio.age_band}} reveals that the age\u2011band approval ratio is BELOW the four\u2011fifths rule. The expected\u2011loss gap {{m:run_ca84e5:el_gap.holdout}} indicates a negative gap, meaning the model over\u2011predicts risk and is conservative. The overall rating is Requires remediation before continued use, driven by high\u2011severity findings including decision cutoff contradictions, legacy model gaps, and prompt\u2011injection text."
+  }
+}

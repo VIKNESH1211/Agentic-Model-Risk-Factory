@@ -1,0 +1,18 @@
+{
+  "task": "plan_report",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "steps": [
+      {
+        "tool": "llm.draft",
+        "why": "Generate executive summary using only traceable tokens"
+      },
+      {
+        "tool": "token_checker",
+        "why": "Verify that no unsourced numbers appear in the draft"
+      }
+    ],
+    "optional": [],
+    "rationale": "The report is constructed with traceable tokens to ensure all numeric claims are verifiable. Using the mandatory tools guarantees both concise drafting and compliance with the token-checking requirement."
+  }
+}

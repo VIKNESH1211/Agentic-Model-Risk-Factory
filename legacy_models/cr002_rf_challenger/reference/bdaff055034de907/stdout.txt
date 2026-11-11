@@ -1,0 +1,5 @@
+[harness] sourcing /model/cr002_rf.R 
+[1] 0.7375057
+[harness] legacy finished in 1.62 s; running epilogue
+[epilogue] OOB prediction error: 0.1641432 
+[harness] exports: importance.csv, scores.csv 

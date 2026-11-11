@@ -1,0 +1,7 @@
+{
+  "task": "exec_summary_try1",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "summary": "The validation examined key performance indicators including test Gini {{m:run_4b9aae:gini.test}}, out\u2011of\u2011time Gini {{m:run_4b9aae:gini.oot}} which is higher than the test sample, KS on out\u2011of\u2011time data {{m:run_4b9aae:ks.oot}}, calibration ratio on holdout {{m:run_4b9aae:calibration_ratio.holdout}} within tolerance, and PSI score on out\u2011of\u2011time {{m:run_4b9aae:psi.score.oot}} indicating a stable population. The age\u2011band approval ratio {{m:run_4b9aae:di_ratio.age_band}} falls below the four\u2011fifths rule, and the expected\u2011loss gap {{m:run_4b9aae:el_gap.holdout}} is negative, reflecting a conservative over\u2011prediction of risk. Additional diagnostics show a zero maximum absolute score difference {{m:run_4b9aae:score_max_abs_diff}}, a fuzz row count {{m:run_4b9aae:fuzz_rows}}, and legacy missing\u2011value count {{m:run_4b9aae:fuzz_legacy_na}}. The model registers high\u2011severity findings {{m:run_4b9aae:findings.high}} and medium\u2011severity findings {{m:run_4b9aae:findings.medium}} for a total of {{m:run_4b9aae:findings.total}} issues, including decision cutoff contradictions, missing decisions, prompt\u2011injection text, age\u2011band disparity, and imputed credit amounts. The overall rating is Requires remediation before continued use"
+  }
+}

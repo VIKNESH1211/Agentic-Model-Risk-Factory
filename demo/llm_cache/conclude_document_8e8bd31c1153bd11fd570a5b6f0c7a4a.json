@@ -1,0 +1,12 @@
+{
+  "task": "conclude_document",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "Stage 'document' for PR-001 is complete with no tool-detected issues, but two critical gaps remain: no ongoing monitoring plan or thresholds are documented, and development/validation data are missing from the repository, causing validation to be deferred.",
+    "recommendation": "hold",
+    "reasons": [
+      "Missing ongoing monitoring plan or thresholds documented.",
+      "Development and validation data not available in repository; validation deferred."
+    ]
+  }
+}

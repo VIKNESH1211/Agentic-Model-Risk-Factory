@@ -1,0 +1,13 @@
+{
+  "task": "conclude_validate",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "Validation completed with 1,000 rows, but a high\u2011severity finding (F\u201102) indicates the challenger was trained and assessed on the same data, raising a data\u2011leakage risk.",
+    "recommendation": "hold",
+    "reasons": [
+      "High\u2011severity finding F\u201102 indicates data leakage risk.",
+      "Challenger trained and assessed on the same rows.",
+      "Code review identified 3 issues."
+    ]
+  }
+}

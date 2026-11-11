@@ -1,0 +1,36 @@
+{
+  "task": "plan_redevelop",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "steps": [
+      {
+        "tool": "data_room",
+        "why": "assemble the files the legacy code expects"
+      },
+      {
+        "tool": "llm.translate",
+        "why": "draft the Python translation"
+      },
+      {
+        "tool": "sandbox.Rscript",
+        "why": "run the unmodified legacy code with no network"
+      },
+      {
+        "tool": "parity.precheck",
+        "why": "compare the translation with legacy on every row"
+      },
+      {
+        "tool": "llm.repair",
+        "why": "feed a failure back for one repair"
+      },
+      {
+        "tool": "parity.certify",
+        "why": "issue the certificate"
+      }
+    ],
+    "optional": [
+      "fuzz"
+    ],
+    "rationale": "We will rebuild the model in Python to ensure compatibility and maintainability. The process will validate parity and certify the new implementation."
+  }
+}

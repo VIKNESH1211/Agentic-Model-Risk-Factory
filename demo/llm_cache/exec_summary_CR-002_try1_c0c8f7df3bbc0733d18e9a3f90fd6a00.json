@@ -1,0 +1,7 @@
+{
+  "task": "exec_summary_CR-002_try1",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "summary": "The validation of the CR-002 Random\u2011forest PD challenger shows strong discrimination with Gini \u2014 train of {{m:run_4a6f20:gini.train}}, Gini \u2014 test of {{m:run_4a6f20:gini.test}}, and Gini \u2014 out\u2011of\u2011time of {{m:run_4a6f20:gini.oot}}. The out\u2011of\u2011time Kolmogorov\u2011Smirnov statistic is {{m:run_4a6f20:ks.oot}}, and the hold\u2011out AUC is {{m:run_4a6f20:auc.holdout}}. Calibration is reflected by a Brier score of {{m:run_4a6f20:brier.holdout}} and a predicted\u2011over\u2011observed ratio of {{m:run_4a6f20:calibration_ratio.holdout}} on the hold\u2011out sample. The observed outcome rate on the hold\u2011out is {{m:run_4a6f20:bad_rate.holdout}}, the approval rate at the coded cutoff is {{m:run_4a6f20:approval_rate.holdout}}, and the champion versus challenger Gini values are {{m:run_4a6f20:gini.champion.holdout}} and {{m:run_4a6f20:gini.challenger.holdout}} respectively. The review identified {{m:run_4a6f20:findings.high}} high\u2011severity, {{m:run_4a6f20:findings.medium}} medium\u2011severity, and a total of {{m:run_4a6f20:findings.total}} findings, leading to an overall rating of Requires remediation before continued use"
+  }
+}

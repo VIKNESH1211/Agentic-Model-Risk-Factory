@@ -1,0 +1,34 @@
+{
+  "task": "plan_discover",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "steps": [
+      {
+        "tool": "injection_guard",
+        "why": "scan untrusted source for instructions aimed at AI"
+      },
+      {
+        "tool": "file_walker",
+        "why": "list files and lines of code"
+      },
+      {
+        "tool": "r_parser",
+        "why": "extract methods, inputs, outputs"
+      },
+      {
+        "tool": "code_smell_scan",
+        "why": "detect hardcoded paths, magic numbers, stale TODOs"
+      },
+      {
+        "tool": "tiering_rule",
+        "why": "deterministic materiality x customer-impact tier"
+      },
+      {
+        "tool": "llm.classify",
+        "why": "draft the tier rationale"
+      }
+    ],
+    "optional": [],
+    "rationale": "The PR-001 model is a pricing frequency GLM deployed in the legacy estate, with clear inputs and outputs but potential code quality issues. The analysis confirms its Tier A status and highlights areas for improvement in maintainability and documentation."
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "task": "conclude_report",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "Stage 'report' for model CR-003 is complete with tool observations indicating a live source draft and clean tokens, but there is one high\u2011severity finding still open.",
+    "recommendation": "hold",
+    "reasons": [
+      "High\u2011severity finding remains open, requiring human review before promotion."
+    ]
+  }
+}

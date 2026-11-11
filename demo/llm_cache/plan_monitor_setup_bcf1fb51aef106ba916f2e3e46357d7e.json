@@ -1,0 +1,22 @@
+{
+  "task": "plan_monitor_setup",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "steps": [
+      {
+        "tool": "deploy",
+        "why": "Load the validated PR-001 model as a live endpoint for real-time predictions"
+      },
+      {
+        "tool": "baseline",
+        "why": "Freeze score and input distributions to establish a reference for drift detection"
+      },
+      {
+        "tool": "alert_rules",
+        "why": "Arm PSI, CSI, latency, no-decision and A/E rules to monitor performance and data quality"
+      }
+    ],
+    "optional": [],
+    "rationale": "Deploying the model ensures it is available for the traffic simulator, while baseline freezing provides a stable benchmark for detecting drift. The alert rules enable proactive monitoring of key performance indicators and data integrity, safeguarding model reliability."
+  }
+}

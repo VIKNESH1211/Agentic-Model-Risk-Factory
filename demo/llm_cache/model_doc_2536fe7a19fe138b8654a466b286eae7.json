@@ -1,0 +1,14 @@
+{
+  "task": "model_doc",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "purpose": "Model predicts the frequency of motor insurance claims for pricing purposes using a generalized linear model (GLM).",
+    "data": "Uses the insuranceData::dataCar dataset containing 67,856 vehicle insurance policies. Records with exposure > 0 are retained. Variables include exposure, numclaims (target), veh_body, veh_age, agecat, area, and gender.",
+    "methodology": "Fits a Poisson GLM with a log link and an offset of log(exposure). The model formula is numclaims ~ veh_body + veh_age + agecat + area + gender. Predicted frequencies are obtained by dividing the response predictions by exposure.",
+    "variables": "Predictors: veh_body (vehicle body type), veh_age (vehicle age, treated as factor), agecat (driver age category, factor), area (geographic area), gender (driver gender). Target: numclaims. Exposure is used as an offset.",
+    "implementation": "R script loads the insuranceData library, subsets dataCar to exposure>0, converts veh_age and agecat to factors, fits the GLM, generates predictions, computes freq_hat = predict(...)/exposure, and writes selected columns to pr001_freq.csv. The resulting rate table is manually uploaded to the pricing engine on a quarterly basis.",
+    "assumptions_limitations": "Assumes claim counts follow a Poisson distribution and that exposure correctly offsets the rate. No ongoing monitoring plan or thresholds are documented. Validation and development data are not stored in the repository, so validation has been deferred. The agecat variable includes protected\u2011characteristic categories adjacent to each other, which may have fairness implications.",
+    "monitoring": "No ongoing monitoring plan or performance thresholds are documented for this model.",
+    "gaps": "No ongoing\u2011monitoring plan or thresholds documented.; Development and validation data not available in repository; validation deferred."
+  }
+}

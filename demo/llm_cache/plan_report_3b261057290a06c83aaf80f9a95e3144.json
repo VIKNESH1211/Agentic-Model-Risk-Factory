@@ -1,0 +1,18 @@
+{
+  "task": "plan_report",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "steps": [
+      {
+        "tool": "llm.draft",
+        "why": "Generate executive summary using only traceable tokens"
+      },
+      {
+        "tool": "token_checker",
+        "why": "Validate that no unsourced numbers appear in the summary"
+      }
+    ],
+    "optional": [],
+    "rationale": "The report is produced with traceable tokens and validated for numeric integrity. No optional analyses were needed for this credit strategy model."
+  }
+}

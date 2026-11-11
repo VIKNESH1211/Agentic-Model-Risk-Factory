@@ -1,0 +1,11 @@
+{
+  "task": "conclude_report",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "The report for model FR-001 has been drafted from live data and passed token checking, but a high\u2011severity finding remains open. The report ID is rep_run_5049de and the checker reports success with 31 tokens.",
+    "recommendation": "hold",
+    "reasons": [
+      "A high\u2011severity finding is still open, requiring human review before promotion."
+    ]
+  }
+}

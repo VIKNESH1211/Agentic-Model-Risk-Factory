@@ -1,0 +1,26 @@
+{
+  "task": "plan_document",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "steps": [
+      {
+        "tool": "r_parser",
+        "why": "Re-read the code to understand implementation details"
+      },
+      {
+        "tool": "lineage_builder",
+        "why": "Trace inputs and outputs to other models for dependency mapping"
+      },
+      {
+        "tool": "data_profiler",
+        "why": "Profile model inputs to assess data quality and distribution"
+      },
+      {
+        "tool": "llm.draft",
+        "why": "Generate initial documentation sections based on gathered insights"
+      }
+    ],
+    "optional": [],
+    "rationale": "The mandatory tools provide a comprehensive view of the model\u2019s logic, data flow, and input characteristics, enabling accurate documentation. This approach ensures all critical aspects are covered while keeping the process efficient."
+  }
+}

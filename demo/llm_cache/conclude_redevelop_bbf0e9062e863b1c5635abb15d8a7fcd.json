@@ -1,0 +1,13 @@
+{
+  "task": "conclude_redevelop",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "The redevelop stage completed with all tests passing and fuzzing generating 5,000 rows. However, parity precheck revealed that PD is NaN for all 1,000 real applicants, and fuzz comparison shows 1,528 legacy NA scores. No high\u2011severity findings were reported, but the missing PD values and legacy NAs raise concerns.",
+    "recommendation": "hold",
+    "reasons": [
+      "Parity precheck indicates PD is NaN for all real applicants, suggesting a data or model issue.",
+      "Legacy scoring file contains 1,528 NA scores, which may affect downstream decisions.",
+      "Human review is needed to investigate and resolve these missing values before promotion."
+    ]
+  }
+}

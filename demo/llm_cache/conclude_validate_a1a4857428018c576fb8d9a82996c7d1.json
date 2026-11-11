@@ -1,0 +1,13 @@
+{
+  "task": "conclude_validate",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "The validation run processed 67,856 rows, with no detectors fired but identified a high\u2011severity bias finding (gender used as a pricing factor) and several medium\u2011severity issues, including weak ranking in a vehicle segment and lack of a hold\u2011out set.",
+    "recommendation": "hold",
+    "reasons": [
+      "High\u2011severity bias finding (gender used as a pricing factor) requires human review",
+      "Medium\u2011severity issues (weak ranking, no hold\u2011out) may affect model reliability",
+      "Code review identified 3 issues that need addressing"
+    ]
+  }
+}

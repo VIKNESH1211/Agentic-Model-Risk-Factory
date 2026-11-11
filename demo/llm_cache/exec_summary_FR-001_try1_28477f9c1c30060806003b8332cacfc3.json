@@ -1,0 +1,7 @@
+{
+  "task": "exec_summary_FR-001_try1",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "summary": "The independent validation of the FR-001 Card transaction fraud detector confirms its design for detecting fraudulent financial transactions. Key performance indicators show a Gini \u2013 test of {{m:run_f7fb6e:gini.test}}, a Gini \u2013 out\u2011of\u2011time of {{m:run_f7fb6e:gini.oot}}, a KS \u2013 out\u2011of\u2011time of {{m:run_f7fb6e:ks.oot}}, an AUC \u2013 hold\u2011out of {{m:run_f7fb6e:auc.holdout}}, a Brier score \u2013 hold\u2011out of {{m:run_f7fb6e:brier.holdout}}, a Predicted\u202f\u00d7\u202fobserved \u2013 hold\u2011out of {{m:run_f7fb6e:calibration_ratio.holdout}}, an Observed outcome rate \u2013 hold\u2011out of {{m:run_f7fb6e:bad_rate.holdout}}, a Recall at coded threshold of {{m:run_f7fb6e:recall_at.holdout}}, a Precision at coded threshold of {{m:run_f7fb6e:precision_at.holdout}}, an Average precision (PR\u2011AUC) of {{m:run_f7fb6e:avg_precision.holdout}} and an Alert rate of {{m:run_f7fb6e:alert_rate.holdout}}. The review identified {{m:run_f7fb6e:findings.high}} high\u2011severity finding, {{m:run_f7fb6e:findings.medium}} medium\u2011severity finding, for a total of {{m:run_f7fb6e:findings.total}} findings. Parity analysis against the legacy model reports a score maximum absolute difference of {{m:run_f7fb6e:score_max_abs_diff}}, rows compared of {{m:run_f7fb6e:rows_compared}} and a coefficient maximum absolute difference of {{m:run_f7fb6e:coef_max_abs_diff}}. Overall rating is Requires remediation before continued use"
+  }
+}

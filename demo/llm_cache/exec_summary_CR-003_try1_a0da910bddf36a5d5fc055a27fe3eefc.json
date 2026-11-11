@@ -1,0 +1,7 @@
+{
+  "task": "exec_summary_CR-003_try1",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "summary": "The model shows declines with zero limit as captured by {{m:run_b478de:decline_zero_share}}. The largest limit granted, {{m:run_b478de:max_limit}}, and the share of limits at the cap, {{m:run_b478de:cap_share}}, are reported. The limit ratio monotone flag indicates that limit falls as risk rises, shown by {{m:run_b478de:limit_ratio_monotone}}. The overall approval rate, {{m:run_b478de:approval_rate.all}}, reflects the share granted a limit. The model has one high\u2011severity finding ({{m:run_b478de:findings.high}}), two medium\u2011severity findings ({{m:run_b478de:findings.medium}}) and a total of three findings ({{m:run_b478de:findings.total}}). The overall rating is Requires remediation before continued use."
+  }
+}

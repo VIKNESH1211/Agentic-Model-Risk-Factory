@@ -1,0 +1,13 @@
+{
+  "task": "conclude_validate",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "Validation stage completed with tool observations including coefficient refit, fitted challenger, scored outputs, detector alerts, Gini CI, impact calculation, and multiple findings. Three high\u2011severity findings (F\u201104, F\u201105, F\u201106) remain open, indicating critical issues. Additional facts list includes findings 8\u201113.",
+    "recommendation": "hold",
+    "reasons": [
+      "High\u2011severity findings F\u201104, F\u201105, F\u201106 remain open.",
+      "Policy contradiction, missing decisions, and prompt injection pose significant model risk.",
+      "Human review is required before proceeding."
+    ]
+  }
+}

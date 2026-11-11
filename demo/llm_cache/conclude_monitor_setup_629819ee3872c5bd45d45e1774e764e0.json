@@ -1,0 +1,11 @@
+{
+  "task": "conclude_monitor_setup",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "Stage 'monitor_setup' for model CR-003 completed with deployment live at 180 requests/min and 7 alert rules armed. One high\u2011severity finding remains open.",
+    "recommendation": "hold",
+    "reasons": [
+      "High\u2011severity finding is still open, requiring human review before promotion."
+    ]
+  }
+}

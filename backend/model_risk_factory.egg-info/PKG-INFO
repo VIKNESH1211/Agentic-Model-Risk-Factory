@@ -1,0 +1,23 @@
+Metadata-Version: 2.4
+Name: model-risk-factory
+Version: 0.1.0
+Requires-Python: <3.13,>=3.11
+Requires-Dist: fastapi>=0.115
+Requires-Dist: uvicorn[standard]>=0.30
+Requires-Dist: sqlmodel>=0.0.22
+Requires-Dist: pydantic>=2.8
+Requires-Dist: pandas>=2.2
+Requires-Dist: numpy>=1.26
+Requires-Dist: scipy>=1.13
+Requires-Dist: statsmodels>=0.14
+Requires-Dist: scikit-learn>=1.5
+Requires-Dist: networkx>=3.3
+Requires-Dist: hypothesis>=6.100
+Requires-Dist: httpx>=0.27
+Requires-Dist: anthropic>=0.40
+Requires-Dist: python-dotenv>=1.0
+Provides-Extra: dev
+Requires-Dist: pytest>=8; extra == "dev"
+Requires-Dist: jsonschema>=4; extra == "dev"
+Provides-Extra: mlflow
+Requires-Dist: mlflow>=2.14; extra == "mlflow"

@@ -1,0 +1,26 @@
+# Containerised demo. The R sandbox runs from recorded reference outputs here (SANDBOX_MODE=reference)
+# because nested Docker is not available inside the api container; run natively (`make demo`) for live R.
+services:
+  api:
+    build: ./backend
+    env_file: .env
+    environment:
+      - SANDBOX_MODE=reference
+      - MRF_VAR_DIR=/app/var
+    volumes:
+      - ./legacy_models:/app/legacy_models:ro
+      - ./data:/app/data
+      - ./demo:/app/demo
+      - ./contracts:/app/contracts
+    ports: ["8100:8100"]
+  web:
+    build:
+      context: ./frontend
+      args: [NEXT_PUBLIC_API_URL=http://localhost:8100]
+    ports: ["3210:3210"]
+    depends_on: [api]
+  mlflow:   # optional experiment tracking (set MLFLOW_TRACKING_URI=http://mlflow:5000)
+    image: ghcr.io/mlflow/mlflow:v2.14.1
+    command: mlflow server --host 0.0.0.0 --backend-store-uri sqlite:///mlflow.db
+    ports: ["5050:5000"]
+    profiles: [mlflow]

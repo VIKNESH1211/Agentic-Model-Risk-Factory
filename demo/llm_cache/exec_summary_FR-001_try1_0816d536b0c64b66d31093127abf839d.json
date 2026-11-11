@@ -1,0 +1,7 @@
+{
+  "task": "exec_summary_FR-001_try1",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "summary": "The FR-001 Card transaction fraud detector shows strong discrimination as measured by Gini \u2014 test {{m:run_a8410e:gini.test}} and Gini \u2014 out-of-time (simulated) {{m:run_a8410e:gini.oot}}. Temporal stability is confirmed by KS \u2014 out-of-time {{m:run_a8410e:ks.oot}} and AUC \u2014 hold-out {{m:run_a8410e:auc.holdout}}. Calibration quality is reflected by Predicted\u202f\u00d7\u202fobserved \u2014 hold-out {{m:run_a8410e:calibration_ratio.holdout}} and Brier score \u2014 hold-out {{m:run_a8410e:brier.holdout}}. The model attains high precision at coded threshold {{m:run_a8410e:precision_at.holdout}}, solid recall at coded threshold {{m:run_a8410e:recall_at.holdout}}, and strong average precision (PR\u2011AUC) {{m:run_a8410e:avg_precision.holdout}}. Validation uncovered two findings\u2014a high-severity alert-threshold issue and a medium-severity data-control issue\u2014resulting in an overall rating of Requires remediation before continued use. Parity versus the legacy model is summarized by parity vs legacy: coef_max_abs_diff {{m:run_a8410e:coef_max_abs_diff}}, score_max_abs_diff {{m:run_a8410e:score_max_abs_diff}}, and rows_compared {{m:run_a8410e:rows_compared}}."
+  }
+}

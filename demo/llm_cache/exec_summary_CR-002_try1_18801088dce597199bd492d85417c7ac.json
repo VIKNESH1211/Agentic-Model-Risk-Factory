@@ -1,0 +1,7 @@
+{
+  "task": "exec_summary_CR-002_try1",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "summary": "The CR\u2011002 Random\u2011forest PD challenger was evaluated as an independent benchmark against the champion model. Key discrimination metrics include Gini \u2014 train {{m:run_098fd6:gini.train}}, Gini \u2014 test {{m:run_098fd6:gini.test}}, Gini \u2014 out\u2011of\u2011time {{m:run_098fd6:gini.oot}}, KS \u2014 out\u2011of\u2011time {{m:run_098fd6:ks.oot}}, and AUC \u2014 hold\u2011out {{m:run_098fd6:auc.holdout}}. Calibration is reflected by the Brier score \u2014 hold\u2011out {{m:run_098fd6:brier.holdout}} and Predicted\u202f\u00d7\u202fobserved \u2014 hold\u2011out {{m:run_098fd6:calibration_ratio.holdout}}, while the observed outcome rate \u2014 hold\u2011out is {{m:run_098fd6:bad_rate.holdout}} and the approval rate at coded cutoff is {{m:run_098fd6:approval_rate.holdout}}. The validation identified {{m:run_098fd6:findings.high}} high\u2011severity finding, {{m:run_098fd6:findings.medium}} medium\u2011severity findings, for a total of {{m:run_098fd6:findings.total}} findings, with top issues including challenger training on the same rows, approval\u2011rate disparity by age band, direct use of age and personal status/sex, and hard\u2011coded shared\u2011drive paths. Overall rating: Requires remediation before continued use"
+  }
+}

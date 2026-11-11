@@ -1,0 +1,11 @@
+{
+  "task": "conclude_monitor_setup",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "The model is live with a green baseline, handling 300 requests per minute and 7 alert rules armed. Three high\u2011severity findings remain open, though the deployment status is true.",
+    "recommendation": "hold",
+    "reasons": [
+      "Three high\u2011severity findings are still open, indicating unresolved critical issues."
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "task": "exec_summary_try1",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "summary": "The validation examined key performance indicators including the test Gini token {{m:run_3970db:gini.test}} and the out\u2011of\u2011time Gini token {{m:run_3970db:gini.oot}}. The out\u2011of\u2011time Gini is higher than the test sample, indicating no deterioration versus the test sample. Calibration on the holdout set is within tolerance as indicated by the calibration ratio token {{m:run_3970db:calibration_ratio.holdout}}. The population stability index token {{m:run_3970db:psi.score.oot}} shows the score population is stable, being below the amber threshold. The age\u2011band approval ratio token {{m:run_3970db:di_ratio.age_band}} is below the four\u2011fifths rule, and the expected\u2011loss gap token {{m:run_3970db:el_gap.holdout}} is negative, meaning the model over\u2011predicts risk conservatively. Overall rating is Requires remediation before continued use, driven by high\u2011severity findings including decision cutoff conflict, missing decisions, and prompt\u2011injection text, as well as medium\u2011severity findings."
+  }
+}

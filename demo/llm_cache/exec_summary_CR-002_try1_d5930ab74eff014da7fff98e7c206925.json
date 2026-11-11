@@ -1,0 +1,7 @@
+{
+  "task": "exec_summary_CR-002_try1",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "summary": "The validation of the CR-002 Random-forest PD challenger model was performed against the benchmark CR-001. Discriminatory power is reflected by Gini \u2014 train {{m:run_00d117:gini.train}}, Gini \u2014 test {{m:run_00d117:gini.test}} and Gini \u2014 out-of-time {{m:run_00d117:gini.oot}}. Predictive accuracy is shown by AUC \u2014 hold-out {{m:run_00d117:auc.holdout}} and Brier score \u2014 hold-out {{m:run_00d117:brier.holdout}}. Calibration is indicated by Predicted \u00d7 observed \u2014 hold-out {{m:run_00d117:calibration_ratio.holdout}} and Observed outcome rate \u2014 hold-out {{m:run_00d117:bad_rate.holdout}}. The review identified high\u2011severity findings {{m:run_00d117:findings.high}}, medium\u2011severity findings {{m:run_00d117:findings.medium}} and a total of findings {{m:run_00d117:findings.total}}. The overall rating is Requires remediation before continued use"
+  }
+}

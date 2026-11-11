@@ -1,0 +1,13 @@
+{
+  "task": "conclude_report",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "Stage 'report' for model CR-001 completed with a draft from live source, but one high\u2011severity finding remains open.",
+    "recommendation": "hold",
+    "reasons": [
+      "High\u2011severity findings open",
+      "Human review required for unresolved issues",
+      "Stage report complete but unresolved issues"
+    ]
+  }
+}

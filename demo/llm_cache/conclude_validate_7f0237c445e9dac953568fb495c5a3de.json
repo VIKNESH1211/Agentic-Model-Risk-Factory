@@ -1,0 +1,13 @@
+{
+  "task": "conclude_validate",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "The validation stage processed 20,000 rows with defined splits, refitted and scored the model, and produced a scored CSV. No detectors fired and no slice search was performed, but two code review issues were noted and a high\u2011severity finding (untuned alert threshold for a rare\u2011event fraud rate) remains open.",
+    "recommendation": "hold",
+    "reasons": [
+      "High\u2011severity finding F-01 indicates a critical alert threshold issue that could lead to missed fraud events.",
+      "The presence of an open high\u2011severity finding requires human review before promotion.",
+      "The development data not being in the controlled estate (finding F-02) adds additional risk that should be addressed."
+    ]
+  }
+}

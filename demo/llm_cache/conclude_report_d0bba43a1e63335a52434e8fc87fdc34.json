@@ -1,0 +1,13 @@
+{
+  "task": "conclude_report",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "The report stage for model CR-001 is complete with a live source draft observation. Three high\u2011severity findings remain open, and the report contains 48 tokens. The checker passed but the open findings warrant caution.",
+    "recommendation": "hold",
+    "reasons": [
+      "Three high\u2011severity findings are still open",
+      "Human review is needed to address these findings",
+      "The presence of open high\u2011severity issues outweighs other metrics"
+    ]
+  }
+}

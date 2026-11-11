@@ -1,0 +1,7 @@
+{
+  "task": "exec_summary_try1",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "summary": "The validation concluded that the model requires remediation before continued use. Key performance indicators such as Gini on out\u2011of\u2011time data {{m:run_1e06ac:gini.oot}} and KS on out\u2011of\u2011time data {{m:run_1e06ac:ks.oot}} fell below acceptable thresholds. Calibration analysis revealed a holdout calibration ratio of {{m:run_1e06ac:calibration_ratio.holdout}} and a PSI score of {{m:run_1e06ac:psi.score.oot}} indicating drift. The top findings include high\u2011severity issues {{m:run_1e06ac:findings.high}} and medium\u2011severity issues {{m:run_1e06ac:findings.medium}} for a total of {{m:run_1e06ac:findings.total}} identified concerns. Recommendations focus on aligning decision cutoffs with policy, addressing legacy model gaps, and removing injected text to restore model integrity."
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "task": "plan_discover",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "steps": [
+      {
+        "tool": "injection_guard",
+        "why": "Check for malicious instructions in the codebase."
+      },
+      {
+        "tool": "file_walker",
+        "why": "List all files and lines to understand structure."
+      },
+      {
+        "tool": "r_parser",
+        "why": "Extract methods, inputs, outputs for functional analysis."
+      },
+      {
+        "tool": "code_smell_scan",
+        "why": "Identify hardcoded paths, magic numbers, stale TODOs."
+      },
+      {
+        "tool": "tiering_rule",
+        "why": "Apply deterministic materiality x customer-impact tiering."
+      },
+      {
+        "tool": "llm.classify",
+        "why": "Draft tier rationale based on analysis."
+      }
+    ],
+    "optional": [],
+    "rationale": "The model is a random-forest PD challenger benchmark for CR-001, not deployable, and requires thorough code review to assess risk. The chosen steps systematically uncover code structure, potential issues, and tier justification."
+  }
+}

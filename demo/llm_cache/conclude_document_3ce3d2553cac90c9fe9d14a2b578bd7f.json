@@ -1,0 +1,13 @@
+{
+  "task": "conclude_document",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "The documentation stage for model CR-003 completed with tool observations indicating 4 code smells but no injection flags, a single upstream lineage, and 8 draft sections sourced from cache. No high\u2011severity findings were reported. However, gaps include hardcoded file paths, lack of an ongoing monitoring plan, and missing development/validation data in the repository.",
+    "recommendation": "hold",
+    "reasons": [
+      "Hardcoded file paths expose production data source risks.",
+      "No monitoring plan or thresholds documented, limiting model risk oversight.",
+      "Development and validation data are absent, preventing full validation."
+    ]
+  }
+}

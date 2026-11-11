@@ -1,0 +1,7 @@
+{
+  "task": "exec_summary_try1",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "summary": "The independent validation assessed the model's predictive performance and compliance. Key performance metrics such as {{m:run_92b3fe:gini.oot}} and {{m:run_92b3fe:ks.oot}} indicate moderate discrimination but reveal calibration concerns reflected by {{m:run_92b3fe:calibration_ratio.holdout}}. The overall rating is Requires remediation before continued use. Critical issues include {{m:run_92b3fe:findings.high}} high\u2011severity findings such as decision cutoff misalignment, missing decisions, and injected text. Additional {{m:run_92b3fe:findings.medium}} medium\u2011severity findings involve age\u2011band disparity and imputed credit amounts. Remediation should address all {{m:run_92b3fe:findings.total}} findings before redeployment."
+  }
+}

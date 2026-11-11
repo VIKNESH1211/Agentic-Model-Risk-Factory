@@ -1,0 +1,34 @@
+{
+  "task": "plan_discover",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "steps": [
+      {
+        "tool": "file_walker",
+        "why": "Identify all source files for analysis"
+      },
+      {
+        "tool": "r_parser",
+        "why": "Extract methods, inputs, and outputs from the code"
+      },
+      {
+        "tool": "code_smell_scan",
+        "why": "Detect hardcoded paths, magic numbers, and stale TODOs"
+      },
+      {
+        "tool": "injection_guard",
+        "why": "Ensure no malicious instructions are present in the code"
+      },
+      {
+        "tool": "tiering_rule",
+        "why": "Determine materiality and customer-impact tier for the model"
+      },
+      {
+        "tool": "llm.classify",
+        "why": "Generate a draft tier rationale based on analysis results"
+      }
+    ],
+    "optional": [],
+    "rationale": "The analysis confirms the model is a binary fraud detector with potential risks from hardcoded values and unvalidated inputs. The tiering rule classifies it as Tier B, indicating moderate materiality and customer impact."
+  }
+}

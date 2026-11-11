@@ -1,0 +1,15 @@
+{
+  "task": "conclude_document",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "Stage 'document' for model CR-001 is complete with tool observations indicating 9 smells, 2 injection flags, lineage details, 8 variables profiled, and 8 draft sections; no high\u2011severity findings are open, but several documented gaps exist.",
+    "recommendation": "hold",
+    "reasons": [
+      "Decision cutoff in code contradicts policy and lacks approved record",
+      "Missing\u2011value treatment is undocumented and silently imputes zero",
+      "Hardcoded file paths for production data source are not documented or controlled",
+      "Outstanding TODOs indicate recalibration/rebinning was never completed",
+      "No ongoing\u2011monitoring plan or thresholds documented"
+    ]
+  }
+}

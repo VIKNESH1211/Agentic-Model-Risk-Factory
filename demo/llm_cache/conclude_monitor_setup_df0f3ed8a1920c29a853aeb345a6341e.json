@@ -1,0 +1,13 @@
+{
+  "task": "conclude_monitor_setup",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "Stage 'monitor_setup' for model CR-001 has completed successfully. Baseline status is green, deployment is live with 720 requests per minute, and seven alert rules are armed. However, there are three high\u2011severity findings currently open.",
+    "recommendation": "hold",
+    "reasons": [
+      "Three high\u2011severity findings remain open, indicating unresolved critical issues.",
+      "Baseline green does not override the presence of high\u2011severity findings.",
+      "Deployment is live but requires human review before promotion."
+    ]
+  }
+}

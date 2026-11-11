@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FactoryEvent",
+  "description": "One Server-Sent Event on /api/events. The UI shows actions and tool calls, never hidden chain-of-thought.",
+  "type": "object",
+  "required": ["id", "ts", "type", "summary", "payload"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^evt_\\d+$"},
+    "ts": {"type": "string", "format": "date-time"},
+    "run_id": {"type": "string"},
+    "model_id": {"type": "string"},
+    "stage": {"type": "string"},
+    "agent": {"type": "string"},
+    "type": {"enum": ["tool_call", "tool_result", "stage_started", "stage_completed", "finding", "gate_requested",
+                      "gate_decided", "alert", "ledger_append", "metric", "run_started", "run_completed",
+                      "benchmark", "monitor", "security", "info"]},
+    "summary": {"type": "string"},
+    "payload": {"type": "object"}
+  },
+  "additionalProperties": false
+}

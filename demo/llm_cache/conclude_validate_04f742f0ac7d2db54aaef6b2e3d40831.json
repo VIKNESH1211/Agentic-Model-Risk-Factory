@@ -1,0 +1,13 @@
+{
+  "task": "conclude_validate",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "Stage 'validate' for model CR-001 completed with tool observations indicating 9 coefficients, one detector fired, and a \u0394Gini CI of [-0.066, +0.024]. Three high\u2011severity findings remain open: an approval\u2011rate disparity by age band, a decision cutoff contradicting documented credit policy, and a legacy model that returns no decision for some inputs. These issues raise significant risk concerns.",
+    "recommendation": "hold",
+    "reasons": [
+      "Three high\u2011severity findings are still open, indicating unresolved critical risks.",
+      "The decision cutoff contradicts the documented credit policy, potentially leading to non\u2011compliant decisions.",
+      "The legacy model\u2019s inability to return decisions for some inputs could cause coverage gaps or unfair treatment."
+    ]
+  }
+}

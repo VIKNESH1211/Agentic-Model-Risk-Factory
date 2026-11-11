@@ -1,0 +1,13 @@
+{
+  "task": "conclude_document",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "The documentation stage shows two code smells but no injection flags, a lineage with two upstream and one downstream source, and an LLM draft of eight sections. No high\u2011severity findings are reported. However, the document lacks key information: hardcoded file paths, no monitoring plan, and missing development/validation data.",
+    "recommendation": "hold",
+    "reasons": [
+      "Hardcoded file paths for production data source are not documented or controlled.",
+      "No ongoing monitoring plan or thresholds are documented.",
+      "Development and validation data are not available in the repository, delaying validation."
+    ]
+  }
+}

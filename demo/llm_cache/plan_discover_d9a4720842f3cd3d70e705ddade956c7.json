@@ -1,0 +1,34 @@
+{
+  "task": "plan_discover",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "steps": [
+      {
+        "tool": "file_walker",
+        "why": "Identify all source files and lines for the model"
+      },
+      {
+        "tool": "r_parser",
+        "why": "Extract methods, inputs, and outputs to understand functionality"
+      },
+      {
+        "tool": "code_smell_scan",
+        "why": "Detect hardcoded paths, magic numbers, and stale TODOs that may indicate maintenance risk"
+      },
+      {
+        "tool": "injection_guard",
+        "why": "Ensure no untrusted source contains instructions aimed at AI"
+      },
+      {
+        "tool": "tiering_rule",
+        "why": "Compute deterministic materiality and customer-impact tier"
+      },
+      {
+        "tool": "llm.classify",
+        "why": "Draft a concise tier rationale based on analysis"
+      }
+    ],
+    "optional": [],
+    "rationale": "The steps systematically uncover the model\u2019s code structure, identify potential technical debt, and verify compliance with safety checks, ensuring a thorough risk assessment. The tiering rule and LLM classification provide a clear, evidence\u2011based justification for the model\u2019s risk tier."
+  }
+}

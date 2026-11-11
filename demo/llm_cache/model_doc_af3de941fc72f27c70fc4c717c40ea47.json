@@ -1,0 +1,14 @@
+{
+  "task": "model_doc",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "purpose": "Provide a benchmark random\u2011forest probability\u2011of\u2011default (PD) model to challenge the champion model CR\u2011001.",
+    "data": "Uses the German credit dataset (german_final_v3.csv) as input and reads champion scores from cr001_scores.csv. Model outputs variable importance to cr002_importance.csv.",
+    "methodology": "Implements a random\u2011forest classifier using the ranger library.",
+    "variables": "All variables from the German credit dataset after removing the original creditability target; the target variable is binary bad (1) vs good (0).",
+    "implementation": "Implemented in R (cr002_rf.R) that reads the data, trains a ranger model, generates PD predictions, computes correlation with champion scores, saves the model (cr002_rf.rds) and variable importance (cr002_importance.csv).",
+    "assumptions_limitations": "Assumes the German credit extract is representative; hard\u2011coded file paths limit portability; development and validation data are not version\u2011controlled; validation was deferred.",
+    "monitoring": "No ongoing monitoring plan or performance thresholds are documented.",
+    "gaps": "Hardcoded file paths: production data source is not documented or controlled.; No ongoing\u2011monitoring plan or thresholds documented.; Development and validation data not available in repository; validation deferred."
+  }
+}

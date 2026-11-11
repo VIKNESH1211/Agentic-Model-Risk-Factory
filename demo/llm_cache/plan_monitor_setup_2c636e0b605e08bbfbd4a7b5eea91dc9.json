@@ -1,0 +1,22 @@
+{
+  "task": "plan_monitor_setup",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "steps": [
+      {
+        "tool": "deploy",
+        "why": "load the validated Python model as a live endpoint"
+      },
+      {
+        "tool": "baseline",
+        "why": "freeze the score and input distributions to compare against"
+      },
+      {
+        "tool": "alert_rules",
+        "why": "arm PSI, CSI, latency, no-decision and A/E rules"
+      }
+    ],
+    "optional": [],
+    "rationale": "Deploying the model establishes the production endpoint, enabling real\u2011time scoring. Baseline freezing and alert rules ensure ongoing performance monitoring and drift detection."
+  }
+}

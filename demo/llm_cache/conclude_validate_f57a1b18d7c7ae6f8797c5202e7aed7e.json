@@ -1,0 +1,13 @@
+{
+  "task": "conclude_validate",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "The validation stage completed with two detectors firing, indicating a population shift and an approval\u2011rate disparity by age band. The Gini difference confidence interval spans negative to positive values, and the expected\u2011loss gap was computed. One high\u2011severity finding remains open.",
+    "recommendation": "hold",
+    "reasons": [
+      "High\u2011severity finding F\u201101 indicates a population shift detected by woe checking.",
+      "Finding F\u201102 shows an approval\u2011rate disparity by age band.",
+      "Detectors fired and the Gini CI suggest model performance uncertainty."
+    ]
+  }
+}

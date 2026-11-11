@@ -1,0 +1,12 @@
+{
+  "task": "conclude_validate",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "The validation stage processed 20,000 rows with no detectors fired and a skipped challenger due to missing training split. However, a high\u2011severity finding (F\u201101) indicates an untuned alert threshold for a rare\u2011event fraud rate, and a medium\u2011severity finding (F\u201102) notes that development data is not in the controlled estate. These issues remain open.",
+    "recommendation": "hold",
+    "reasons": [
+      "High\u2011severity finding F\u201101 indicates a potentially unsafe alert threshold for rare fraud events.",
+      "Medium\u2011severity finding F\u201102 shows development data is not in the controlled estate, raising data governance concerns."
+    ]
+  }
+}

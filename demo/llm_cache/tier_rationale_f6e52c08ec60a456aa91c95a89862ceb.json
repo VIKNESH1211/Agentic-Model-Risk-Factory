@@ -1,0 +1,8 @@
+{
+  "task": "tier_rationale",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "tier_rationale": "The model was placed in Tier A because its deterministic rule combines materiality and customer impact, and it uses a well\u2011documented GLM with weight\u2011of\u2011evidence binning. Security observation: the embedded script contains a directive to ignore reviewer instructions, which should be flagged for policy compliance.",
+    "purpose": "Estimate the probability of default for retail unsecured loan applicants."
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "task": "plan_report",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "steps": [
+      {
+        "tool": "llm.draft",
+        "why": "Generate executive summary using tokens only"
+      },
+      {
+        "tool": "token_checker",
+        "why": "Validate that all numbers are traceable tokens"
+      }
+    ],
+    "optional": [],
+    "rationale": "The report is constructed with a token-only executive summary to maintain traceability, and a subsequent token checker ensures no unsourced numbers are present. This approach satisfies the model\u2011risk validation requirements while keeping the report concise and compliant."
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "task": "conclude_discover",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "The model CR-001 contains 96 lines of R code with no external libraries. The parser identified a binomial GLM with weight\u2011of\u2011evidence binning, but no additional files were read. Code smell scan flagged nine smells and the injection guard flagged two lines, though no high\u2011severity findings were reported and the model is tier A.",
+    "recommendation": "promote",
+    "reasons": [
+      "No high\u2011severity findings",
+      "Tier A status",
+      "Injection guard flagged only two lines",
+      "Code smells present but not critical"
+    ]
+  }
+}

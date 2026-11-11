@@ -1,0 +1,13 @@
+{
+  "task": "conclude_validate",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "The validation stage revealed multiple issues, including three high\u2011severity findings (decision cutoff conflict, missing decisions for some inputs, and prompt\u2011injection text in the source) and additional medium\u2011severity concerns such as approval\u2011rate disparity and silent imputation of credit amounts. The tool observations confirm that a detector fired and the model\u2019s Gini difference confidence interval includes negative values, indicating potential performance degradation.",
+    "recommendation": "hold",
+    "reasons": [
+      "High\u2011severity findings (F-04, F-05, F-06) indicate critical policy and security violations that must be addressed before promotion.",
+      "The presence of a detector firing and a negative Gini CI suggests the model may not meet performance expectations.",
+      "The prompt\u2011injection text in the source poses a security risk that requires remediation."
+    ]
+  }
+}

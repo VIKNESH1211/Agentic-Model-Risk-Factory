@@ -1,0 +1,8 @@
+{
+  "task": "tier_rationale",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "tier_rationale": "The model was placed in Tier B because its materiality and customer impact are moderate, reflecting a balanced risk profile, and it applies deterministic limits based on probability\u2011of\u2011default bands and income multipliers. Its output caps exposure at $15,000, which aligns with a controlled but not minimal risk exposure.",
+    "purpose": "Assign initial credit limits to applicants using PD bands and income information."
+  }
+}

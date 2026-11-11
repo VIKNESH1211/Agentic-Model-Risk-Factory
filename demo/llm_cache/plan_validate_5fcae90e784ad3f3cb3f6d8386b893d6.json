@@ -1,0 +1,29 @@
+{
+  "task": "plan_validate",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "steps": [
+      {
+        "tool": "refit",
+        "why": "Re-fit model to ensure current data alignment"
+      },
+      {
+        "tool": "detectors",
+        "why": "Detect performance, calibration, stability, fairness, and data quality issues"
+      },
+      {
+        "tool": "code_review",
+        "why": "Rule-based review of legacy source for compliance and correctness"
+      },
+      {
+        "tool": "impact",
+        "why": "Translate findings into monetary impact and customer risk"
+      }
+    ],
+    "optional": [
+      "challenger",
+      "slice_search"
+    ],
+    "rationale": "The model requires validation against a modern alternative to confirm competitive performance, and segment analysis is critical for retail PD to uncover hidden biases. These steps ensure robustness and compliance before deployment."
+  }
+}

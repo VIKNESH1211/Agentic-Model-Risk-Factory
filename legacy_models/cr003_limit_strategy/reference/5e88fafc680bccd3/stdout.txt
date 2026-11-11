@@ -1,0 +1,3 @@
+[harness] sourcing /model/cr003_limits.R 
+[harness] legacy finished in 0.03 s; running epilogue
+[harness] exports: bands.csv, scores.csv 

@@ -1,0 +1,7 @@
+{
+  "task": "exec_summary_CR-003_try1",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "summary": "The credit limit assignment strategy model was evaluated for its consistency and risk alignment. The metric {{m:run_31ea5f:decline_zero_share}} shows declines with zero limit, while {{m:run_31ea5f:max_limit}} reflects the largest limit granted. The share of limits at the cap is captured by {{m:run_31ea5f:cap_share}}, and {{m:run_31ea5f:limit_ratio_monotone}} confirms that limits decrease as risk rises. Findings include a high\u2011severity issue where limits inherit defects from the upstream model, medium\u2011severity concerns about approval\u2011rate disparity by age band and hard\u2011coded multipliers, and the metrics indicate no open high findings upstream. The overall rating is Requires remediation before continued use."
+  }
+}

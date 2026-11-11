@@ -1,0 +1,26 @@
+{
+  "task": "plan_document",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "steps": [
+      {
+        "tool": "r_parser",
+        "why": "Re-read the model code to capture structure and logic."
+      },
+      {
+        "tool": "lineage_builder",
+        "why": "Trace inputs and outputs to map dependencies."
+      },
+      {
+        "tool": "data_profiler",
+        "why": "Profile input data for distribution and quality insights."
+      },
+      {
+        "tool": "llm.draft",
+        "why": "Generate initial documentation sections based on gathered information."
+      }
+    ],
+    "optional": [],
+    "rationale": "The chosen tools sequentially gather code, dependency, data, and documentation, covering all required aspects. This ensures comprehensive, accurate model documentation for CR-001."
+  }
+}

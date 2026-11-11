@@ -1,0 +1,7 @@
+{
+  "task": "exec_summary_PR-001_try1",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "summary": "The independent validation of the PR-001 Motor claims frequency GLM confirms that the model is intended for pricing frequency. Performance is reported using the Gini \u2014 train metric ({{m:run_f1173e:gini.train}}), Gini \u2014 test metric ({{m:run_f1173e:gini.test}}), Gini \u2014 out-of-time (simulated) metric ({{m:run_f1173e:gini.oot}}), KS \u2014 out-of-time metric ({{m:run_f1173e:ks.oot}}), AUC \u2014 hold-out metric ({{m:run_f1173e:auc.holdout}}), Actual \u00f7 expected claims \u2014 hold-out metric ({{m:run_f1173e:ae_ratio.holdout}}) and Poisson deviance explained \u2014 hold-out metric ({{m:run_f1173e:dev_explained.holdout}}). Parity versus the legacy implementation is assessed through rows compared ({{m:run_f1173e:rows_compared}}), coefficient maximum absolute difference ({{m:run_f1173e:coef_max_abs_diff}}) and score maximum absolute difference ({{m:run_f1173e:score_max_abs_diff}}). The validation identified {{m:run_f1173e:findings.high}} high-severity finding, {{m:run_f1173e:findings.medium}} medium-severity findings, for a total of {{m:run_f1173e:findings.total}} findings. Notable issues include a high-severity finding that gender is used as a pricing factor and medium-severity findings related to weak ranking in a vehicle segment, lack of a hold-out assessment, and manual quarterly upload of the rate table. Overall rating: Requires remediation before continued use."
+  }
+}

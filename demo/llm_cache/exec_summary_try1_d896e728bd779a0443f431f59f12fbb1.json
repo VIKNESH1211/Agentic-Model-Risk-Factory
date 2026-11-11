@@ -1,0 +1,7 @@
+{
+  "task": "exec_summary_try1",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "summary": "The independent validation of the credit scoring model concludes with an overall rating of Requires remediation before continued use. Key performance indicators such as the test Gini {{m:run_05a4be:gini.test}} and out\u2011of\u2011time Gini {{m:run_05a4be:gini.oot}} fall below acceptable thresholds, and the KS statistic {{m:run_05a4be:ks.oot}} similarly indicates weak separation. Calibration analysis shows a holdout calibration ratio of {{m:run_05a4be:calibration_ratio.holdout}} and a PSI score of {{m:run_05a4be:psi.score.oot}} that suggest drift. The review identified {{m:run_05a4be:findings.high}} high\u2011severity findings, including a decision cutoff conflict, missing decisions for legacy inputs, and a prompt\u2011injection artifact, alongside {{m:run_05a4be:findings.medium}} medium\u2011severity issues such as age\u2011band disparity and imputed credit amounts. Additional diagnostics reveal an out\u2011of\u2011sample EL gap of {{m:run_05a4be:el_gap.holdout}} and a maximum absolute score difference of {{m:run_05a4be:score_max_abs_diff}}. Remediation actions are required before the model can be deployed in production."
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "task": "plan_validate",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "steps": [
+      {
+        "tool": "refit",
+        "why": "Re-fit the model on the latest data to ensure up-to-date parameters."
+      },
+      {
+        "tool": "detectors",
+        "why": "Run performance, calibration, stability, fairness, and data quality detectors to identify any issues."
+      },
+      {
+        "tool": "code_review",
+        "why": "Perform a rule-based review of the legacy source code for compliance and correctness."
+      },
+      {
+        "tool": "impact",
+        "why": "Translate findings into monetary impact and customer impact metrics."
+      }
+    ],
+    "optional": [
+      "challenger",
+      "slice_search",
+      "stress_test"
+    ],
+    "rationale": "The model is a credit limit assignment strategy where fairness and stability are critical. Running a challenger, slice search, and stress test will uncover potential performance gaps, segment-specific biases, and robustness concerns."
+  }
+}

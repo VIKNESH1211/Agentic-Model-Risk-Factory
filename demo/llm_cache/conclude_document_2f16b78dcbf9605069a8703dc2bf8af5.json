@@ -1,0 +1,13 @@
+{
+  "task": "conclude_document",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "Stage 'document' for model FR-001 is complete with 8 draft sections, but the parser flagged one smell and no injection flags were found. No upstream or downstream lineage was detected, and there are no high\u2011severity findings. However, the documentation lacks an ongoing monitoring plan or thresholds, and the development and validation data are not present in the repository, causing validation to be deferred.",
+    "recommendation": "hold",
+    "reasons": [
+      "Missing ongoing monitoring plan or thresholds documented",
+      "Development and validation data not available in repository; validation deferred",
+      "Parser flagged one smell that should be reviewed"
+    ]
+  }
+}

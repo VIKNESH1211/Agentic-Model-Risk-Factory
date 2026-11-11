@@ -1,0 +1,26 @@
+{
+  "task": "plan_document",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "steps": [
+      {
+        "tool": "r_parser",
+        "why": "Re-read the code to understand model logic and structure."
+      },
+      {
+        "tool": "lineage_builder",
+        "why": "Trace inputs/outputs to map dependencies with other models."
+      },
+      {
+        "tool": "data_profiler",
+        "why": "Profile model inputs to assess data quality and distribution."
+      },
+      {
+        "tool": "llm.draft",
+        "why": "Generate initial documentation sections based on gathered insights."
+      }
+    ],
+    "optional": [],
+    "rationale": "This approach ensures comprehensive coverage of code, data, and dependencies, forming a solid basis for documentation. The resulting draft will highlight gaps and support further refinement."
+  }
+}

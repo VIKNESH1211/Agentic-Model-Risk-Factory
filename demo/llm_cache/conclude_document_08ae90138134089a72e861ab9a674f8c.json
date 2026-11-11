@@ -1,0 +1,13 @@
+{
+  "task": "conclude_document",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "Stage 'document' for PR-001 is complete with no code smells or injection flags detected, lineage empty, and an LLM-generated draft of eight sections. No high\u2011severity findings are open. However, the documentation lacks an ongoing\u2011monitoring plan or thresholds, and development and validation data are not present in the repository, causing validation to be deferred.",
+    "recommendation": "hold",
+    "reasons": [
+      "Missing ongoing\u2011monitoring plan and threshold definitions",
+      "Development and validation data are absent, preventing full validation",
+      "Validation has been deferred due to these gaps"
+    ]
+  }
+}

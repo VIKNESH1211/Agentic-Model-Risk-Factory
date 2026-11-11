@@ -1,0 +1,13 @@
+{
+  "task": "conclude_validate",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "The validation stage processed 20,000 rows with the specified splits, refitted the model, and generated a scored CSV, but no detectors fired and the challenger was skipped. Two code review issues were identified and two findings were logged, including a high\u2011severity alert\u2011threshold issue for a rare\u2011event fraud rate and a medium\u2011severity issue that development data is not in the controlled estate.",
+    "recommendation": "hold",
+    "reasons": [
+      "High\u2011severity finding F\u201101 indicates the alert threshold is untuned for a rare\u2011event fraud rate, posing a significant risk.",
+      "Finding F\u201102 shows development data is not in the controlled estate, raising data governance concerns.",
+      "Both findings warrant human review before promotion to the next stage."
+    ]
+  }
+}

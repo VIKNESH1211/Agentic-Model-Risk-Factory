@@ -1,0 +1,7 @@
+{
+  "task": "exec_summary_try2",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "summary": "The independent validation confirms that the model exhibits performance metrics such as Gini on out\u2011of\u2011time data {{m:run_92b3fe:gini.oot}} and KS on out\u2011of\u2011time data {{m:run_92b3fe:ks.oot}} that fall below acceptable thresholds. Calibration on the holdout set shows a ratio of {{m:run_92b3fe:calibration_ratio.holdout}} indicating systematic bias. The overall rating is Requires remediation before continued use. High\u2011severity findings include {{m:run_92b3fe:findings.high}} issues such as decision cutoff conflicts, missing decisions, and prompt\u2011injection text. Medium\u2011severity findings total {{m:run_92b3fe:findings.medium}} and highlight approval\u2011rate disparity by age band and imputed credit amounts. A total of {{m:run_92b3fe:findings.total}} findings were identified, recommending immediate remediation before deployment."
+  }
+}

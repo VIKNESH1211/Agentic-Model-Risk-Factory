@@ -1,0 +1,42 @@
+"var","bin","n_good","n_bad","woe"
+"checking","... < 0 DM",78,84,0.87563051451898
+"checking","... >= 200 DM / salary assignments for at least 1 year",31,8,-0.507943777391102
+"checking","0 <= ... < 200 DM",99,66,0.399021908441476
+"checking","no checking account",209,29,-1.1583558710722
+"duration","12-24",172,72,-0.0648330696665705
+"duration","24-36",103,50,0.0843793285201053
+"duration","36+",51,48,0.741959595217962
+"duration","lt12",91,17,-0.852160486407792
+"history","all credits at this bank paid back duly",14,20,1.14825384166205
+"history","critical account/ other credits existing (not at this bank)",156,29,-0.866688141690219
+"history","delay in paying off in the past",35,18,0.150215640547124
+"history","existing credits paid back duly till now",203,102,0.116174398640028
+"history","no credits taken/ all credits paid back duly",9,18,1.468456538422
+"purpose","business",36,20,0.225090230500131
+"purpose","car (new)",85,53,0.333142882903461
+"purpose","car (used)",49,12,-0.574266420322174
+"purpose","domestic appliances",3,2,0.465505368323002
+"purpose","education",18,15,0.625046896785137
+"purpose","furniture/equipment",81,31,-0.148637869471015
+"purpose","others",6,5,0.634923520281049
+"purpose","radio/television",119,41,-0.255645339190698
+"purpose","repairs",13,7,0.214190940042096
+"purpose","retraining",7,1,-0.807460307489885
+"amount","1400-4000",226,63,-0.469727434080228
+"amount","4000-8000",67,42,0.339354082996102
+"amount","8000+",18,26,1.16135160585211
+"amount","lt1400",106,56,0.16807325794713
+"savings","... < 100 DM",227,129,0.238508247692802
+"savings","... >= 1000 DM",23,3,-1.10225984771053
+"savings","100 <= ... < 500 DM",46,24,0.161198409901585
+"savings","500 <= ... < 1000 DM",31,8,-0.507943777391102
+"savings","unknown/ no savings account",90,23,-0.546371824611552
+"employment","... < 1 year",60,40,0.400636214019913
+"employment","... >= 7 years",108,39,-0.208471896129223
+"employment","1 <= ... < 4 years",144,71,0.0983955470916898
+"employment","4 <= ... < 7 years",77,23,-0.391299910264973
+"employment","unemployed",28,14,0.126222167096139
+"instalment","1",59,19,-0.313584242037668
+"instalment","2",102,39,-0.151584521727172
+"instalment","3",67,29,-0.0257597295884952
+"instalment","4",189,100,0.167746307920864

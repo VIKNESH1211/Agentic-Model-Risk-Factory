@@ -1,0 +1,12 @@
+{
+  "task": "conclude_document",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "Stage 'document' completed with no code smells or injection flags; LLM draft contains 8 sections. No high\u2011severity findings were reported, but the documentation lacks an ongoing\u2011monitoring plan and development/validation data are missing from the repository.",
+    "recommendation": "hold",
+    "reasons": [
+      "Missing ongoing\u2011monitoring plan or thresholds documented.",
+      "Development and validation data not available in repository; validation deferred."
+    ]
+  }
+}

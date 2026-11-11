@@ -1,0 +1,14 @@
+{
+  "task": "model_doc",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "purpose": "Assign an initial credit limit to each applicant by combining probability\u2011of\u2011default (PD) band with stated income band, as defined in the Retail Credit Strategy.",
+    "data": "Reads PD scores from //shared/riskdata/cr001_scores.csv and application data from //shared/riskdata/applications_today.csv (upstream CR-001). Writes the resulting id, pd, and limit to //shared/riskdata/cr003_limits.csv.",
+    "methodology": "Merges applications with PD scores on the applicant id. Categorises PD into bands A\u2011E using cut points [0,0.05,0.10,0.20,0.35,1]. Applies income multipliers (A=0.30, B=0.25, C=0.15, D=0.08, E=0) from the 2019 strategy deck. Calculates limit as the rounded (to nearest hundred) product of income and the band multiplier, capped at 15,000, and sets limit to 0 for declined decisions.",
+    "variables": "id (applicant identifier), pd (probability of default), income (stated income), decision (application outcome), band (PD band label), mult (income multiplier), limit (assigned credit limit).",
+    "implementation": "Implemented as an R script (cr003_limits.R). Uses read.csv to load data, merge for joining, cut for banding, vectorised multiplication with the multiplier lookup, pmin and round for capping and rounding, and write.csv to export results. File paths are hard\u2011coded.",
+    "assumptions_limitations": "Relies on 2019 strategy multipliers and assumes complete, accurate income and PD data. Hard\u2011coded file locations are not version\u2011controlled. No handling of missing or anomalous values is documented. Validation and development data are not stored in the repository, and the model was not formally validated before deployment.",
+    "monitoring": "No ongoing\u2011monitoring plan, thresholds, or performance tracking are documented.",
+    "gaps": "Hardcoded file paths: production data source is not documented or controlled.; No ongoing-monitoring plan or thresholds documented.; Development and validation data not available in repository; validation deferred."
+  }
+}

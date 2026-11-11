@@ -1,0 +1,14 @@
+{
+  "task": "model_doc",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "purpose": "Detect fraudulent credit\u2011card transactions in real\u2011time to support financial\u2011crime analytics.",
+    "data": "Model is trained on the Kaggle \"Credit Card Fraud Detection\" dataset (creditcard.csv), which must be manually downloaded and is not stored in the repository.",
+    "methodology": "A binomial generalized linear model (logistic regression) is used to predict the probability of fraud.",
+    "variables": "Predictors are derived from the credit\u2011card transaction data, including the PCA\u2011derived features (V1\u2011V28) and the transaction amount.",
+    "implementation": "Implemented in R using the glm function (family=binomial). The script reads creditcard.csv, fits the model, and generates fraud alerts based on predicted probabilities.",
+    "assumptions_limitations": "Model development and validation data are not version\u2011controlled; validation has been deferred. No tuning of decision thresholds to reflect the low fraud base rate has been performed.",
+    "monitoring": "No ongoing\u2011monitoring plan or operational thresholds are documented.",
+    "gaps": "No ongoing\u2011monitoring plan or thresholds documented.; Development and validation data not available in repository; validation deferred."
+  }
+}
