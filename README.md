@@ -60,7 +60,7 @@ contracts, validation plans, monitoring plans, prompts and policy rules are vers
 
 ### Measured in the recorded run
 
-| ⏱️ Legacy R → certified Python | 🏭 Models in parallel | 💸 LLM cost, whole run | 🧾 Agent steps on the ledger |
+| ⏱️ Legacy R → certified Python | 🏭 Models processed in parallel | 💸 LLM cost, whole run | 🧾 Agent steps on the ledger |
 |:---:|:---:|:---:|:---:|
 | **15 min** for CR-001, reviews included | **5** | **$0.03** | **445** |
 
