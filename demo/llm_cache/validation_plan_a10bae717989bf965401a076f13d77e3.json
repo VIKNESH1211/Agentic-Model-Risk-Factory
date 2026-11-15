@@ -1,0 +1,177 @@
+{
+  "task": "validation_plan",
+  "model": "gpt-4o-mini",
+  "data": {
+    "plan": {
+      "checks": [
+        {
+          "id": "performance.gini_test",
+          "title": "Discrimination (Gini) on test",
+          "category": "performance",
+          "metric": "gini",
+          "params": {
+            "target": "bad",
+            "score": "score",
+            "split": "test"
+          },
+          "threshold": {
+            "op": "<",
+            "amber": 0.4,
+            "red": 0.25
+          },
+          "severity": "high",
+          "rationale": "A model that cannot rank risk is unfit for decisions."
+        },
+        {
+          "id": "performance.gini_oot",
+          "title": "Discrimination (Gini) on oot",
+          "category": "performance",
+          "metric": "gini",
+          "params": {
+            "target": "bad",
+            "score": "score",
+            "split": "oot"
+          },
+          "threshold": {
+            "op": "<",
+            "amber": 0.4,
+            "red": 0.25
+          },
+          "severity": "high",
+          "rationale": "A model that cannot rank risk is unfit for decisions."
+        },
+        {
+          "id": "calibration.ratio_holdout",
+          "title": "Calibration (predicted \u00f7 observed)",
+          "category": "calibration",
+          "metric": "calibration_ratio",
+          "params": {
+            "target": "bad",
+            "score": "score",
+            "split": "test|oot"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 1.2,
+            "red": 1.5
+          },
+          "severity": "medium",
+          "rationale": "Ensures model predictions align with observed outcomes."
+        },
+        {
+          "id": "calibration.ratio_low",
+          "title": "Calibration \u2014 under-prediction",
+          "category": "calibration",
+          "metric": "calibration_ratio",
+          "params": {
+            "target": "bad",
+            "score": "score",
+            "split": "test|oot"
+          },
+          "threshold": {
+            "op": "<",
+            "amber": 0.8,
+            "red": 0.6
+          },
+          "severity": "medium",
+          "rationale": "Identifies potential under-prediction issues."
+        },
+        {
+          "id": "stability.score_psi",
+          "title": "Score stability train \u2192 oot (PSI)",
+          "category": "stability",
+          "metric": "psi",
+          "params": {
+            "col": "score",
+            "base": "train",
+            "comp": "oot"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.1,
+            "red": 0.25
+          },
+          "severity": "medium",
+          "rationale": "Monitors stability of score distribution over time."
+        },
+        {
+          "id": "stability.csi",
+          "title": "Input stability train \u2192 oot (CSI)",
+          "category": "stability",
+          "metric": "psi",
+          "params": {
+            "base": "train",
+            "comp": "oot"
+          },
+          "expand": "features",
+          "threshold": {
+            "op": ">",
+            "amber": 0.1,
+            "red": 0.25
+          },
+          "severity": "low",
+          "rationale": "Assesses stability of input features across time."
+        },
+        {
+          "id": "data_quality.missing",
+          "title": "Rows with a missing model input",
+          "category": "data_quality",
+          "metric": "rate_true",
+          "params": {
+            "col": "missing_any",
+            "split": "test|oot"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.02,
+            "red": 0.1
+          },
+          "severity": "medium",
+          "rationale": "Ensures data quality by monitoring missing inputs."
+        },
+        {
+          "id": "policy.adverse_decisions",
+          "title": "Share of adverse decisions",
+          "category": "policy",
+          "metric": "rate_true",
+          "params": {
+            "col": "flag",
+            "split": "test|oot"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.3,
+            "red": 0.5
+          },
+          "severity": "high",
+          "rationale": "Monitors the rate of adverse decisions made by the model."
+        },
+        {
+          "id": "policy.monotonicity",
+          "title": "Monotonicity check",
+          "category": "policy",
+          "metric": "monotone_by",
+          "params": {
+            "col": "score",
+            "by": "age_band",
+            "split": "test|oot"
+          },
+          "threshold": {
+            "op": "<",
+            "amber": 1,
+            "red": 1
+          },
+          "severity": "medium",
+          "rationale": "Ensures that the score behaves monotonically across age bands."
+        }
+      ],
+      "investigations": [
+        "challenger",
+        "slice_search",
+        "stress_test"
+      ],
+      "rationale": "The validation plan is tailored to assess performance, calibration, stability, fairness, data quality, and policy compliance for the CR-002 model."
+    },
+    "summary": "The validation plan for CR-002 focuses on critical performance metrics such as Gini and calibration ratios, ensuring the model's predictive capability and stability over time. It also includes checks for data quality and policy adherence, providing a comprehensive assessment framework."
+  }
+}

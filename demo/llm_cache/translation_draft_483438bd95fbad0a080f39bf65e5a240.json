@@ -1,0 +1,8 @@
+{
+  "task": "translation_draft",
+  "model": "gpt-4o-mini",
+  "data": {
+    "python_code": "import numpy as np\nimport pandas as pd\nimport statsmodels.api as sm\n\nclass LegacyModel:\n    def __init__(self):\n        self.coef_ = None\n        self.model = None\n        self.woe_tables = {}\n\n    def fit(self, frame: pd.DataFrame, train_rows: np.ndarray | None = None) -> \"LegacyModel\":\n        if train_rows is not None:\n            train_data = frame[frame[\".row\"].isin(train_rows)]\n        else:\n            train_data = frame\n\n        # Prepare the data for modeling\n        X = train_data.drop(columns=[\"bad\", \".row\"])\n        y = train_data[\"bad\"]\n\n        # Convert categorical variables to dummy variables\n        X = pd.get_dummies(X, drop_first=True)\n\n        # Fit the model\n        self.model = sm.GLM(y, sm.add_constant(X), family=sm.families.Binomial()).fit(tol=1e-12, maxiter=100)\n        self.coef_ = pd.Series(self.model.params)\n\n        return self\n\n    def score(self, frame: pd.DataFrame) -> pd.DataFrame:\n        X = frame.drop(columns=[\"bad\", \".row\"])\n        X = pd.get_dummies(X, drop_first=True)\n\n        # Align the columns to the fitted model\n        X = X.reindex(columns=self.coef_.index, fill_value=0)\n\n        # Calculate the predicted probabilities\n        frame[\"score\"] = self.model.predict(sm.add_constant(X))\n        return frame[[\".row\", \"score\"]]\n\n    @property\n    def coef(self) -> pd.Series | None:\n        return self.coef_",
+    "notes": []
+  }
+}

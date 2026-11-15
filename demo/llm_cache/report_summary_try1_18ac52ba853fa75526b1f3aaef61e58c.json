@@ -1,0 +1,7 @@
+{
+  "task": "report_summary_try1",
+  "model": "gpt-4o-mini",
+  "data": {
+    "summary": "The independent validation report for CR-002 Random-forest PD challenger has been completed with an overall rating of Not fit for use. Key findings include the following: Discrimination (Gini) on test and oot, Calibration (predicted \u00f7 observed), and Score stability train \u2192 oot (PSI) all passed. However, the Monotonicity check resulted in a red status, indicating a significant issue. Additionally, the input stability for `purpose` and `age.in.years` was rated amber, suggesting potential concerns that need addressing."
+  }
+}

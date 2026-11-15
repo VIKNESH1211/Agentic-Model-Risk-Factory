@@ -1,0 +1,14 @@
+{
+  "task": "report_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The report has been successfully drafted with no violations and a valid summary. It is ready for the next stage.",
+    "action": "finish",
+    "args": {},
+    "summary": "The validation report for model CR-001 has been completed with 57 traceable tokens and no violations.",
+    "recommendation": "promote",
+    "reasons": [
+      "The report meets all requirements and has no issues."
+    ]
+  }
+}

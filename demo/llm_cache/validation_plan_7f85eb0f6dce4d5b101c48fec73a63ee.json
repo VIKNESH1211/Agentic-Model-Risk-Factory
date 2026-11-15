@@ -1,0 +1,141 @@
+{
+  "task": "validation_plan",
+  "model": "gpt-4o-mini",
+  "data": {
+    "plan": {
+      "checks": [
+        {
+          "id": "stability.score_psi",
+          "title": "Score stability train \u2192 oot (PSI)",
+          "category": "stability",
+          "metric": "psi",
+          "params": {
+            "col": "score",
+            "base": "train",
+            "comp": "oot"
+          },
+          "expand": null,
+          "threshold": {
+            "op": ">",
+            "amber": 0.1,
+            "red": 0.25
+          },
+          "severity": "medium",
+          "rationale": "Checks the stability of the score distribution over time."
+        },
+        {
+          "id": "stability.input_csi",
+          "title": "Input stability train \u2192 oot (CSI)",
+          "category": "stability",
+          "metric": "psi",
+          "params": {
+            "base": "train",
+            "comp": "oot"
+          },
+          "expand": "features",
+          "threshold": {
+            "op": ">",
+            "amber": 0.1,
+            "red": 0.25
+          },
+          "severity": "low",
+          "rationale": "Assesses the stability of input features over time."
+        },
+        {
+          "id": "performance.gini_oot",
+          "title": "Gini coefficient on out-of-time sample",
+          "category": "performance",
+          "metric": "gini",
+          "params": {
+            "occurred": "occurred",
+            "split": "oot"
+          },
+          "expand": null,
+          "threshold": {
+            "op": "<",
+            "amber": 0.4,
+            "red": 0.25
+          },
+          "severity": "high",
+          "rationale": "Evaluates the discriminatory power of the model on the out-of-time sample."
+        },
+        {
+          "id": "fairness.di_ratio",
+          "title": "Favourable-outcome parity across groups (disparate impact)",
+          "category": "fairness",
+          "metric": "di_ratio",
+          "params": {
+            "group": "pd_band",
+            "approve": "approve",
+            "split": "all"
+          },
+          "expand": "groups",
+          "threshold": {
+            "op": "<",
+            "amber": 0.8,
+            "red": 0.6
+          },
+          "severity": "medium",
+          "rationale": "Checks for fairness in approval rates across different PD bands."
+        },
+        {
+          "id": "data_quality.missing",
+          "title": "Rows with a missing model input",
+          "category": "data_quality",
+          "metric": "rate_true",
+          "params": {
+            "col": "missing_any",
+            "split": "test|oot"
+          },
+          "expand": null,
+          "threshold": {
+            "op": ">",
+            "amber": 0.02,
+            "red": 0.1
+          },
+          "severity": "medium",
+          "rationale": "Monitors the rate of missing inputs in the test and out-of-time samples."
+        },
+        {
+          "id": "policy.adverse_rate",
+          "title": "Share of adverse decisions",
+          "category": "policy",
+          "metric": "rate_true",
+          "params": {
+            "col": "flag",
+            "split": "all"
+          },
+          "expand": null,
+          "threshold": null,
+          "severity": "low",
+          "rationale": "Provides context for the decision rule; no pass/fail."
+        },
+        {
+          "id": "policy.monotonicity",
+          "title": "Monotonicity of limits by PD band",
+          "category": "policy",
+          "metric": "monotone_by",
+          "params": {
+            "col": "limit",
+            "by": "pd_band",
+            "split": "all"
+          },
+          "expand": null,
+          "threshold": {
+            "op": "<=",
+            "amber": 0.5,
+            "red": 0.0
+          },
+          "severity": "high",
+          "rationale": "Ensures that credit limits do not increase with higher PD bands."
+        }
+      ],
+      "investigations": [
+        "slice_search",
+        "stress_test"
+      ],
+      "rationale": "The validation plan focuses on performance, stability, fairness, data quality, and policy checks relevant to the CR-003 model."
+    },
+    "summary": "The validation plan for CR-003 includes checks for stability, performance, fairness, and data quality, with specific thresholds reflecting industry standards. Investigations such as slice search and stress testing are recommended to further assess model robustness."
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "task": "discover_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "I have gathered sufficient information about the model and its components from the script and the legacy probe. Now, I will draft the specification based on this evidence.",
+    "action": "call",
+    "tool": "draft_spec",
+    "args": {
+      "instructions": "Draft a specification for model CR-001 including task, inputs, target, features, fairness groups, decision rule, tier, and strategy based on the gathered evidence."
+    },
+    "summary": "Specification draft initiated for model CR-001.",
+    "recommendation": "hold",
+    "reasons": [
+      "Specification needs to be reviewed for completeness and correctness before final approval."
+    ]
+  }
+}

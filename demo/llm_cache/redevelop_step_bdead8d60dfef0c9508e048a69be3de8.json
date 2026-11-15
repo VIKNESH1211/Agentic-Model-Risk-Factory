@@ -1,0 +1,10 @@
+{
+  "task": "redevelop_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "After fixing the export to include train_rows, we should re-evaluate parity between the legacy model and the Python translation.",
+    "action": "call",
+    "tool": "check_parity",
+    "args": {}
+  }
+}

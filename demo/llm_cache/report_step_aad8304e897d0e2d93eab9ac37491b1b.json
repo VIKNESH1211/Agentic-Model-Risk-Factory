@@ -1,0 +1,14 @@
+{
+  "task": "report_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "I need to assemble the validation report for legacy model CR-002 using the available tools.",
+    "action": "call",
+    "tool": "write_report",
+    "args": {},
+    "recommendation": "hold",
+    "reasons": [
+      "No data has been provided to generate the report."
+    ]
+  }
+}

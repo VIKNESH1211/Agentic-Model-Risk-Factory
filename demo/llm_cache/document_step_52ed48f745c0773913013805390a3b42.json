@@ -1,0 +1,16 @@
+{
+  "task": "document_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The policy check identified a high-severity finding regarding the use of a protected characteristic as a model input. I will now proceed to draft the model documentation to address this issue and document the model appropriately.",
+    "action": "call",
+    "tool": "draft_documentation",
+    "args": {
+      "instructions": "Document the model PR-001 Motor claims frequency GLM, emphasizing the findings from the policy check."
+    },
+    "recommendation": "hold",
+    "reasons": [
+      "Documentation is necessary to address the high-severity finding regarding the use of a protected characteristic."
+    ]
+  }
+}

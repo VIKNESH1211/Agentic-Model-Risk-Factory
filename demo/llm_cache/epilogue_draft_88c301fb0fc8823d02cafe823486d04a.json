@@ -1,0 +1,8 @@
+{
+  "task": "epilogue_draft",
+  "model": "gpt-4o-mini",
+  "data": {
+    "r_code": "mrf_export(frame = d, score = d$freq_hat)",
+    "explanation": "The frame used is 'd', which contains the raw inputs as the model saw them, including the necessary features and the predicted frequency 'freq_hat' as the score. No separate training rows are specified since the model was fitted on all available rows in 'd'."
+  }
+}

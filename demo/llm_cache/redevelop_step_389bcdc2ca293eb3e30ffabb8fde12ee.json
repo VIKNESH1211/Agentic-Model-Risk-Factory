@@ -1,0 +1,10 @@
+{
+  "task": "redevelop_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "We have successfully exported the legacy model bundle; next we need to examine its contents before creating a Python translation.",
+    "action": "call",
+    "tool": "inspect_export",
+    "args": {}
+  }
+}

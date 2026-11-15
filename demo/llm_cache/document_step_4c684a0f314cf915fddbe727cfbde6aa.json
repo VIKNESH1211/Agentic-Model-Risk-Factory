@@ -1,0 +1,12 @@
+{
+  "task": "document_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "The previous monitoring plan was rejected because it referenced a non\u2011existent input column 'age_band' in scenario 'young_driver_mix'. I will resubmit a corrected monitoring plan that omits that scenario and only uses columns present in the model's input frame.",
+    "action": "call",
+    "tool": "draft_monitoring_plan",
+    "args": {
+      "instructions": "Create a monitoring plan for the CR-001 Retail PD Scorecard (binary, tier A, translate strategy). Include monthly KPIs: AUC, KS, Brier score, default rate, and overall approval rate. Define drift detection for score distribution and key input features that are present (e.g., 'age', 'income', 'loan_amount'). Exclude any scenario that references 'age_band' since it is not an input column. Provide alert thresholds (e.g., AUC drop >0.05, KS drop >0.05, Brier increase >0.02, default rate shift >10%). Outline dashboard panels and escalation procedures."
+    }
+  }
+}

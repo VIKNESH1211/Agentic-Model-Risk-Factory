@@ -1,0 +1,13 @@
+{
+  "task": "redevelop_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "The export succeeded; next I need to inspect the exported bundle to decide whether to translate or rehost before proceeding to parity checking and certification.",
+    "action": "call",
+    "tool": "inspect_export",
+    "args": {},
+    "summary": "",
+    "recommendation": "",
+    "reasons": []
+  }
+}

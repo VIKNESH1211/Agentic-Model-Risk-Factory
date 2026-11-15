@@ -1,0 +1,13 @@
+{
+  "task": "conclude_document",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "Stage 'document' for model FR-001 is complete with tool observations indicating one code smell and no injection flags; lineage shows no upstream or downstream links and the draft contains eight sections sourced from cache. No high\u2011severity findings were reported, but gaps exist in the documentation.",
+    "recommendation": "hold",
+    "reasons": [
+      "Missing ongoing\u2011monitoring plan or thresholds documented",
+      "Development and validation data not available in repository; validation deferred",
+      "r_parser detected one code smell"
+    ]
+  }
+}

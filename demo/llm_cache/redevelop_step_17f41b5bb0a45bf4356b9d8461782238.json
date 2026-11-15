@@ -1,0 +1,10 @@
+{
+  "task": "redevelop_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "We have drafted a Python translation; next we need to verify parity against the exported bundle.",
+    "action": "call",
+    "tool": "check_parity",
+    "args": {}
+  }
+}

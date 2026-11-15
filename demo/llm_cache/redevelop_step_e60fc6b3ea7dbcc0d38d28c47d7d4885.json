@@ -1,0 +1,12 @@
+{
+  "task": "redevelop_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "We need to create the R epilogue that exports the standard bundle before running the export step.",
+    "action": "call",
+    "tool": "draft_export",
+    "args": {
+      "instructions": "Write an R epilogue that, after the main script execution, saves the model's output, coefficients, and any necessary metadata into a standard bundle file (e.g., .rds) named 'export_bundle.rds' in the sandbox. Ensure the epilogue loads required libraries, captures the scorecard object, and calls saveRDS(export_bundle, file='export_bundle.rds')."
+    }
+  }
+}

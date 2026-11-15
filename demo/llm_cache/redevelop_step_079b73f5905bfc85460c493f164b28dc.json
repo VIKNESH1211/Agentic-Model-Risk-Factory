@@ -1,0 +1,12 @@
+{
+  "task": "redevelop_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "The previous draft_translation failed due to a TypeError likely caused by problematic characters in the instruction string; we need to provide a clean, concise instruction to generate the Python translation.",
+    "action": "call",
+    "tool": "draft_translation",
+    "args": {
+      "instructions": "Write a Python class LegacyModel that loads the exported CSV files (frame.csv, scores.csv, coef.csv) and reproduces the exact scoring logic of the CR-001 R script, using the same coefficients and feature transformations to produce identical scores and decisions for each row."
+    }
+  }
+}

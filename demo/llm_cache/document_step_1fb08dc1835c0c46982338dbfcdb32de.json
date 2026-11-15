@@ -1,0 +1,12 @@
+{
+  "task": "document_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "Next, create the model-specific validation plan covering required performance metrics, thresholds, fairness checks, and data integrity tests for CR-001.",
+    "action": "call",
+    "tool": "draft_validation_plan",
+    "args": {
+      "instructions": "Include binary classification metrics (AUC, KS, Brier score) with target thresholds (AUC\u22650.75, KS\u22650.30, Brier\u22640.20). Add fairness metrics for age_band and sex (disparate impact, equal opportunity). Specify validation datasets (train, hold\u2011out, temporal split). Detail stress\u2011test scenarios for threshold drift and missing\u2011value handling. Reference policy findings PC\u201101 to PC\u201104 and note the discrepancy between documented cutoff (0.25) and implemented cutoff (0.35)."
+    }
+  }
+}

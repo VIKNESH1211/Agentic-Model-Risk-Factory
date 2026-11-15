@@ -1,0 +1,92 @@
+{
+  "task": "intake_spec",
+  "model": "gpt-4o-mini",
+  "data": {
+    "spec": {
+      "name": "CR-002 Random-forest PD challenger",
+      "purpose": "Benchmark for CR-001",
+      "owner": "Model Development - Retail",
+      "model_type": "Credit risk \u2013 PD scorecard",
+      "tier": "C",
+      "tier_rationale": "Not used for live decisions (challengers, benchmarks).",
+      "entry_script": "cr002_rf.R",
+      "task": "binary",
+      "strategy": "rehost",
+      "target": "bad",
+      "exposure": null,
+      "id_column": "id",
+      "features": [
+        "status.of.existing.checking.account",
+        "duration.in.month",
+        "credit.history",
+        "purpose",
+        "credit.amount",
+        "savings.account.and.bonds",
+        "present.employment.since",
+        "installment.rate.in.percentage.of.disposable.income",
+        "personal.status.and.sex",
+        "other.debtors.or.guarantors",
+        "present.residence.since",
+        "property",
+        "age.in.years",
+        "other.installment.plans",
+        "housing",
+        "number.of.existing.credits.at.this.bank",
+        "job",
+        "number.of.people.being.liable.to.provide.maintenance.for",
+        "telephone",
+        "foreign.worker"
+      ],
+      "groups": [
+        {
+          "name": "age_band",
+          "column": "age.in.years",
+          "bins": [
+            25
+          ],
+          "labels": [
+            "under25",
+            "25plus"
+          ]
+        },
+        {
+          "name": "sex",
+          "column": "personal.status.and.sex",
+          "regex_map": {
+            "^female": "F",
+            ".*": "M"
+          }
+        }
+      ],
+      "decision": {
+        "kind": "none",
+        "op": ">",
+        "cutoff": null,
+        "adverse_label": "",
+        "favourable_label": ""
+      },
+      "upstream": [
+        {
+          "model_id": "CR-001",
+          "via_asset": "cr001_scores.csv"
+        }
+      ],
+      "deployable": false,
+      "inputs": [
+        {
+          "ref": "//shared/riskdata/german_final_v3.csv",
+          "asset": "german_final_v3.csv"
+        },
+        {
+          "ref": "//shared/riskdata/cr001_scores.csv",
+          "asset": "cr001_scores.csv"
+        }
+      ],
+      "harness": {
+        "args": []
+      },
+      "notes": []
+    },
+    "notes_for_reviewer": "Double-check the fairness group definitions and ensure the regex for sex is correctly capturing the intended categories."
+  }
+}

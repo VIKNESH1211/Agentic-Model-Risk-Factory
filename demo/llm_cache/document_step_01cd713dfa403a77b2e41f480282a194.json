@@ -1,0 +1,15 @@
+{
+  "task": "document_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "Fix the monitoring plan by using only allowed KPI names and removing references to non\u2011input columns like age_band.",
+    "action": "call",
+    "tool": "draft_monitoring_plan",
+    "args": {
+      "instructions": "Create a monitoring plan for the CR-001 Retail PD Scorecard (binary, tier A, translate strategy). Include monthly KPIs using allowed names: mean_score, realized_rate, predicted_rate, score_psi, realized_gini, realized_recall, and adverse_rate. Define drift detection scenarios for score distribution (score_psi), default rate (realized_rate), and adverse_rate changes. Use only columns present in the model's input frame; do not reference age_band or other missing columns."
+    },
+    "summary": "",
+    "recommendation": "",
+    "reasons": []
+  }
+}

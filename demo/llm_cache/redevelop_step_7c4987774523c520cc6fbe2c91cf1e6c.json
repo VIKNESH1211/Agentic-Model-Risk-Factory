@@ -1,0 +1,14 @@
+{
+  "task": "redevelop_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "Rehosting succeeded and certification completed.",
+    "action": "finish",
+    "summary": "The legacy model CR-001 was exported, rehosted, and certified as REHOSTED; all mandatory steps (run_export, certify) are satisfied.",
+    "recommendation": "promote",
+    "reasons": [
+      "All required steps completed without errors",
+      "Parity achieved via rehosting, no further translation needed"
+    ]
+  }
+}

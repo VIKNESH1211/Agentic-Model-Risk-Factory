@@ -1,0 +1,8 @@
+{
+  "task": "epilogue_draft",
+  "model": "gpt-4o-mini",
+  "data": {
+    "r_code": "mrf_export(frame = dat, score = pd, decision = decision, coef = coef(fit))",
+    "explanation": "The frame used is 'dat', which contains the raw inputs as the model saw them, including the target variable 'bad'. The score is derived from the predicted probabilities 'pd' calculated from the logistic regression model. The decision is based on the cutoff defined in the model. Coefficients from the fitted model are included for transparency."
+  }
+}

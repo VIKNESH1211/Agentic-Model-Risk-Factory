@@ -1,0 +1,10 @@
+{
+  "task": "redevelop_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "The latest epilogue draft should address the missing frame.csv; we need to execute run_export to verify the bundle is now valid.",
+    "action": "call",
+    "tool": "run_export",
+    "args": {}
+  }
+}

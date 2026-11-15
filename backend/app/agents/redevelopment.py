@@ -1,287 +1,365 @@
-"""Redevelopment agent: R -> Python translation, tests, sandboxed legacy run, parity, fuzzing, certificate."""
+"""Redevelopment agent: export the legacy model's behaviour, rebuild it in Python, prove exact parity.
+
+Loop the agent drives (each arrow is a tool call it decides on):
+  draft_export (LLM writes an R epilogue) → run_export (sandbox + bundle validator) ─ fails → read error, redraft
+  → [translate] draft_translation (LLM writes Python) → check_parity (out-of-process) ─ gap → redraft with the gap
+      → optional use_reference_translation (if one was uploaded) → certify
+  → [rehost]    certify the legacy outputs as-is (validated, not re-implemented)
+certify refuses unless parity passed (translate) or the strategy is rehost. Numbers go to the metric store.
+"""
 from __future__ import annotations
 
-import hashlib
-import hmac
-import importlib.util
 import json
-import time
-from datetime import datetime, timezone
-from pathlib import Path
+import shutil
 
 import numpy as np
 import pandas as pd
 
+from app import repositories as repo
 from app.agents.common import StageCtx
-from app.core import llm
+from app.agents.intake import model_probe, probe_text
+from app.agents.runtime import Agent, Tool, ToolError, run as run_agent
+from app.core import llm, storage
 from app.core.config import settings
-from app.core.db import session
-from app.domain.tables import Model
+from app.domain.schemas import ModelSpec
+from app.engine import bundle as B
+from app.engine import harness, parity, serving
 from app.evidence import ledger
-from app.tools import fuzz, sandbox
-from app.tools.datasets import prepared
+from app.services import onboarding, prompts, specs
 
-TRANSLATION = Path(__file__).parent / "translations" / "cr001_model.py"
-LEGACY = settings.legacy_dir / "cr001_pd_scorecard" / "cr001_scorecard.R"
-TOL = {"coefficients": 1e-6, "scores": 1e-6, "decision_agreement": 1.0}
-CERT_KEY = b"mrf-demo-signing-key"  # demo signing key; production would use a KMS-held key
-
-
-def load_model_module(path: Path):
-    spec = importlib.util.spec_from_file_location(f"redev_{hashlib.md5(str(path).encode()).hexdigest()[:8]}", path)
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
+CODE_SCHEMA_R = {"type": "object", "additionalProperties": False, "required": ["r_code", "explanation"],
+                 "properties": {"r_code": {"type": "string"}, "explanation": {"type": "string"}}}
+CODE_SCHEMA_PY = {"type": "object", "additionalProperties": False, "required": ["python_code", "notes"],
+                  "properties": {"python_code": {"type": "string"}, "notes": {"type": "array", "items": {"type": "string"}}}}
 
 
-def _sha(p: Path) -> str:
-    return hashlib.sha256(p.read_bytes()).hexdigest()
+def clean_code(code: str) -> str:
+    """LLMs sometimes return code with escaped newlines (one long line) or inside a markdown fence."""
+    code = (code or "").strip()
+    if code.count("\n") == 0 and "\\n" in code:
+        code = code.encode().decode("unicode_escape")
+    if code.startswith("```"):
+        code = code.split("\n", 1)[1] if "\n" in code else ""
+        code = code.rsplit("```", 1)[0]
+    return code.strip() + "\n"
 
 
-CONTRACT = """Interface contract (other agents call it):
-- Input df is a pandas DataFrame with the original dotted column names (e.g. 'duration.in.month', 'credit.amount',
-  'status.of.existing.checking.account', 'installment.rate.in.percentage.of.disposable.income') and 'creditability'
-  with values 'good'/'bad' (bad = 1), plus an 'id' column. Numeric columns may contain NaN.
-- class CR001Scorecard with attributes: cutoff (float), vars (list of the 8 short variable names
-  checking, duration, history, purpose, amount, savings, employment, instalment), woe_tabs (dict var -> DataFrame
-  with columns var, bin, n_good, n_bad, woe), params (pandas Series of fitted parameters, index 'const' and
-  'woe_<var>').
-- methods: fit(df) -> self; woe_features(df) -> DataFrame with columns woe_<var> (NaN for unseen levels);
-  predict_pd(df) -> numpy array of PD (NaN where any WoE is NaN); score(df) -> DataFrame id, pd, points, decision;
-  woe_table() -> concatenated woe_tabs; property coef -> params with 'const' renamed '(Intercept)'.
-- Use numpy, pandas and statsmodels only (statsmodels GLM Binomial, no regularisation, tol 1e-12).
-Return the complete module source in python_code."""
+def _spec(ctx: StageCtx) -> ModelSpec:
+    if "spec" not in ctx.state:
+        ctx.state["spec"] = specs.current(ctx.model_id)
+    return ctx.state["spec"]
+
+
+def _meta(model_id: str) -> dict:
+    return (repo.models.get(model_id).meta or {})
+
+
+def _set_meta(model_id: str, **kw) -> None:
+    repo.models.update(model_id, meta={**_meta(model_id), **kw})
+
+
+def _strategy(ctx: StageCtx) -> str:
+    return ctx.state.get("strategy") or _spec(ctx).strategy
+
+
+# ------------------------------------------------------------------ export (R side)
+def t_draft_export(ctx: StageCtx, args: dict) -> dict:
+    s = _spec(ctx)
+    pinned = s.harness.epilogue.strip()
+    if pinned and not ctx.state.get("pinned_tried"):
+        ctx.state.update(epilogue=pinned, pinned_tried=True, epilogue_source="pinned in the spec", export_tried=False)
+        return {"source": "pinned in the spec", "lines": pinned.count("\n") + 1}
+    last = _meta(ctx.model_id).get("export_epilogue")
+    if last and not ctx.state.get("last_tried") and last.get("spec_version") == repo.specs.current(ctx.model_id).version:
+        ctx.state.update(epilogue=last["code"], last_tried=True, epilogue_source="reused from the last certified export",
+                         export_tried=False)
+        return {"source": "reused from the last certified export", "lines": last["code"].count("\n") + 1}
+    name, text = onboarding.script_text(ctx.model_id, s.entry_script)
+    prev = ctx.state.get("export_error")
+    previous = (f"Your previous epilogue failed:\n{prev}\nPrevious epilogue:\n{ctx.state.get('epilogue', '')}") if prev else ""
+    r = llm.complete_json("epilogue_draft", prompts.render(
+        "epilogue_draft", model_id=ctx.model_id, bundle_spec=B.SPEC_TEXT,
+        spec=json.dumps({k: v for k, v in s.model_dump().items() if k not in ("harness", "notes")}, default=str)[:2500],
+        probe=probe_text(model_probe(ctx.model_id)), instructions=args.get("instructions") or "none", previous=previous),
+        CODE_SCHEMA_R, lambda: {"r_code": "", "explanation": ""}, run_id=ctx.run_id, agent="redevelopment",
+        untrusted={name: text}, spent=ctx.spent)
+    code = clean_code(r.data.get("r_code") or "").strip()
+    if not code:
+        raise ToolError(f"no epilogue drafted ({r.source}); a language model is required")
+    n = ctx.state["export_drafts"] = ctx.state.get("export_drafts", 0) + 1
+    (ctx.dir / f"epilogue_{n}.R").write_text(code)
+    ctx.state.update(epilogue=code, epilogue_source=f"LLM draft {n} ({r.source})", export_tried=False)
+    return {"source": f"LLM draft {n}", "lines": code.count("\n") + 1, "explanation": r.data.get("explanation", "")[:400]}
+
+
+def t_run_export(ctx: StageCtx, args: dict) -> dict:
+    code = ctx.state.get("epilogue")
+    if not code:
+        raise ToolError("no epilogue yet — call draft_export first")
+    s = _spec(ctx)
+    ctx.state["export_tried"] = True
+    r = harness.run(ctx.model_id, s, ctx.dir / "sandbox", epilogue=code)
+    if not r.ok:
+        ctx.state["export_error"] = f"R error ({r.mode}):\n{r.error or r.stderr[-800:]}"
+        return {"ok": False, "error": ctx.state["export_error"]}
+    errs = B.validate(r.out_dir)
+    if errs:
+        ctx.state["export_error"] = "The export ran but the bundle is invalid:\n- " + "\n- ".join(errs)
+        return {"ok": False, "error": ctx.state["export_error"]}
+    dest = B.store(r.out_dir, ctx.dir / "bundle")
+    b = B.load(dest)
+    for name in B.BUNDLE_FILES:
+        if (dest / name).exists():
+            ctx.artifact(f"bundle_{name.split('.')[0]}", dest / name)
+    (ctx.dir / "epilogue.R").write_text(code)
+    ctx.artifact("export_epilogue", ctx.dir / "epilogue.R")
+    ctx.state.update(bundle_dir=str(dest), export_error=None, legacy_mode=r.mode, legacy_elapsed=r.elapsed_s,
+                     parity=None if ctx.state.get("candidate_path") else ctx.state.get("parity"))
+    return {"ok": True, "mode": r.mode, "elapsed_s": round(r.elapsed_s, 2), **b.summary()}
+
+
+def t_inspect(ctx: StageCtx, args: dict) -> dict:
+    if not ctx.state.get("bundle_dir"):
+        raise ToolError("no export yet — run_export must succeed first")
+    b = B.load(ctx.state["bundle_dir"])
+    f = b.frame
+    return {"rows": b.n, "dtypes": {c: str(f[c].dtype) for c in list(f.columns)[:50]},
+            "head": json.loads(f.head(3).to_json(orient="records")), "score": b.scores["score"].describe().round(6).to_dict(),
+            "decisions": b.scores["decision"].value_counts().head(6).to_dict() if "decision" in b.scores else None,
+            "coef": None if b.coef is None else b.coef.head(12).round(6).to_dict(),
+            "train_rows": None if b.train_rows is None else len(b.train_rows)}
+
+
+# ------------------------------------------------------------------ translation (Python side)
+def _frame_text(b: B.Bundle) -> str:
+    f = b.frame
+    cols = [f"{c} ({f[c].dtype}; e.g. {', '.join(map(str, f[c].dropna().unique()[:3]))}; {int(f[c].isna().sum())} NA)" for c in f.columns]
+    return (f"{b.n} rows; train_rows: {'all rows / not fitted' if b.train_rows is None else f'{len(b.train_rows)} rows'}\n"
+            + "\n".join(cols[:60]))
+
+
+def t_choose(ctx: StageCtx, args: dict) -> dict:
+    st = args.get("strategy")
+    if st not in ("translate", "rehost"):
+        raise ToolError("strategy must be 'translate' or 'rehost'")
+    ctx.state["strategy"] = st
+    ctx.state["strategy_reason"] = args.get("reason", "")
+    ctx.think(f"Strategy: {st} — {args.get('reason', '')}")
+    return {"strategy": st}
+
+
+def _require_translate(ctx: StageCtx) -> None:
+    if _strategy(ctx) == "rehost":
+        raise ToolError("the approved strategy is REHOST: do not translate — call certify to certify the legacy outputs as-is. "
+                        "(Only if you have strong evidence the model can be reproduced exactly, call choose_strategy first; "
+                        "a human must then confirm the change.)")
+
+
+def t_draft_translation(ctx: StageCtx, args: dict) -> dict:
+    _require_translate(ctx)
+    if not ctx.state.get("bundle_dir"):
+        raise ToolError("run_export must succeed first — the translation is checked against its output")
+    s = _spec(ctx)
+    b = B.load(ctx.state["bundle_dir"])
+    name, text = onboarding.script_text(ctx.model_id, s.entry_script)
+    gap = ctx.state.get("parity_problems")
+    previous = ""
+    if gap:
+        previous = "Your previous translation failed the parity check:\n- " + "\n- ".join(gap)
+        if gap == ctx.state.get("parity_problems_before"):
+            previous += ("\nIMPORTANT: your last revision produced EXACTLY the same failure — the change did not touch the "
+                         "cause. Rewrite the failing function from scratch with a different approach.")
+        ln = next((int(x.split("at line ")[1].split()[0]) for x in gap if "at line " in x), None)
+        if ln and ctx.state.get("candidate"):
+            lines = ctx.state["candidate"].splitlines()
+            ctx_lines = "\n".join(f"{i:>4}| {lines[i - 1]}" for i in range(max(1, ln - 6), min(len(lines), ln + 4) + 1))
+            previous += f"\nCode around the failing line:\n{ctx_lines}"
+        previous += ("\nREPAIR RULES (strict): you MUST return the COMPLETE corrected module; you MUST fix the root cause of "
+                     "every problem listed above (not just silence the error); you MUST NOT change anything that already "
+                     "matched; you MUST follow the R → Python equivalents above for the failing operation. If the same "
+                     "approach failed before, use a DIFFERENT, simpler approach (e.g. a dict + Series.map lookup).")
+    sc = b.scores.head(5).to_dict(orient="records")
+    r = llm.complete_json("translation_draft", prompts.render(
+        "translation_draft", model_id=ctx.model_id, contract=parity.CONTRACT,
+        spec=json.dumps({k: v for k, v in s.model_dump().items() if k not in ("harness",)}, default=str)[:2500],
+        frame=_frame_text(b), scores=json.dumps(sc, default=str), coef="none" if b.coef is None else json.dumps(b.coef.round(8).to_dict()),
+        instructions=args.get("instructions") or "none", previous=previous),
+        CODE_SCHEMA_PY, lambda: {"python_code": "", "notes": []}, run_id=ctx.run_id, agent="redevelopment",
+        untrusted={name: text, "epilogue.R": ctx.state.get("epilogue", ""),
+                   **({"previous_translation.py": ctx.state["candidate"]} if gap and ctx.state.get("candidate") else {})},
+        spent=ctx.spent)
+    code = clean_code(r.data.get("python_code") or "").strip()
+    if not code:
+        raise ToolError(f"no translation drafted ({r.source}); a language model is required")
+    n = ctx.state["translation_drafts"] = ctx.state.get("translation_drafts", 0) + 1
+    p = ctx.dir / f"candidate_{n}.py"
+    p.write_text(code)
+    ctx.state.update(candidate=code, candidate_path=str(p), candidate_source=f"LLM draft {n} ({r.source})", parity=None)
+    return {"draft": n, "lines": code.count("\n") + 1, "notes": r.data.get("notes", [])[:6]}
+
+
+def t_reference(ctx: StageCtx, args: dict) -> dict:
+    ref = onboarding.files_of(ctx.model_id, "reference")
+    if not ref:
+        raise ToolError("no reference translation was uploaded with this model")
+    code = storage.read_text(ref[0].sha256)
+    p = ctx.dir / "candidate_reference.py"
+    p.write_text(code)
+    ctx.state.update(candidate=code, candidate_path=str(p), candidate_source=f"uploaded reference ({ref[0].name})", parity=None,
+                     reference_used=True)
+    return {"file": ref[0].name, "lines": code.count("\n") + 1}
+
+
+def t_parity(ctx: StageCtx, args: dict) -> dict:
+    _require_translate(ctx)
+    if not ctx.state.get("candidate_path"):
+        raise ToolError("no candidate translation — call draft_translation first")
+    res = parity.check(ctx.state["candidate_path"], ctx.state["bundle_dir"], ctx.dir / "parity")
+    ctx.state["parity"] = res
+    ctx.state["parity_attempts"] = ctx.state.get("parity_attempts", 0) + 1
+    if not res.get("ok"):
+        ctx.state["parity_problems_before"] = ctx.state.get("parity_problems")
+        ctx.state["parity_problems"] = res.get("problems", [])
+        ledger.append("redevelopment", "parity_failed", {"run_id": ctx.run_id, "model_id": ctx.model_id,
+                                                         "source": ctx.state.get("candidate_source"), "problems": res.get("problems", [])[:4]})
+        return {"ok": False, "error": "parity failed: " + " | ".join(res.get("problems", []))[:900]}
+    ctx.state["parity_problems"] = None
+    return {"ok": True, **{k: res.get(k) for k in ("score_max_abs_diff", "coef_max_abs_diff", "decision_agreement", "rows_compared")}}
+
+
+# ------------------------------------------------------------------ certificate
+def t_certify(ctx: StageCtx, args: dict) -> dict:
+    if not ctx.state.get("bundle_dir"):
+        raise ToolError("cannot certify: no valid export bundle")
+    s = _spec(ctx)
+    st = _strategy(ctx)
+    rec = ctx.recorder()
+    rel = ctx.rel
+    b = B.load(ctx.state["bundle_dir"])
+    rec.const("legacy_runtime_s", ctx.state.get("legacy_elapsed", 0.0), "Measured seconds to run the legacy R code in the sandbox")
+    if st == "rehost":
+        verdict = "REHOSTED"
+        rec.const("rows_scored", float(b.scores["score"].notna().sum()), "Rows the legacy code scored (rehosted, not re-implemented)")
+    else:
+        res = ctx.state.get("parity") or {}
+        if not res.get("ok"):
+            raise ToolError("cannot certify: the last parity check did not pass" + (f" ({'; '.join(res.get('problems', [])[:2])})" if res else ""))
+        shutil.copy(ctx.state["candidate_path"], ctx.dir / "model.py")
+        ctx.artifact("python_model", ctx.dir / "model.py")
+        ctx.artifact("parity_scores", ctx.dir / "parity" / "parity_scores.csv")
+        rec.measure("score_max_abs_diff", {"fn": "max_abs_diff", "artifact": f"{rel}/parity/parity_scores.csv", "a": "legacy_score", "b": "py_score"},
+                    definition="Largest absolute difference between legacy R and Python scores over every row")
+        rec.measure("rows_compared", {"fn": "count_true", "artifact": f"{rel}/parity/parity_scores.csv", "col": "both_scored"},
+                    definition="Rows scored by both implementations")
+        if "decision_agreement" in res and res["decision_agreement"] is not None:
+            rec.measure("decision_agreement", {"fn": "rate_true", "artifact": f"{rel}/parity/parity_scores.csv", "col": "decision_agree"},
+                        definition="Share of rows where legacy and Python decisions agree")
+        if (ctx.dir / "parity" / "parity_coef.csv").exists():
+            rec.measure("coef_max_abs_diff", {"fn": "max_abs_diff", "artifact": f"{rel}/parity/parity_coef.csv", "a": "legacy", "b": "python"},
+                        definition="Largest absolute difference between legacy and Python coefficients")
+        verdict = "PASS"
+    rec.commit("parity")
+    cert = {"model_id": ctx.model_id, "run_id": ctx.run_id, "verdict": verdict, "strategy": st,
+            "spec_version": repo.specs.current(ctx.model_id).version, "implementation": ctx.state.get("candidate_source", "legacy R (rehosted)"),
+            "export": ctx.state.get("epilogue_source"), "legacy_run": ctx.state.get("legacy_mode"),
+            "bundle": b.summary(), "parity": {k: v for k, v in (ctx.state.get("parity") or {}).items() if k != "problems"},
+            "tolerances": {"scores": 1e-6, "coefficients": 1e-6},
+            "attempts": {"export": ctx.state.get("export_drafts", 0), "translation": ctx.state.get("translation_drafts", 0)},
+            "reason": ctx.state.get("strategy_reason", "")}
+    cert["fingerprint"] = __import__("hashlib").sha256(json.dumps(cert, sort_keys=True, default=str).encode()).hexdigest()
+    (ctx.dir / "parity_certificate.json").write_text(json.dumps(cert, indent=2, default=str))
+    ctx.artifact("parity_certificate", ctx.dir / "parity_certificate.json")
+    ledger.append("redevelopment", "parity_certificate_issued", {"run_id": ctx.run_id, "model_id": ctx.model_id, "verdict": verdict,
+                                                                 "fingerprint": cert["fingerprint"]})
+    _set_meta(ctx.model_id, export_epilogue={"code": ctx.state["epilogue"], "run_id": ctx.run_id,
+                                             "spec_version": repo.specs.current(ctx.model_id).version},
+              parity_run_id=ctx.run_id, parity_verdict=verdict, parity_fingerprint=cert["fingerprint"],
+              strategy=st, deployable=bool(s.deployable and verdict == "PASS"), status="redeveloped")
+    serving.invalidate(ctx.model_id)
+    ctx.state["certified"] = verdict
+    return {"verdict": verdict, "fingerprint": cert["fingerprint"][:16]}
+
+
+TOOLS = [
+    Tool("draft_export", "Write (or reuse) the R epilogue that exports the standard bundle from the legacy run", t_draft_export,
+         {"instructions": "what the epilogue must do or fix"}, summary=lambda r: f"epilogue: {r['source']}, {r['lines']} lines",
+         observe=lambda r: r),
+    Tool("run_export", "Run the unmodified legacy script + the epilogue in the sandbox, then validate the bundle", t_run_export,
+         summary=lambda r: (f"bundle OK: {r['rows']} rows, {r['scored']} scored, decision={r['has_decision']}, "
+                            f"coef={r['coefficients']}, train_rows={r['train_rows']} ({r['mode']})") if r.get("ok") else r["error"][:220],
+         observe=lambda r: r),
+    Tool("inspect_export", "Look at the exported frame, scores, decisions and coefficients", t_inspect,
+         summary=lambda r: f"{r['rows']} rows, {len(r['dtypes'])} columns", observe=lambda r: r),
+    Tool("choose_strategy", "Change the approved strategy (translate ⇄ rehost). Only when the model truly cannot be reproduced "
+         "exactly (e.g. tree ensembles); a change always sends the model back to a human",
+         t_choose, {"strategy": "translate | rehost", "reason": "why"}, summary=lambda r: r["strategy"], observe=lambda r: r),
+    Tool("draft_translation", "Write the Python translation (LegacyModel) — after a failed parity check it is fed the exact gap",
+         t_draft_translation, {"instructions": "what to get right or fix"},
+         summary=lambda r: f"draft {r['draft']}: {r['lines']} lines", observe=lambda r: r),
+    Tool("check_parity", "Run the candidate out-of-process against the legacy export: every row, coefficients, decisions, single-row scoring",
+         t_parity, summary=lambda r: ("parity PASS · max score diff " + f"{r['score_max_abs_diff']:.2g}") if r.get("ok") else r["error"][:220],
+         observe=lambda r: r),
+    Tool("use_reference_translation", "Use the reference translation uploaded with the model (still must pass check_parity)",
+         t_reference, summary=lambda r: f"reference {r['file']} loaded", observe=lambda r: r),
+    Tool("certify", "Issue the parity certificate (refused unless parity passed, or the strategy is rehost)", t_certify,
+         summary=lambda r: f"certificate {r['verdict']} · {r['fingerprint']}", observe=lambda r: r),
+]
+
+
+def _fallback(ctx: StageCtx) -> dict | None:
+    ok = ctx.state.get("ok", {})
+    if not ok.get("run_export"):
+        if ctx.state.get("export_drafts", 0) + (1 if ctx.state.get("pinned_tried") else 0) >= 4 and ctx.state.get("export_tried"):
+            return None
+        if ctx.state.get("epilogue") and not ctx.state.get("export_tried"):
+            return {"tool": "run_export", "args": {}}
+        return {"tool": "draft_export", "args": {}}
+    if ok.get("certify"):
+        return None
+    if _strategy(ctx) == "rehost":
+        return {"tool": "certify", "args": {}}
+    p = ctx.state.get("parity")
+    if p and p.get("ok"):
+        return {"tool": "certify", "args": {}}
+    if ctx.state.get("candidate_path") and p is None:
+        return {"tool": "check_parity", "args": {}}
+    if ctx.state.get("translation_drafts", 0) >= 3:
+        if onboarding.files_of(ctx.model_id, "reference") and not ctx.state.get("reference_used"):
+            return {"tool": "use_reference_translation", "args": {}}
+        return None
+    return {"tool": "draft_translation", "args": {}}
+
+
+def _facts(ctx: StageCtx) -> dict:
+    s = _spec(ctx)
+    p = ctx.state.get("parity") or {}
+    return {"model": ctx.model_id, "task": s.task, "APPROVED_STRATEGY": _strategy(ctx),
+            "what_to_do": "export, then certify (no translation)" if _strategy(ctx) == "rehost" else "export, translate, check parity, certify",
+            "entry_script": s.entry_script,
+            "reference_translation_uploaded": bool(onboarding.files_of(ctx.model_id, "reference")),
+            "export_ok": bool(ctx.state.get("bundle_dir")), "export_error": (ctx.state.get("export_error") or "")[:600],
+            "translation_drafts": ctx.state.get("translation_drafts", 0), "parity_ok": p.get("ok"),
+            "parity_problems": (p.get("problems") or [])[:4], "certified": ctx.state.get("certified"),
+            "hint": ("several translation drafts failed parity — consider use_reference_translation, or redraft the export "
+                     "if the problem is in train_rows / the frame") if ctx.state.get("translation_drafts", 0) >= 3 else ""}
+
+
+def _guard(ctx: StageCtx) -> list[str]:
+    out = [] if ctx.state.get("certified") else ["no parity certificate issued"]
+    if ctx.state.get("strategy") and ctx.state["strategy"] != _spec(ctx).strategy:
+        out.append(f"the agent changed the approved strategy from {_spec(ctx).strategy} to {ctx.state['strategy']} "
+                   f"({ctx.state.get('strategy_reason') or 'no reason given'}) — a human must confirm")
+    return out
+
+
+AGENT = Agent(
+    name="redevelopment", stage="redevelop",
+    goal="Export the legacy model's exact behaviour from the sandbox (standard bundle), then rebuild it in Python and prove "
+         "exact parity — or, if the model cannot be reproduced exactly (e.g. random forests), rehost it — and certify.",
+    tools=TOOLS, mandatory=["run_export", "certify"], facts=_facts, fallback=_fallback, guard=_guard, max_steps=18,
+    max_failures=5)
 
 
 def run(ctx: StageCtx) -> dict:
-    t_start = time.perf_counter()
-    legacy_src = LEGACY.read_text()
-    schema = {"type": "object", "additionalProperties": False, "required": ["python_code", "notes"],
-              "properties": {"python_code": {"type": "string"}, "notes": {"type": "array", "items": {"type": "string"}}}}
-    res = ctx.tool("llm.translate", "translate cr001_scorecard.R → Python (statsmodels GLM)", lambda: llm.complete_json(
-        "translate_cr001",
-        "Translate this legacy R scorecard into a Python module. Reproduce behaviour exactly, including quirks "
-        "(flag them in comments). " + CONTRACT,
-        schema, lambda: {"python_code": TRANSLATION.read_text(),
-                         "notes": ["QUIRK-1 NA amount→0", "QUIRK-2 unseen level→NA", "QUIRK-3 cutoff 0.35 vs CP-07 0.25"]},
-        run_id=ctx.run_id, agent="redevelopment", untrusted={LEGACY.name: legacy_src}, spent=ctx.spent),
-        result_summary=lambda r: f"{len(r.data['python_code'].splitlines())} lines (source={r.source})")
-    model_py = ctx.dir / "model.py"
-    d = prepared()
-    train = d[d["split"] == "train"]
-    used_reference = res.data["python_code"].strip() == TRANSLATION.read_text().strip()
-
-    def use_reference(reason: str):
-        ctx.emit("alert", f"✋ LLM translation rejected ({reason}) → using verified reference translation",
-                 {"reason": reason})
-        ledger.append("redevelopment", "translation_rejected", {"run_id": ctx.run_id, "model_id": ctx.model_id,
-                                                                "reason": reason[:300], "llm_source": res.source})
-        model_py.write_text(TRANSLATION.read_text())
-        return load_model_module(model_py)
-
-    code = res.data["python_code"]
-    mod = None
-    for attempt in range(2):  # bounded repair loop: one repair with the error fed back, then fall back
-        model_py.write_text(code)
-        try:  # generated code must import and fit before we trust it
-            mod = load_model_module(model_py)
-            mod.CR001Scorecard().fit(train).predict_pd(d.head(50))
-            break
-        except Exception as e:
-            err = f"{type(e).__name__}: {e}"
-            if used_reference or attempt == 1 or not res.source.startswith(("live", "cache")):
-                mod = use_reference(err)
-                used_reference = True
-                break
-            ctx.emit("alert", f"✗ translated code failed ({err[:120]}) → asking the model to repair it")
-            fix = ctx.tool("llm.repair", "send the error back, request a corrected module", lambda: llm.complete_json(
-                "repair_cr001", "Your Python translation failed when run.\nError: " + err + "\n" + CONTRACT +
-                "\nReturn the corrected full module.", schema, lambda: {"python_code": TRANSLATION.read_text(), "notes": []},
-                run_id=ctx.run_id, agent="redevelopment", untrusted={"previous_translation.py": code, LEGACY.name: legacy_src},
-                spent=ctx.spent), result_summary=lambda r: f"{len(r.data['python_code'].splitlines())} lines (source={r.source})")
-            code = fix.data["python_code"]
-
-    def unit_tests():
-        m = mod.CR001Scorecard().fit(train)
-        p = m.predict_pd(d)
-        checks = {
-            "fits_without_error": True,
-            "pd_in_unit_interval": bool(np.nanmin(p) > 0 and np.nanmax(p) < 1),
-            "points_decrease_with_pd": bool(np.corrcoef(p, m.score(d)["points"])[0, 1] < -0.9),
-            "woe_tables_complete": len(m.woe_tabs) == len(m.vars),
-            "deterministic_refit": bool(np.allclose(m.coef.values, mod.CR001Scorecard().fit(train).coef.values, atol=0)),
-        }
-        return m, checks
-    try:
-        pym, checks = ctx.tool("pytest", "5 unit tests on translated model", unit_tests,
-                               result_summary=lambda r: f"{sum(r[1].values())}/{len(r[1])} passed")
-    except Exception as e:
-        mod = use_reference(f"unit tests crashed: {type(e).__name__}: {e}")
-        used_reference = True
-        pym, checks = unit_tests()
-
-    # ---- legacy run in sandbox (real rows + fuzz rows, one batch call)
-    fz = ctx.tool("fuzz.generate", "5,000 edge-case rows (nulls, bin edges, unseen levels, extremes)",
-                  lambda: fuzz.generate(d, 5000), result_summary=lambda r: f"{len(r):,} rows")
-    work = ctx.dir / "sandbox"
-    (work / "out").mkdir(parents=True, exist_ok=True)
-    train.to_csv(work / "train.csv", index=False)
-    pd.concat([d, fz], ignore_index=True).to_csv(work / "score.csv", index=False)
-    sb = ctx.tool("sandbox.Rscript", "docker · --network none · read-only · 1 CPU / 1 GB",
-                  lambda: sandbox.run_r(LEGACY, work, ["--train", "/work/train.csv", "--score", "/work/score.csv",
-                                                      "--outdir", "/work/out"],
-                                        [work / "train.csv", work / "score.csv"],
-                                        ["out/scores.csv", "out/coef.csv", "out/woe.csv"]),
-                  result_summary=lambda r: f"{'ok' if r.ok else 'FAILED'} via {r.mode} in {r.elapsed_s:.1f}s")
-    if not sb.ok:
-        raise RuntimeError(f"Legacy sandbox run failed: {sb.stderr}")
-    legacy_scores = pd.read_csv(work / "out" / "scores.csv")
-    legacy_coef = pd.read_csv(work / "out" / "coef.csv").set_index("term")["estimate"]
-    all_rows = pd.read_csv(work / "score.csv", low_memory=False)
-    real = legacy_scores["id"].str.startswith("GC")
-
-    def parity_gap(m) -> str | None:
-        """None if the candidate reproduces legacy R on coefficients, real-applicant PDs and fuzz NA pattern."""
-        try:
-            cdiff = float((legacy_coef - m.coef.reindex(legacy_coef.index)).abs().max())
-            sc = m.score(all_rows)
-            lp, pp = legacy_scores["pd"].to_numpy(float), np.asarray(sc["pd"], float)
-            sdiff = float(np.nanmax(np.abs(lp[real.values] - pp[real.values]))) if np.isfinite(pp[real.values]).any() else float("inf")
-            nan_real = int(np.isnan(pp[real.values]).sum())
-            na_mismatch = int((np.isnan(lp) != np.isnan(pp)).sum())
-            ld = legacy_scores["decision"].astype(object).where(legacy_scores["decision"].notna(), None).to_numpy()
-            pdn = pd.Series(np.asarray(sc["decision"], object)).where(lambda x: x.notna() & (x.astype(str) != "nan"), None).to_numpy()
-            dec_mismatch = int(sum(a != b for a, b in zip(ld, pdn)))
-        except Exception as e:
-            return f"{type(e).__name__}: {e}"
-        problems = []
-        if not cdiff <= TOL["coefficients"]:
-            problems.append(f"coefficients differ from R glm by up to {cdiff:.2e}")
-        if nan_real:
-            problems.append(f"PD is NaN for {nan_real} of {int(real.sum())} real applicants in the scoring file "
-                            "(the scoring file has missing values, so numeric columns load as float; R's "
-                            "as.character(4) gives '4', not '4.0')")
-        elif not sdiff <= TOL["scores"]:
-            problems.append(f"PD differs from legacy R by up to {sdiff:.2e}")
-        if na_mismatch:
-            problems.append(f"{na_mismatch} rows are NaN in one implementation but not the other")
-        if dec_mismatch:
-            problems.append(f"{dec_mismatch} rows get a different decision (legacy R returns NA, not APPROVE, when PD is NA)")
-        return "; ".join(problems) or None
-
-    if not used_reference:  # LLM code must reproduce the legacy model on every row, else repair once, else fall back
-        gap = ctx.tool("parity.precheck", "LLM code vs legacy R on 6,000 rows", lambda: parity_gap(pym),
-                       result_summary=lambda r: "matches ✓" if r is None else f"mismatch: {r[:90]}")
-        if gap and res.source.startswith(("live", "cache")):
-            ctx.emit("alert", f"✗ translation does not match legacy R ({gap[:120]}) → asking the model to repair it")
-            fix = ctx.tool("llm.repair", "send the parity gap back, request a corrected module", lambda: llm.complete_json(
-                "repair_parity_cr001", "Your Python translation runs but does not reproduce the legacy R model.\n"
-                "Problem: " + gap + "\n" + CONTRACT + "\nReturn the corrected full module.", schema,
-                lambda: {"python_code": TRANSLATION.read_text(), "notes": []}, run_id=ctx.run_id, agent="redevelopment",
-                untrusted={"previous_translation.py": model_py.read_text(), LEGACY.name: legacy_src}, spent=ctx.spent),
-                result_summary=lambda r: f"{len(r.data['python_code'].splitlines())} lines (source={r.source})")
-            model_py.write_text(fix.data["python_code"])
-            try:
-                mod = load_model_module(model_py)
-                pym, checks = unit_tests()
-                gap = parity_gap(pym)
-            except Exception as e:
-                gap = f"repaired code failed: {type(e).__name__}: {e}"
-        if gap or not all(checks.values()):
-            mod = use_reference(gap or "unit tests failed")
-            pym, checks = unit_tests()
-            used_reference = True
-        else:
-            ctx.emit("tool_result", "LLM translation reproduces legacy R on every row ✓")
-    ctx.artifact("python_model", model_py)
-
-    # ---- python run on same rows
-    py_scores = ctx.tool("python.score", "score same 6,000 rows with Python model", lambda: pym.score(all_rows),
-                         result_summary=lambda r: f"{len(r):,} rows scored")
-
-    # ---- parity artefacts
-    par = pd.DataFrame({"id": legacy_scores["id"][real].values,
-                        "legacy_pd": legacy_scores["pd"][real].values, "py_pd": np.asarray(py_scores["pd"], float)[real.values],
-                        "legacy_decision": legacy_scores["decision"][real].values,
-                        "py_decision": np.asarray(py_scores["decision"], object)[real.values]})
-    par = par.merge(d[["id", "split", "creditability"]], on="id")
-    par["y"] = (par["creditability"] == "bad").astype(int)
-    par["decision_agree"] = (par["legacy_decision"] == par["py_decision"]).astype(int)
-    par_f = ctx.dir / "parity_scores.csv"
-    par.to_csv(par_f, index=False)
-    cc = pd.DataFrame({"term": legacy_coef.index, "legacy": legacy_coef.values,
-                       "python": pym.coef[legacy_coef.index].values})
-    cc_f = ctx.dir / "coef_compare.csv"
-    cc.to_csv(cc_f, index=False)
-    fzc = ctx.tool("fuzz.compare", "diff legacy vs Python on 5,000 fuzz rows",
-                   lambda: fuzz.compare(legacy_scores[~real], py_scores[~real.values], fz),
-                   result_summary=lambda r: f"{int(r['diverged'].sum())} divergence(s), {int(r['legacy_na'].sum())} legacy NA scores")
-    fzc["one"] = 1
-    fz_f = ctx.dir / "fuzz_results.csv"
-    fzc.to_csv(fz_f, index=False)
-    for kind, f in [("parity_scores", par_f), ("coef_compare", cc_f), ("fuzz_results", fz_f)]:
-        ctx.artifact(kind, f)
-
-    rec = ctx.recorder()
-    R = ctx.rel
-    coef_diff = rec.measure("coef_max_abs_diff", {"fn": "max_abs_diff", "artifact": f"{R}/coef_compare.csv",
-                                                  "a": "legacy", "b": "python"},
-                            definition="Max |R glm coefficient − Python GLM coefficient|")
-    score_diff = rec.measure("score_max_abs_diff", {"fn": "max_abs_diff", "artifact": f"{R}/parity_scores.csv",
-                                                    "a": "legacy_pd", "b": "py_pd"},
-                             definition="Max |legacy PD − Python PD| over all 1,000 applicants")
-    agree = rec.measure("decision_agreement", {"fn": "rate_true", "artifact": f"{R}/parity_scores.csv",
-                                               "col": "decision_agree"},
-                        definition="Share of applicants with identical approve/decline decision")
-    rec.measure("gini_legacy.all", {"fn": "gini", "artifact": f"{R}/parity_scores.csv", "score": "legacy_pd", "split": "all"})
-    rec.measure("gini_python.all", {"fn": "gini", "artifact": f"{R}/parity_scores.csv", "score": "py_pd", "split": "all"})
-    rec.measure("fuzz_rows", {"fn": "count_true", "artifact": f"{R}/fuzz_results.csv", "col": "one"},
-                definition="Edge-case rows scored by both implementations")
-    div = rec.measure("fuzz_divergences", {"fn": "count_true", "artifact": f"{R}/fuzz_results.csv", "col": "diverged"},
-                      definition="Fuzz rows where legacy and Python outputs differ beyond tolerance")
-    na = rec.measure("fuzz_legacy_na", {"fn": "count_true", "artifact": f"{R}/fuzz_results.csv", "col": "legacy_na_decision"},
-                     definition="Fuzz rows where the legacy model returns no decision (NA)")
-    rec.const("runtime_s.sandbox", sb.elapsed_s, "Wall-clock seconds for the sandboxed legacy R run")
-    rec.commit("parity")
-
-    passed = coef_diff <= TOL["coefficients"] and score_diff <= TOL["scores"] and agree >= TOL["decision_agreement"] \
-        and div == 0 and all(checks.values())
-    cert = {
-        "certificate": "Parity Certificate", "model_id": ctx.model_id, "run_id": ctx.run_id,
-        "issued_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "legacy": {"file": LEGACY.name, "sha256": _sha(LEGACY), "runtime": "R 4.4.1 (rocker/r-ver) sandbox",
-                   "execution": sb.mode},
-        "python": {"file": "model.py", "sha256": _sha(model_py), "runtime": "statsmodels GLM Binomial",
-                   "origin": "verified reference translation" if used_reference else f"LLM translation ({res.source})"},
-        "inputs": {"train_sha256": _sha(work / "train.csv"), "score_sha256": _sha(work / "score.csv"),
-                   "rows_real": int(real.sum()), "rows_fuzz": int((~real).sum())},
-        "outputs": {"legacy_scores_sha256": _sha(work / "out" / "scores.csv"), "parity_sha256": _sha(par_f)},
-        "tolerances": TOL,
-        "results": {"coef_max_abs_diff": coef_diff, "score_max_abs_diff": score_diff,
-                    "decision_agreement": agree, "fuzz_divergences": div, "fuzz_legacy_na": na,
-                    "unit_tests": checks},
-        "tokens": {k: ctx.tok(k) for k in ["coef_max_abs_diff", "score_max_abs_diff", "decision_agreement",
-                                            "fuzz_rows", "fuzz_divergences", "fuzz_legacy_na"]},
-        "verdict": "PASS" if passed else "FAIL",
-        "fuzz_causes": fzc[fzc["diverged"]]["cause"].value_counts().to_dict(),
-        "fuzz_kinds_na": fzc[fzc["legacy_na_decision"]]["fuzz_kind"].value_counts().to_dict(),
-    }
-    body = json.dumps(cert, sort_keys=True, default=str)
-    cert["fingerprint"] = hashlib.sha256(body.encode()).hexdigest()
-    cert["signature"] = hmac.new(CERT_KEY, body.encode(), hashlib.sha256).hexdigest()
-    cert_f = ctx.dir / "parity_certificate.json"
-    cert_f.write_text(json.dumps(cert, indent=2, default=str))
-    ctx.artifact("parity_certificate", cert_f)
-    ledger.append("redevelopment", "parity_certificate_issued", {"run_id": ctx.run_id, "model_id": ctx.model_id,
-                                                                 "verdict": cert["verdict"], "fingerprint": cert["fingerprint"]})
-    with session() as s:
-        m = s.get(Model, ctx.model_id)
-        m.status = "redeveloped"
-        m.meta = {**m.meta, "parity_run_id": ctx.run_id, "parity_verdict": cert["verdict"],
-                  "parity_fingerprint": cert["fingerprint"]}
-        s.add(m)
-        s.commit()
-    ctx.emit("stage_completed", f"🏅 Parity Certificate {cert['verdict']} · coef Δ {coef_diff:.1e} · score Δ {score_diff:.1e}",
-             {"certificate": cert["fingerprint"], "verdict": cert["verdict"]})
-    ctx.flush_cost()
-    return {"model_py": str(model_py), "certificate": cert, "elapsed_s": time.perf_counter() - t_start}
+    c = run_agent(ctx, AGENT)
+    return {"conclusion": c, "verdict": ctx.state.get("certified"), "implementation": ctx.state.get("candidate_source")}

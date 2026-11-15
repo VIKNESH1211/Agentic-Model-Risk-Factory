@@ -1,0 +1,13 @@
+{
+  "task": "conclude_validate",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "The validation run processed 1,000 rows with splits train 604, test 199, oot 197. Detectors fired 1, and the challenger achieved 0.607 versus champion 0.998. A high\u2011severity finding (F\u201102) indicates the challenger was trained and assessed on the same rows, raising a data\u2011leakage risk.",
+    "recommendation": "hold",
+    "reasons": [
+      "High\u2011severity finding F\u201102 indicates data leakage risk",
+      "Challenger trained and assessed on same rows undermines model validity",
+      "Other findings (F\u201101, F\u201103) raise concerns about bias and feature usage"
+    ]
+  }
+}

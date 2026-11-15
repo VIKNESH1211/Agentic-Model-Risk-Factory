@@ -1,0 +1,56 @@
+{
+  "task": "code_review",
+  "model": "gpt-4o-mini",
+  "data": {
+    "findings": [
+      {
+        "severity": "high",
+        "category": "implementation",
+        "title": "Hardcoded file paths",
+        "detail": "The script uses hardcoded file paths for reading and writing data, which can lead to issues in different environments and is a prohibited practice.",
+        "line": 6,
+        "code": "scores <- read.csv(\"//shared/riskdata/cr001_scores.csv\")     # <- output of CR-001"
+      },
+      {
+        "severity": "medium",
+        "category": "methodology",
+        "title": "Inadequate handling of PD bands",
+        "detail": "The cut function does not include the upper limit of the last bin (1.0), which may lead to misclassification of PD values equal to 1.0.",
+        "line": 10,
+        "code": "band <- cut(d$pd, breaks = c(0, 0.05, 0.10, 0.20, 0.35, 1), labels = c(\"A\", \"B\", \"C\", \"D\", \"E\"))"
+      },
+      {
+        "severity": "medium",
+        "category": "data",
+        "title": "Potential NA values in limit calculation",
+        "detail": "If the PD value is NA, the corresponding limit will also be NA, which is not handled in the script, potentially leading to incorrect limit assignments.",
+        "line": 12,
+        "code": "d$limit <- pmin(round(d$income * mult[as.character(band)], -2), 15000)"
+      },
+      {
+        "severity": "medium",
+        "category": "fairness",
+        "title": "Income multipliers may introduce bias",
+        "detail": "The use of fixed income multipliers based on PD bands may inadvertently introduce bias against certain income groups, affecting fairness in credit limit assignments.",
+        "line": 11,
+        "code": "mult <- c(A = 0.30, B = 0.25, C = 0.15, D = 0.08, E = 0)       # income multipliers, 2019 strategy deck"
+      },
+      {
+        "severity": "low",
+        "category": "governance",
+        "title": "Lack of version control for strategy",
+        "detail": "The script does not include any versioning or documentation of changes to the strategy, which is important for governance and audit purposes.",
+        "line": 2,
+        "code": "# CR-003  Credit limit assignment strategy"
+      },
+      {
+        "severity": "low",
+        "category": "security",
+        "title": "Potential exposure of sensitive data",
+        "detail": "The output file path for limits is hardcoded and may expose sensitive data if the script is run in an unsecured environment.",
+        "line": 15,
+        "code": "write.csv(d[, c(\"id\", \"pd\", \"limit\")], \"//shared/riskdata/cr003_limits.csv\", row.names = FALSE)"
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "task": "document_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The policy check identified a low-severity issue regarding a hardcoded file path. I will now proceed to draft the model documentation based on the available evidence.",
+    "action": "call",
+    "tool": "draft_documentation",
+    "args": {
+      "instructions": "Document the model CR-003 Credit limit assignment strategy following the SR 11-7 / SS1/23 structure."
+    },
+    "recommendation": "hold",
+    "reasons": [
+      "Documentation is necessary to ensure clarity and compliance before proceeding."
+    ]
+  }
+}

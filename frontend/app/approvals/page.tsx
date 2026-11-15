@@ -36,23 +36,26 @@ function GateCard({ g, selected, toggle }: { g: any; selected: boolean; toggle: 
               {ag.reasons?.length > 0 && <ul className="list-disc ml-5 text-muted mt-1">{ag.reasons.map((r: string) => <li key={r}>{r}</li>)}</ul>}
             </div>
           )}
+          {ctx.blocked && <div className="mt-3 rounded-lg border border-fail/50 bg-fail/[.07] px-3 py-2 text-sm"><b className="text-fail">⛔ Incomplete — can't be approved:</b> {ctx.blocked.join("; ")}</div>}
           <div className="mt-3 space-y-2 text-[15px]">
             {ctx.summary && <div>{ctx.summary}</div>}
+            {ctx.review && <div className="text-sm rounded-md bg-agent/10 border border-agent/30 text-agent px-3 py-2">🤖 Agent's note for the reviewer: {ctx.review}</div>}
             {ctx.gaps?.length > 0 && <ul className="space-y-1">{ctx.gaps.map((x: string) => <li key={x} className="text-warn">▲ {x}</li>)}</ul>}
+            {ctx.feedback && Object.keys(ctx.feedback).length > 0 && <div className="text-sm text-muted">Earlier reviewer feedback: {Object.values(ctx.feedback).join(" · ")}</div>}
             {ctx.tokens && Object.keys(ctx.tokens).length > 0 && (
               <div className="flex flex-wrap gap-x-5 gap-y-2">{Object.entries(ctx.tokens).map(([k, t]: any) => <div key={k} className="text-sm"><span className="text-muted">{k.replace(/_/g, " ")}</span> <Ev token={t} /></div>)}</div>
             )}
             <div className="flex gap-4 text-sm">
-              {ctx.report_id && <Link className="text-teal hover:underline" href={`/reports/${ctx.report_id}`}>Review the report →</Link>}
-              {g.stage === "gate_validate" && <Link className="text-teal hover:underline" href={`/models/${g.model_id}/parity`}>Review the parity certificate →</Link>}
+              {ctx.link && <Link className="text-teal hover:underline" href={ctx.link}>Review what you are approving →</Link>}
+              {ctx.report_id && <Link className="text-teal hover:underline" href={`/reports/${ctx.report_id}`}>Validation report →</Link>}
               <Link className="text-teal hover:underline" href={`/agents?run=${g.run_id}`}>Read the agent trace →</Link>
             </div>
           </div>
-          <textarea value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Comment (logged to the ledger)…"
-            className="mt-3 w-full rounded-lg border border-line bg-black/20 p-3 text-[15px] outline-none focus:border-teal" rows={2} />
+          <textarea value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Comment — logged to the ledger; when you send it back, the agent gets it as instructions…"
+            className="mt-3 w-full rounded-lg border border-line bg-slate-50 p-3 text-[15px] outline-none focus:border-teal" rows={2} />
           <div className="mt-2 flex gap-2">
-            <button className="btn btn-primary" onClick={() => decide.mutate("approved")} disabled={decide.isPending}><Check size={16} /> Approve</button>
-            <button className="btn" onClick={() => decide.mutate("changes_requested")} disabled={decide.isPending}><MessageSquareWarning size={16} /> Request changes</button>
+            <button className="btn btn-primary" onClick={() => decide.mutate("approved")} disabled={decide.isPending || !!ctx.blocked}><Check size={16} /> Approve</button>
+            <button className="btn" onClick={() => decide.mutate("changes_requested")} disabled={decide.isPending} title="Re-runs the previous stage; the agent reads your comment"><MessageSquareWarning size={16} /> Send back to the agent</button>
             <button className="btn btn-danger" onClick={() => decide.mutate("rejected")} disabled={decide.isPending}><X size={16} /> Reject</button>
           </div>
         </div>
@@ -75,22 +78,22 @@ export default function Approvals() {
   return (
     <div className="space-y-5 max-w-[1200px] mx-auto">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Approvals</h1>
-        <p className="text-muted mt-1">Every stage ends at a gate. Each agent recommends promote or hold; you decide, one by one or in bulk. Every decision and comment goes to the hash-chained ledger.</p>
+        <h1 className="text-[28px] font-bold tracking-tight">Approvals</h1>
+        <p className="text-muted mt-1">Every stage ends at a gate. Approving a gate also approves what the stage produced — the spec, the validation and monitoring plans, the parity certificate, the validation. Each agent recommends promote or hold; you decide, one by one or in bulk. Every decision and comment goes to the hash-chained ledger.</p>
       </div>
       {pending.length > 0 && (
         <div className="panel px-4 py-3 flex items-center gap-3 flex-wrap sticky top-20 z-20">
           <button className="btn !py-1.5" onClick={() => setSel(new Set(pending.map((g) => g.id)))}>Select all ({pending.length})</button>
           <button className="btn !py-1.5" onClick={() => setSel(new Set(pending.filter((g) => g.context?.agent?.recommendation === "promote").map((g) => g.id)))}>Select agent-recommended</button>
           <span className="text-sm text-muted">{chosen.length} selected</span>
-          <input value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Comment for all selected…" className="rounded-md border border-line bg-black/20 px-3 py-1.5 text-sm outline-none focus:border-teal flex-1 min-w-[180px]" />
+          <input value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Comment for all selected…" className="rounded-md border border-line bg-slate-50 px-3 py-1.5 text-sm outline-none focus:border-teal flex-1 min-w-[180px]" />
           <button className="btn btn-primary !py-1.5" disabled={!chosen.length || bulk.isPending} onClick={() => bulk.mutate("approved")}><Check size={15} /> Approve selected</button>
           <button className="btn !py-1.5" disabled={!chosen.length || bulk.isPending} onClick={() => bulk.mutate("changes_requested")}>Request changes</button>
           <button className="btn btn-danger !py-1.5" disabled={!chosen.length || bulk.isPending} onClick={() => bulk.mutate("rejected")}>Reject</button>
         </div>
       )}
       {pending.length ? pending.map((g) => <GateCard key={g.id} g={g} selected={sel.has(g.id)} toggle={() => toggle(g.id)} />) : (
-        <Panel><Empty title="Nothing waiting for you">Start the factory from the Pipeline page; each finished stage parks its model here until you promote it.</Empty></Panel>
+        <Panel><Empty title="Nothing waiting for you">Each finished stage parks its model here until you approve it.</Empty></Panel>
       )}
       {done.length > 0 && (
         <Panel title="Decision history" pad={false}>

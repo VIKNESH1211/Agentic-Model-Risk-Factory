@@ -1,0 +1,11 @@
+{
+  "task": "diagnose_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The input drift analysis revealed a significant PSI of 10.8562 for 'installment.rate.in.percentage.of.disposable.income', indicating a major shift in this input. Additionally, the data quality check showed new unseen category codes for this input, which could impact model performance.",
+    "action": "call",
+    "tool": "score_shift",
+    "args": {},
+    "reasons": []
+  }
+}

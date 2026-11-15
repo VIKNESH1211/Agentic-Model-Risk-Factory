@@ -19,9 +19,11 @@ def J(default=None):
 class Model(SQLModel, table=True):
     __tablename__ = "models"
     id: str = Field(primary_key=True)
-    name: str
-    type: str
-    language: str
+    name: str = ""
+    type: str = ""
+    language: str = "R"
+    description: str = ""  # free text typed at onboarding (how it is run, what it is for)
+    created_at: datetime = Field(default_factory=now)
     owner: str = ""
     purpose: str = ""
     tier: str = ""
@@ -31,13 +33,6 @@ class Model(SQLModel, table=True):
     data_hash: str = ""
     meta: dict[str, Any] = J(dict)
 
-
-class ModelEdge(SQLModel, table=True):
-    __tablename__ = "model_edges"
-    id: Optional[int] = Field(default=None, primary_key=True)
-    src_id: str
-    dst_id: str
-    kind: str  # feeds | shares_data | challenger_of
 
 
 class Run(SQLModel, table=True):
@@ -123,15 +118,6 @@ class Control(SQLModel, table=True):
     description: str
 
 
-class ControlResult(SQLModel, table=True):
-    __tablename__ = "control_results"
-    id: Optional[int] = Field(default=None, primary_key=True)
-    ref: str
-    model_id: str
-    status: str  # pass | warn | fail | n/a
-    evidence: dict[str, Any] = J(dict)
-    checked_at: datetime = Field(default_factory=now)
-
 
 class LedgerEntry(SQLModel, table=True):
     __tablename__ = "ledger"
@@ -145,34 +131,6 @@ class LedgerEntry(SQLModel, table=True):
     entry_hash: str
 
 
-class Benchmark(SQLModel, table=True):
-    __tablename__ = "benchmarks"
-    id: Optional[int] = Field(default=None, primary_key=True)
-    batch_id: str
-    defect_type: str
-    variant_id: str
-    title: str = ""
-    expected_detector: str = ""
-    detected: bool = False
-    detector: str = ""
-    severity: str = ""
-    false_alarm: bool = False
-    detail: dict[str, Any] = J(dict)
-
-
-class MonitorBatch(SQLModel, table=True):
-    __tablename__ = "monitor_batches"
-    id: Optional[int] = Field(default=None, primary_key=True)
-    model_id: str
-    label: str
-    severity: float = 0.0
-    feature_set: str = ""
-    psi: float = 0.0
-    csi: dict[str, Any] = J(dict)
-    perf: dict[str, Any] = J(dict)
-    status: str = "green"
-    revalidation_run_id: Optional[str] = None
-    created_at: datetime = Field(default_factory=now)
 
 
 class Report(SQLModel, table=True):
@@ -259,3 +217,89 @@ class AppSetting(SQLModel, table=True):
     __tablename__ = "app_settings"
     key: str = Field(primary_key=True)
     value: dict[str, Any] = J(dict)
+
+
+# ==================================================================== v3: model knowledge lives here, not in code
+class DataAsset(SQLModel, table=True):
+    """A file on the shared drive (data room). Legacy scripts reference it by `name`; uploads add versions."""
+    __tablename__ = "data_assets"
+    id: Optional[int] = Field(default=None, primary_key=True)
+    name: str = Field(index=True)
+    version: int = 1
+    is_current: bool = True
+    sha256: str
+    size: int = 0
+    rows: int = 0
+    profile: dict[str, Any] = J(dict)  # {"columns": [{name, dtype, missing, unique, example}]}
+    description: str = ""
+    provenance: str = ""  # free text: real / synthetic / produced by <model>
+    created_at: datetime = Field(default_factory=now)
+
+
+class ModelFile(SQLModel, table=True):
+    """A file uploaded with a model: the legacy script(s), an optional reference translation, docs."""
+    __tablename__ = "model_files"
+    id: Optional[int] = Field(default=None, primary_key=True)
+    model_id: str = Field(index=True)
+    name: str
+    role: str = "script"  # script | reference | doc | other
+    sha256: str
+    size: int = 0
+    created_at: datetime = Field(default_factory=now)
+
+
+class SpecVersion(SQLModel, table=True):
+    """Versioned model specification (domain.schemas.ModelSpec) + the interface contract derived from it."""
+    __tablename__ = "model_specs"
+    id: Optional[int] = Field(default=None, primary_key=True)
+    model_id: str = Field(index=True)
+    version: int = 1
+    status: str = "draft"  # draft | approved | superseded
+    author: str = ""  # agent:<name> | human:<name>
+    body: dict[str, Any] = J(dict)
+    contract: str = ""
+    note: str = ""
+    created_at: datetime = Field(default_factory=now)
+    approved_by: str = ""
+    approved_at: Optional[datetime] = None
+
+
+class PlanVersion(SQLModel, table=True):
+    """Versioned validation or monitoring plan (domain.schemas.ValidationPlan / MonitoringPlan)."""
+    __tablename__ = "model_plans"
+    id: Optional[int] = Field(default=None, primary_key=True)
+    model_id: str = Field(index=True)
+    kind: str = Field(index=True)  # validation | monitoring
+    version: int = 1
+    status: str = "draft"
+    author: str = ""
+    body: dict[str, Any] = J(dict)
+    note: str = ""
+    created_at: datetime = Field(default_factory=now)
+    approved_by: str = ""
+    approved_at: Optional[datetime] = None
+
+
+class PolicyCheck(SQLModel, table=True):
+    """A reusable code-review rule applied to every legacy script (the policy library)."""
+    __tablename__ = "policy_checks"
+    code: str = Field(primary_key=True)
+    title: str
+    category: str
+    severity: str  # high | medium | low | info
+    kind: str = "regex"  # regex | injection
+    pattern: str = ""
+    description: str = ""
+    enabled: bool = True
+
+
+class PromptTemplate(SQLModel, table=True):
+    """Versioned prompt text. The newest row per key is active; agents render it with string.Template."""
+    __tablename__ = "prompt_templates"
+    id: Optional[int] = Field(default=None, primary_key=True)
+    key: str = Field(index=True)
+    version: int = 1
+    text: str
+    description: str = ""
+    author: str = "system"
+    created_at: datetime = Field(default_factory=now)

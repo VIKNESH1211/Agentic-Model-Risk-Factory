@@ -1,0 +1,8 @@
+{
+  "task": "epilogue_draft",
+  "model": "gpt-4o-mini",
+  "data": {
+    "r_code": "# Epilogue for CR-001 Retail PD Scorecard\n\n# Prepare the frame with raw inputs and outcome\nframe <- dat\nframe$.row <- seq_len(nrow(frame))\n\n# Export frame.csv\nwrite.csv(frame, file.path(\"/work/out/frame.csv\"), row.names = FALSE)\n\n# Prepare scores data\nscores <- data.frame(.row = seq_len(nrow(sc)), score = pd, decision = decision)\n\n# Ensure scores have matching .row values with frame\nscores$.row <- seq_len(nrow(frame))\n\n# Export scores.csv\nwrite.csv(scores, file.path(\"/work/out/scores.csv\"), row.names = FALSE)\n\n# Export coefficients if the model is parametric\nif (exists(\"fit\")) {\n  coef_data <- data.frame(term = names(cf), estimate = unname(cf))\n  write.csv(coef_data, file.path(\"/work/out/coef.csv\"), row.names = FALSE)\n}\n\n# Export train_rows.csv if fitted on a subset of the frame rows\nif (nrow(frame) != nrow(dat)) {\n  train_rows <- which(frame$id %in% dat$id)\n  write.csv(data.frame(.row = train_rows), file.path(\"/work/out/train_rows.csv\"), row.names = FALSE)\n}",
+    "explanation": "The frame.csv is created from the 'dat' data frame, which contains the raw inputs and outcome. The scores.csv is generated using the 'pd' and 'decision' vectors, ensuring that the number of rows in scores matches that of frame. The coefficients are exported if the model is parametric, and train_rows.csv is included only if the model was fitted on a subset of the frame rows."
+  }
+}

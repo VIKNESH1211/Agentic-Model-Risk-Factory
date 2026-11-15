@@ -1,0 +1,7 @@
+{
+  "task": "report_summary_try1",
+  "model": "gpt-4o-mini",
+  "data": {
+    "summary": "The independent validation report for CR-001 (CR-001 Retail PD Scorecard) indicates an overall rating of 'Fit for use with conditions'. Key findings include 'Discrimination (Gini) on test' and 'Discrimination (Gini) on oot', both of which passed. However, 'Score stability train \u2192 oot (PSI)' and 'Favourable-outcome parity across groups (disparate impact) \u2014 age_band' were rated amber, indicating areas that require attention. Additionally, the report highlights several findings, including 'Hardcoded decision threshold' and 'Model uses every column (`~ .`)', which may impact the model's robustness."
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "task": "report_summary_try1",
+  "model": "gpt-4o-mini",
+  "data": {
+    "summary": "The independent validation report for CR-003 (CR-003 Credit Limit Assignment) concludes with an overall rating of Not fit for use. The check results indicate that the score stability train to out-of-time (PSI), input stability for income, and input stability for probability of default (pd) all passed. However, the analysis revealed a red status for the favourable-outcome parity across groups (disparate impact) for pd_band. Additionally, there is a low severity finding regarding a hardcoded file path and a medium severity finding related to the same disparate impact issue. Overall, the findings total {{m:run_98023d:findings.total}}."
+  }
+}

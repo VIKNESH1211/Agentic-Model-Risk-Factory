@@ -1,0 +1,15 @@
+{
+  "task": "diagnose_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The diagnosis indicates a significant shift in input data quality, particularly with the 'installment.rate.in.percentage.of.disposable.income' feature, which has a high PSI value. This suggests that the model may not be adequately capturing the current population characteristics, necessitating a revalidation.",
+    "action": "finish",
+    "args": {},
+    "summary": "The analysis identified critical issues with input data quality and significant shifts in the distribution of key features, leading to a recommendation for revalidation.",
+    "recommendation": "hold",
+    "reasons": [
+      "Significant PSI value for 'installment.rate.in.percentage.of.disposable.income' indicates a major shift in input data.",
+      "Presence of new codes suggests the model may not be capturing the current population adequately."
+    ]
+  }
+}

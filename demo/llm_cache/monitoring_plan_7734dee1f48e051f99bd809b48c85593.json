@@ -1,0 +1,196 @@
+{
+  "task": "monitoring_plan",
+  "model": "gpt-4o-mini",
+  "data": {
+    "plan": {
+      "kpis": [
+        "adverse_rate",
+        "error_rate",
+        "latency_p95_ms",
+        "latency_p99_ms",
+        "mean_csi",
+        "mean_score",
+        "missing_input_rate",
+        "no_decision_rate",
+        "out_of_range_rate",
+        "rpm",
+        "score_psi",
+        "unseen_category_rate",
+        "worst_csi"
+      ],
+      "rules": [
+        {
+          "id": "score_psi_amber",
+          "kpi": "score_psi",
+          "op": ">",
+          "threshold": 0.1,
+          "windows": 3,
+          "severity": "amber",
+          "action": "notify",
+          "rationale": "Score distribution moving away from the validation baseline"
+        },
+        {
+          "id": "score_psi_red",
+          "kpi": "score_psi",
+          "op": ">",
+          "threshold": 0.25,
+          "windows": 3,
+          "severity": "red",
+          "action": "revalidate",
+          "rationale": "Significant population shift: the validation evidence no longer describes live traffic"
+        },
+        {
+          "id": "input_csi_red",
+          "kpi": "worst_csi",
+          "op": ">",
+          "threshold": 0.25,
+          "windows": 3,
+          "severity": "red",
+          "action": "revalidate",
+          "rationale": "At least one input has shifted significantly"
+        },
+        {
+          "id": "drift_breadth",
+          "kpi": "drifted_features",
+          "op": ">",
+          "threshold": 2.0,
+          "windows": 3,
+          "severity": "amber",
+          "action": "notify",
+          "rationale": "Several inputs drifting together usually means a population or pipeline change"
+        },
+        {
+          "id": "missing_inputs",
+          "kpi": "missing_input_rate",
+          "op": ">",
+          "threshold": 0.05,
+          "windows": 2,
+          "severity": "amber",
+          "action": "notify",
+          "rationale": "Upstream feed is dropping values"
+        },
+        {
+          "id": "out_of_range",
+          "kpi": "out_of_range_rate",
+          "op": ">",
+          "threshold": 0.05,
+          "windows": 2,
+          "severity": "amber",
+          "action": "notify",
+          "rationale": "Inputs outside anything the model saw in development: extrapolation risk"
+        },
+        {
+          "id": "unseen_categories",
+          "kpi": "unseen_category_rate",
+          "op": ">",
+          "threshold": 0.02,
+          "windows": 2,
+          "severity": "amber",
+          "action": "notify",
+          "rationale": "New category codes the model has no estimate for"
+        },
+        {
+          "id": "errors",
+          "kpi": "error_rate",
+          "op": ">",
+          "threshold": 0.01,
+          "windows": 2,
+          "severity": "amber",
+          "action": "notify",
+          "rationale": ""
+        },
+        {
+          "id": "availability",
+          "kpi": "availability",
+          "op": "<",
+          "threshold": 0.95,
+          "windows": 2,
+          "severity": "red",
+          "action": "notify",
+          "rationale": "Availability below acceptable threshold"
+        }
+      ],
+      "panels": [
+        {
+          "id": "volume_latency",
+          "title": "Volume & Latency",
+          "kind": "line",
+          "kpis": [
+            "rpm",
+            "latency_p95_ms",
+            "latency_p99_ms"
+          ]
+        },
+        {
+          "id": "stability",
+          "title": "Model Stability",
+          "kind": "area",
+          "kpis": [
+            "score_psi",
+            "worst_csi",
+            "drifted_features"
+          ]
+        },
+        {
+          "id": "decisions",
+          "title": "Decision Outcomes",
+          "kind": "bar",
+          "kpis": [
+            "adverse_rate",
+            "no_decision_rate",
+            "mean_score"
+          ]
+        },
+        {
+          "id": "errors_availability",
+          "title": "Errors & Availability",
+          "kind": "stat",
+          "kpis": [
+            "error_rate",
+            "availability"
+          ]
+        }
+      ],
+      "scenarios": [
+        {
+          "id": "cost_of_living_squeeze",
+          "title": "Cost of Living Squeeze",
+          "transforms": [
+            {
+              "op": "shift",
+              "column": "income",
+              "value": -5000,
+              "fraction": 0.1
+            }
+          ]
+        },
+        {
+          "id": "fraud_pattern_change",
+          "title": "Fraud Pattern Change",
+          "transforms": [
+            {
+              "op": "set_category",
+              "column": "pd",
+              "value": "0.3",
+              "fraction": 0.05
+            }
+          ]
+        },
+        {
+          "id": "mix_shift_young_drivers",
+          "title": "Mix Shift to Young Drivers",
+          "transforms": [
+            {
+              "op": "scale",
+              "column": "income",
+              "value": 0.8,
+              "fraction": 0.2
+            }
+          ]
+        }
+      ],
+      "rpm": 240
+    },
+    "summary": "The monitoring plan for CR-003 includes a comprehensive set of KPIs and alert rules tailored to detect model drift and performance issues. It also outlines relevant scenarios that could impact model behavior, ensuring proactive management of credit limit assignments."
+  }
+}

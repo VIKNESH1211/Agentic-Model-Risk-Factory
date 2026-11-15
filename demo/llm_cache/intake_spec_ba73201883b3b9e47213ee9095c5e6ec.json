@@ -1,0 +1,78 @@
+{
+  "task": "intake_spec",
+  "model": "gpt-4o-mini",
+  "data": {
+    "spec": {
+      "name": "PR-001 Motor claims frequency GLM",
+      "purpose": "Predict motor claims frequency for pricing",
+      "owner": "Pricing Analytics",
+      "model_type": "Motor claims frequency GLM",
+      "tier": "B",
+      "tier_rationale": "Supports pricing decisions based on claims frequency predictions.",
+      "entry_script": "pr001_claims_freq.R",
+      "task": "frequency",
+      "strategy": "rehost",
+      "target": "numclaims",
+      "exposure": "exposure",
+      "id_column": null,
+      "features": [
+        "veh_body",
+        "veh_age",
+        "agecat",
+        "area",
+        "gender"
+      ],
+      "groups": [
+        {
+          "name": "agecat",
+          "column": "agecat",
+          "bins": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "labels": [
+            "under25",
+            "25to34",
+            "35to44",
+            "45to54",
+            "55to64",
+            "65plus",
+            "unknown"
+          ]
+        },
+        {
+          "name": "gender",
+          "column": "gender",
+          "regex_map": {
+            "^female": "F",
+            ".*": "M"
+          }
+        }
+      ],
+      "decision": {
+        "kind": "none",
+        "op": ">",
+        "cutoff": null,
+        "adverse_label": "",
+        "favourable_label": ""
+      },
+      "inputs": [
+        {
+          "ref": "dataCar",
+          "asset": "insuranceData::dataCar"
+        }
+      ],
+      "harness": {
+        "args": []
+      },
+      "upstream": [],
+      "deployable": true,
+      "notes": []
+    },
+    "notes_for_reviewer": "Ensure the agecat group has the correct number of labels and that the model's assumptions are valid given the data used."
+  }
+}

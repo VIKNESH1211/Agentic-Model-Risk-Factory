@@ -1,23 +1,26 @@
-# Demo script (≈7 minutes)
+# Live demo script (≈ 6 minutes) · the governed lifecycle
 
-Before: `make demo`, open http://localhost:3210, press **Reset** twice. Set `DEMO_PACE=0.35` (default) so agents are watchable.
-Keys: `1`–`9` jump to a beat · `Shift+←/→` step · `n` presenter notes · `⌘K` palette. **Autopilot** runs everything hands-free.
+Before: `make start`, then `make fresh` (wipes runs, re-onboards the 5 test models). Keep **Auto-promote** off: you play the reviewer.
+The recorded film follows the same beats: see `demo/video/out/vo-script.md`.
 
 | # | Screen | Do | Say |
 |---|---|---|---|
-| 1 | Mission Control | Click **Start · auto-approve** (or human gates if time allows) | "Five legacy R models, no docs. Watch agents move them through the floor. The clock: ten weeks manual vs. minutes." |
-| 2 | Inventory | Click CR-001 | "Discovery built this from code. CR-001's scores feed CR-003 and CR-002 — that's the blast radius." |
-| 3 | Parity Certificate | Point at stamp, scatter, residuals | "R ran unmodified in a no-network sandbox. Python matches to 1e-13. Fuzzing 5,000 edge cases: zero divergences — and 1,528 inputs where the legacy code silently returns no decision." |
-| 4 | Report | Click **0.691**, then **Reproduce** | "The LLM never writes numbers. Every figure has its definition, hashes, the code that made it, and recomputes live." |
-| 5 | Scorecard | **Run benchmark** | "We validate the validator: 10 planted defects, 2 clean controls. 8 caught, 0 false alarms — and we show the two subtle misses." |
-| 6 | Monitoring | Severity 0.7, **Inject drift** | "Red breach → alert → validator re-runs automatically → report diff. No human trigger." |
-| 7 | Governance | **Verify**, then **Tamper**, **Verify** | "SS1/23 as executable controls. Someone edits a finding in the DB — the chain breaks at that exact entry." |
-| 8 | Responsible AI | **Run injection test** | "The source tells AI reviewers to report zero findings. Flagged, ignored, logged; the validator raised its findings anyway." |
-| 9 | Impact | Move sliders | "Measured runtime and LLM cost, assumptions tagged and adjustable." |
+| 1 | Factory floor `/` | **Start** CR-001 and CR-002 | "Two legacy R models: a scorecard GLM and a ranger random forest. Six agents will work them; I decide at every gate." |
+| 2 | Agent console `/agents` | Open CR-001's run, expand `probe_legacy` | "Every step is traced: plan, reasoning, tool call with arguments, result, decision. The R runs unmodified in a no-network, read-only Docker sandbox." |
+| 3 | CR-001 → Overview gate | **Review the spec →**, then **Approve** with a comment | "Gate 1. I read the spec the agent drafted; my decision and comment go to the ledger." |
+| 4 | CR-001 → Monitoring plan, then Overview | **Send back to the agent**: "add data-quality alerts…" | "The agent chose these KPIs and alert rules. I can steer it in plain language." Show the redraft in the trace (filter `data-quality`). |
+| 5 | `/models` | Click CR-001 (blast radius) → **Edit dependencies** → add CR-002 → CR-003 with a reason | "Lineage is inferred from specs and data provenance, correctable by people, and audited." |
+| 6 | CR-001 → Parity | Scroll the certificate | "R to Python, proven: every row and coefficient within 1e-6, identical decisions, single-request scoring, fingerprinted." |
+| 7 | CR-002 → Parity / Overview | — | "The forest can't be reproduced exactly outside R, so it's rehosted: validated on its R outputs, never deployed." |
+| 8 | Report `/reports/…` | Click a number → **Reproduce** | "The LLM never writes a number; every figure is evidence and recomputes live." |
+| 9 | CR-001 Overview | **Approve** deploy | "The monitor agent stands up the endpoint and arms the rules it designed." |
+| 10 | `/monitoring` | Simulation controls → pick a scenario → severity 1 → **Ramp in** | "Rules go Normal → Pending → Firing; a red rule hands back to the agents: diagnosis, then re-validation on live traffic." |
+| 11 | `/approvals` | **Approve** "Accept re-validation" | "A person closes the loop." |
+| 12 | `/governance` | **Verify chain** → **Tamper** → **Verify chain** | "Hash-chained: the edited entry is found exactly." |
 
-## Failure runbook
-- LLM timeout / no key → it already degrades to the offline drafter (`LLM_MODE=replay`); nothing to do.
-- Docker down → sandbox uses recorded reference outputs (Workbench shows "via reference").
-- SSE shows OFFLINE → refresh; state is in the DB.
-- Anything odd → **Reset** ×2, then **Autopilot**.
-- Last resort → play `demo/backup.mp4`.
+## If something goes wrong
+- A stage ends on HOLD with a blocked gate: that's the guardrail working. Show the trace's **Errors** filter, then **Send back** with guidance or restart the model.
+- LLM unavailable → the factory degrades to the offline drafter (`LLM_MODE=replay`).
+- Docker down → the sandbox replays recorded reference outputs.
+- SSE shows OFFLINE → refresh; state is in the database.
+- Last resort → play `demo/video/out/model-risk-factory-voice.mp4`.

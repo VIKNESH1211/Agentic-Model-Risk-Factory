@@ -1,0 +1,24 @@
+{
+  "task": "validate_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The model has been validated, and the results indicate it is not fit for use due to stability and monotonicity issues. Further investigation is warranted for the amber and red findings.",
+    "action": "call",
+    "tool": "raise_finding",
+    "args": {
+      "severity": "medium",
+      "category": "performance",
+      "title": "Stability Issues",
+      "detail": "The stability checks for purpose and age show amber ratings, indicating potential concerns with model stability.",
+      "tokens": [
+        "m:run_0b0e99:investigate.gini.all",
+        "m:run_0b0e99:investigate.gini.savings.accoun=100_=_..._500_DM"
+      ]
+    },
+    "summary": "Raised findings regarding stability issues in the model.",
+    "recommendation": "hold",
+    "reasons": [
+      "Model not fit for use due to stability and monotonicity issues."
+    ]
+  }
+}

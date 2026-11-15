@@ -1,0 +1,6 @@
+{"german_final_v3.csv": {"description": "German credit applications as saved by the analysts (no ids)", "provenance": "real · UCI German credit (scorecard package)"},
+ "german_train.csv": {"description": "CR-001 development extract (60% of applicants)", "provenance": "real · German credit"},
+ "german_applications.csv": {"description": "CR-001 scoring batch (all applicants)", "provenance": "real · German credit"},
+ "applications_today.csv": {"description": "Stated annual income per applicant", "provenance": "synthetic (seeded)"},
+ "creditcard.csv": {"description": "Card transactions, Kaggle ULB schema", "provenance": "synthetic (seeded) — the real file needs a manual download"},
+ "cr001_scores.csv": {"description": "Nightly CR-001 output: PD, points and decision per applicant", "provenance": "produced by the legacy CR-001 script"}}

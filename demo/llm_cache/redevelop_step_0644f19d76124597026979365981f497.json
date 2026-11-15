@@ -1,0 +1,16 @@
+{
+  "task": "redevelop_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The first step is to export the standard bundle from the legacy model's run, which is necessary for certification. I will draft the export instructions for the R epilogue to facilitate this process.",
+    "action": "call",
+    "tool": "draft_export",
+    "args": {
+      "instructions": "Write the R epilogue that exports the standard bundle from the legacy run."
+    },
+    "recommendation": "hold",
+    "reasons": [
+      "The export process has not yet been initiated."
+    ]
+  }
+}

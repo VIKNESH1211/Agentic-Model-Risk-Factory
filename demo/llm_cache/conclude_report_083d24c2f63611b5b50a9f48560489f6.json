@@ -1,0 +1,11 @@
+{
+  "task": "conclude_report",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "Stage 'report' for model CR-002 is complete with 26 tokens processed; tool observations include two draft sources and two token rejections. One high\u2011severity finding remains open.",
+    "recommendation": "hold",
+    "reasons": [
+      "High\u2011severity finding is still open, requiring human review before promotion."
+    ]
+  }
+}

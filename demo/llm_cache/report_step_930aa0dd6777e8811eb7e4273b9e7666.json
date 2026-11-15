@@ -1,0 +1,14 @@
+{
+  "task": "report_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The report cannot be generated as there are no validation results available. I need to gather the necessary validation results before proceeding.",
+    "action": "finish",
+    "args": {},
+    "summary": "No validation results were available to generate the report.",
+    "recommendation": "hold",
+    "reasons": [
+      "No validation results to support the report generation."
+    ]
+  }
+}

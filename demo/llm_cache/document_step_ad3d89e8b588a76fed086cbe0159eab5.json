@@ -1,0 +1,13 @@
+{
+  "task": "document_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The next step is to propose the model-specific validation plan that addresses the identified gaps and metrics relevant to the model's task and tier.",
+    "action": "call",
+    "tool": "draft_validation_plan",
+    "args": {
+      "instructions": "Propose the model-specific validation plan for CR-002 Random-forest PD challenger, covering catalog metrics and thresholds relevant to a binary task and tier C."
+    },
+    "reasons": []
+  }
+}

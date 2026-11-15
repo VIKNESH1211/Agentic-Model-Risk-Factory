@@ -1,0 +1,16 @@
+{
+  "task": "doc_draft",
+  "model": "gpt-4o-mini",
+  "data": {
+    "purpose": "Pricing model for motor claims frequency",
+    "scope_and_use": "The model is used to support pricing decisions based on the frequency of motor claims, specifically designed to be integrated into the pricing engine outputs.",
+    "data": "The model utilizes data from insuranceData::dataCar, which includes vehicle insurance data for 67,856 policies.",
+    "methodology": "The model employs a Poisson Generalized Linear Model (GLM) with a log(exposure) offset to predict the frequency of motor claims.",
+    "variables": "The model includes the following features: veh_body, veh_age, agecat, area, and gender.",
+    "implementation": "The model is implemented in the script pr001_claims_freq.R and produces outputs written to pr001_freq.csv.",
+    "assumptions_limitations": "Not documented",
+    "performance_and_monitoring": "Not documented",
+    "governance": "The model is owned by Pricing Analytics and is classified as Tier B, supporting decisions based on pricing engine outputs.",
+    "gaps": "Assumptions and limitations of the model are not documented. Performance and monitoring strategies are also not documented. Additionally, the model has a policy-rule hit for using a protected characteristic (gender) as an input."
+  }
+}

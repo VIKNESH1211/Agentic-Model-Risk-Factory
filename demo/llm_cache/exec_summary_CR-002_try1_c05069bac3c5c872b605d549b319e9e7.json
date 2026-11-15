@@ -1,0 +1,7 @@
+{
+  "task": "exec_summary_CR-002_try1",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "summary": "The CR\u2011002 Random\u2011forest PD challenger was evaluated against the champion benchmark using a hold\u2011out sample and out\u2011of\u2011time data. Performance indicators include {{m:run_45ac60:gini.train}} (Gini \u2014 train), {{m:run_45ac60:gini.test}} (Gini \u2014 test), {{m:run_45ac60:gini.oot}} (Gini \u2014 out\u2011of\u2011time (simulated)), {{m:run_45ac60:ks.oot}} (KS \u2014 out\u2011of\u2011time), {{m:run_45ac60:auc.holdout}} (AUC \u2014 hold\u2011out), {{m:run_45ac60:brier.holdout}} (Brier score \u2014 hold\u2011out), {{m:run_45ac60:calibration_ratio.holdout}} (Predicted \u00d7 observed \u2014 hold\u2011out), {{m:run_45ac60:bad_rate.holdout}} (Observed outcome rate \u2014 hold\u2011out), {{m:run_45ac60:approval_rate.holdout}} (Approval rate at coded cutoff), {{m:run_45ac60:gini.champion.holdout}} (Champion Gini \u2014 hold\u2011out) and {{m:run_45ac60:gini.challenger.holdout}} (Challenger Gini \u2014 hold\u2011out). The parity check against legacy scoring is represented by {{m:run_45ac60:rows_scored}} (parity vs legacy: rows_scored). The review identified {{m:run_45ac60:findings.high}} (Number of high\u2011severity findings), {{m:run_45ac60:findings.medium}} (Number of medium\u2011severity findings) and a total of {{m:run_45ac60:findings.total}} (Number of findings). The overall rating is Requires remediation before continued use."
+  }
+}

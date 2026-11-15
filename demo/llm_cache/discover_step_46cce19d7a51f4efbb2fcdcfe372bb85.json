@@ -1,0 +1,27 @@
+{
+  "task": "discover_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The script has been successfully read, revealing that it assigns initial credit limits based on PD bands and stated income. Next, I will probe the legacy model to understand its outputs and ensure it runs correctly in the sandbox.",
+    "action": "call",
+    "tool": "probe_legacy",
+    "args": {
+      "args": [],
+      "inputs": [
+        {
+          "ref": "applications_today.csv",
+          "asset": "//shared/riskdata/applications_today.csv"
+        },
+        {
+          "ref": "cr001_scores.csv",
+          "asset": "//shared/riskdata/cr001_scores.csv"
+        }
+      ],
+      "script": "cr003_limits.R"
+    },
+    "recommendation": "hold",
+    "reasons": [
+      "Need to probe the legacy model to gather outputs before drafting the specification."
+    ]
+  }
+}

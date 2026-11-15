@@ -13,7 +13,7 @@ export function ModelPicker({ current, hrefFor, filter }: { current: string; hre
     <div className="flex flex-wrap gap-1.5" role="tablist" aria-label="Model">
       {ms.map((m) => (
         <Link key={m.id} href={hrefFor(m.id)} role="tab" aria-selected={m.id === current}
-          className={clsx("rounded-lg border px-3 py-1.5 text-sm font-semibold transition", m.id === current ? "border-teal bg-teal/10 text-teal" : "border-line text-muted hover:text-text hover:bg-white/5")}>
+          className={clsx("rounded-lg border px-3 py-1.5 text-sm font-semibold transition", m.id === current ? "border-teal bg-teal/10 text-teal" : "border-line text-muted hover:text-text hover:bg-slate-900/[.04]")}>
           <span className="mono">{m.id}</span>
         </Link>
       ))}

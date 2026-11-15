@@ -1,0 +1,8 @@
+{
+  "task": "epilogue_draft",
+  "model": "gpt-4o-mini",
+  "data": {
+    "r_code": "mrf_export(frame = d, score = d$limit, decision = d$decision)",
+    "explanation": "The frame used is 'd', which contains the raw inputs (id, income, pd) and the calculated limits. The score is derived from 'd$limit', which represents the model's numeric output for each record. The decision is taken from 'd$decision', indicating whether to approve or decline the credit limit."
+  }
+}

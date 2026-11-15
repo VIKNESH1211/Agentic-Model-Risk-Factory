@@ -1,0 +1,14 @@
+{
+  "task": "report_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "I need to assemble the validation report for model FR-001 using the available tools.",
+    "action": "call",
+    "tool": "write_report",
+    "args": {},
+    "recommendation": "hold",
+    "reasons": [
+      "No evidence has been provided to support the report assembly."
+    ]
+  }
+}

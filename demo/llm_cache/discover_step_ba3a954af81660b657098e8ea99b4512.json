@@ -1,0 +1,16 @@
+{
+  "task": "discover_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The probe was successful, revealing the structure of the data frames and their contents. I will now draft the model specification based on the gathered evidence.",
+    "action": "call",
+    "tool": "draft_spec",
+    "args": {
+      "instructions": "Draft a model specification for CR-003 including task, inputs, target, features, fairness groups, decision rule, tier, and strategy."
+    },
+    "recommendation": "hold",
+    "reasons": [
+      "The specification draft needs to be reviewed for completeness and correctness before final approval."
+    ]
+  }
+}

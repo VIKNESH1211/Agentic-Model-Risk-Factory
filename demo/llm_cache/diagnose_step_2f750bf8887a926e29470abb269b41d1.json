@@ -1,0 +1,11 @@
+{
+  "task": "diagnose_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The analysis indicates significant input drift in the 'credit.amount' feature, with a PSI of 0.6915, and a notable increase in the adverse decision rate from 0.3791 to 0.4275. These findings suggest potential issues with the model's performance and data quality that need to be addressed before proceeding.",
+    "action": "call",
+    "tool": "diagnose",
+    "args": {},
+    "reasons": []
+  }
+}

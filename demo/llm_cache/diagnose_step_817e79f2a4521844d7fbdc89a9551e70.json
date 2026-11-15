@@ -1,0 +1,17 @@
+{
+  "task": "diagnose_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The diagnosis indicates a significant shift in input data quality, particularly in the 'installment.rate.in.percentage.of.disposable.income' column, which has a high PSI value. This suggests that the model may not be adequately capturing the current population characteristics, warranting further investigation into the recent KPI windows.",
+    "action": "call",
+    "tool": "kpi_history",
+    "args": {
+      "n": 12
+    },
+    "recommendation": "hold",
+    "reasons": [
+      "The PSI value indicates a significant shift in input data, particularly for 'installment.rate.in.percentage.of.disposable.income'.",
+      "The presence of new codes in the input data suggests that the model may not be adequately capturing the current population characteristics."
+    ]
+  }
+}

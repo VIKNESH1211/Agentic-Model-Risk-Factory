@@ -1,0 +1,160 @@
+{
+  "task": "validation_plan",
+  "model": "gpt-4o-mini",
+  "data": {
+    "plan": {
+      "title": "Validation Plan for CR-003 Credit Limit Assignment Strategy",
+      "checks": [
+        {
+          "id": "perf.rmse_test",
+          "title": "Test RMSE",
+          "category": "performance",
+          "metric": "rmse",
+          "params": {
+            "target": "limit",
+            "score": "score",
+            "split": "test"
+          },
+          "threshold": {
+            "op": "<",
+            "amber": 1000,
+            "red": 1500
+          },
+          "severity": "medium",
+          "rationale": "To assess the model's predictive accuracy on the test set."
+        },
+        {
+          "id": "perf.rmse_oot",
+          "title": "OOT RMSE",
+          "category": "performance",
+          "metric": "rmse",
+          "params": {
+            "target": "limit",
+            "score": "score",
+            "split": "oot"
+          },
+          "threshold": {
+            "op": "<",
+            "amber": 1200,
+            "red": 1800
+          },
+          "severity": "medium",
+          "rationale": "To evaluate the model's performance on out-of-time data."
+        },
+        {
+          "id": "calibration.mae_test",
+          "title": "Test MAE",
+          "category": "calibration",
+          "metric": "mae",
+          "params": {
+            "target": "limit",
+            "score": "score",
+            "split": "test"
+          },
+          "threshold": {
+            "op": "<",
+            "amber": 800,
+            "red": 1200
+          },
+          "severity": "medium",
+          "rationale": "To measure the average magnitude of errors in predictions."
+        },
+        {
+          "id": "calibration.mae_oot",
+          "title": "OOT MAE",
+          "category": "calibration",
+          "metric": "mae",
+          "params": {
+            "target": "limit",
+            "score": "score",
+            "split": "oot"
+          },
+          "threshold": {
+            "op": "<",
+            "amber": 900,
+            "red": 1300
+          },
+          "severity": "medium",
+          "rationale": "To assess the model's calibration on out-of-time data."
+        },
+        {
+          "id": "stability.psi_train_oot",
+          "title": "PSI Train to OOT",
+          "category": "stability",
+          "metric": "psi",
+          "params": {
+            "col": "score",
+            "base": "train",
+            "comp": "oot"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.1,
+            "red": 0.25
+          },
+          "severity": "medium",
+          "rationale": "To check for population stability between training and OOT samples."
+        },
+        {
+          "id": "data_quality.missing_any",
+          "title": "Missing Any Rate",
+          "category": "data_quality",
+          "metric": "rate_true",
+          "params": {
+            "col": "missing_any",
+            "split": "all"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.05,
+            "red": 0.1
+          },
+          "severity": "medium",
+          "rationale": "To monitor the proportion of records with missing values."
+        },
+        {
+          "id": "policy.adverse_decision_rate",
+          "title": "Adverse Decision Rate",
+          "category": "policy",
+          "metric": "rate_true",
+          "params": {
+            "col": "flag",
+            "split": "all"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.3,
+            "red": 0.5
+          },
+          "severity": "medium",
+          "rationale": "To ensure the rate of adverse decisions remains within acceptable limits."
+        },
+        {
+          "id": "policy.monotonicity",
+          "title": "Monotonicity Check",
+          "category": "policy",
+          "metric": "monotone_by",
+          "params": {
+            "col": "limit",
+            "by": "pd_band",
+            "split": "all"
+          },
+          "threshold": {
+            "op": "<=",
+            "amber": 0.5,
+            "red": 0.0
+          },
+          "severity": "high",
+          "rationale": "To verify that credit limits do not increase with higher PD bands."
+        }
+      ],
+      "investigations": [
+        "challenger",
+        "slice_search",
+        "stress_test"
+      ],
+      "rationale": "This validation plan covers performance, calibration, stability, data quality, and policy checks relevant to the CR-003 model, ensuring comprehensive assessment."
+    },
+    "summary": "The validation plan for CR-003 includes checks for performance metrics like RMSE and MAE, calibration assessments, stability through PSI, and policy adherence regarding adverse decisions and monotonicity. Investigations such as challenger and slice_search are suggested for deeper insights."
+  }
+}

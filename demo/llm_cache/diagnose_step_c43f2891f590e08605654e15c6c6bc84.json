@@ -1,0 +1,13 @@
+{
+  "task": "diagnose_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The alert indicates significant input shift, so I will check the recent KPI windows to understand operational changes.",
+    "action": "call",
+    "tool": "kpi_history",
+    "args": {
+      "n": 12
+    },
+    "reasons": []
+  }
+}

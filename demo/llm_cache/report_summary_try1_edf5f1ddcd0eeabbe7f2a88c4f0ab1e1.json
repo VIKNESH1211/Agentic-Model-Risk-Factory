@@ -1,0 +1,7 @@
+{
+  "task": "report_summary_try1",
+  "model": "gpt-4o-mini",
+  "data": {
+    "summary": "The independent validation report for CR-001 Retail PD Scorecard has concluded that the model is not fit for use. The check results indicate that the following inputs have a red status: `status.of.existing.checking.account`, `credit.history`, `purpose`, `savings.account.and.bonds`, and `installment.rate.in.percentage.of.disposable.income`. Additionally, `present.employment.since` and `age_band` received an amber status, while `sex` and the monotonicity of score with respect to bad rate passed. Key findings include a high severity issue regarding instructions aimed at AI reviewers and a medium severity issue related to hardcoded decision thresholds."
+  }
+}

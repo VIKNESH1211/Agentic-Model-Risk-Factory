@@ -14,7 +14,7 @@ export default function ReportPage() {
   const { id } = useParams<{ id: string }>();
   const q = useQuery({ queryKey: ["report", id], queryFn: () => get(`/api/reports/${id}`), retry: false });
   const diff = useQuery({ queryKey: ["report-diff", id], queryFn: () => get(`/api/reports/${id}/diff`), enabled: !!q.data });
-  if (q.isError) return <div className="space-y-4 max-w-[1600px] mx-auto"><ModelPicker current={id} hrefFor={(m) => `/reports/${m}`} /><Panel><Empty title={`No validation report for ${id} yet`} action={<Link className="btn btn-primary" href="/">Open the pipeline →</Link>}>Promote the model to Validate; the report is drafted at the end of that stage.</Empty></Panel></div>;
+  if (q.isError) return <div className="space-y-4 max-w-[1600px] mx-auto"><ModelPicker current={id} hrefFor={(m) => `/reports/${m}`} /><Panel><Empty title={`No validation report for ${id} yet`} action={<Link className="btn btn-primary" href="/reports">All reports →</Link>}>The report is drafted at the end of the validation stage.</Empty></Panel></div>;
   const d = q.data;
   if (!d) return <div className="text-muted">Loading…</div>;
   const toks = d.tokens as Record<string, any>;
@@ -57,7 +57,7 @@ export default function ReportPage() {
       </Panel>
       <div className="space-y-5">
         <Panel title="How to read this report">
-          <ul className="text-[15px] space-y-2 text-[#d6daea]">
+          <ul className="text-[15px] space-y-2 text-slate-700">
             <li><span className="pill">0.612</span> Every figure is a pill: click it for the definition, run, data and code hashes, the function that computed it, and <b>Reproduce</b>.</li>
             <li>The language model drafted prose with tokens only; a checker rejects any raw number before the report is stored.</li>
             <li>Pass/fail comes from fixed thresholds, not the model.</li>
@@ -80,9 +80,26 @@ export default function ReportPage() {
             )}
           </Panel>
         )}
+        {d.checks && (
+          <Panel title={`Plan checks · ${d.checks.summary.rating}`}>
+            <div className="flex gap-3 text-sm mb-3">
+              <span className="text-pass">{d.checks.summary.counts.pass} pass</span><span className="text-warn">{d.checks.summary.counts.amber} amber</span>
+              <span className="text-fail">{d.checks.summary.counts.red} red</span><span className="text-muted">{d.checks.summary.counts.info} info</span>
+            </div>
+            <ul className="space-y-1.5 text-[13px] max-h-[380px] overflow-y-auto scroll-thin pr-1">
+              {d.checks.results.filter((r: any) => r.status !== "pass").concat(d.checks.results.filter((r: any) => r.status === "pass")).map((r: any) => (
+                <li key={r.metric_name} className="flex items-center gap-2">
+                  <span className={r.status === "red" ? "text-fail" : r.status === "amber" ? "text-warn" : r.status === "pass" ? "text-pass" : "text-muted"}>●</span>
+                  <span className="flex-1 truncate" title={r.title}>{r.title}</span><Ev token={r.token} />
+                </li>
+              ))}
+            </ul>
+            <Link className="text-xs text-teal hover:underline mt-3 inline-block" href={`/models/${d.report.model_id}?tab=validation`}>Validation plan that defined these checks →</Link>
+          </Panel>
+        )}
         <Panel title="Run">
           <div className="text-sm space-y-1">
-            <div><span className="text-muted">Run</span> <span className="mono">{d.run?.id}</span> · {d.run?.kind}</div>
+            <div><span className="text-muted">Run</span> <Link className="mono text-teal" href={`/agents?run=${d.run?.id}`}>{d.run?.id}</Link> · {d.run?.kind}</div>
             <div><span className="text-muted">Status</span> {d.run?.status}</div>
             <div><span className="text-muted">Model</span> <Link className="mono text-teal" href={`/models/${d.report.model_id}`}>{d.report.model_id}</Link></div>
           </div>

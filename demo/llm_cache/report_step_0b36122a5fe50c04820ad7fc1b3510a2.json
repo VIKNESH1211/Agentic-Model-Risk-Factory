@@ -1,0 +1,15 @@
+{
+  "task": "report_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The report has been successfully drafted with no violations, and the summary has passed the unsourced-number checker. I will now finish the process and recommend promoting the model.",
+    "action": "finish",
+    "args": {},
+    "summary": "The validation report for legacy model CR-002 has been completed successfully, with all metrics traceable and compliant.",
+    "recommendation": "promote",
+    "reasons": [
+      "The report is complete and adheres to all validation requirements.",
+      "No violations were found during the report drafting process."
+    ]
+  }
+}

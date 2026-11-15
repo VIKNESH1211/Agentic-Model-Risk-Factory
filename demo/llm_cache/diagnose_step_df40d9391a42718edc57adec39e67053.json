@@ -1,0 +1,11 @@
+{
+  "task": "diagnose_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The input drift analysis indicates a significant shift in the 'installment.rate.in.percentage.of.disposable.income' column with a PSI of 10.8562, which is a critical concern. I will now check the data quality to further assess the impact of this drift.",
+    "action": "call",
+    "tool": "data_quality",
+    "args": {},
+    "reasons": []
+  }
+}

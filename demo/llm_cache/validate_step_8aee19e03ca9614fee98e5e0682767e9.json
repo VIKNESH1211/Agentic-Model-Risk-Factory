@@ -1,0 +1,14 @@
+{
+  "task": "validate_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The validation plan is missing, which is preventing the execution of the run_plan tool. I will need to address this issue before proceeding further with the validation process.",
+    "action": "finish",
+    "args": {},
+    "summary": "The model CR-003 has been scored, but the validation plan is not available for further checks.",
+    "recommendation": "hold",
+    "reasons": [
+      "Validation plan is required to proceed with the validation process."
+    ]
+  }
+}

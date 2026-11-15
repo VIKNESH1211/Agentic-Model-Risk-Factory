@@ -1,0 +1,91 @@
+{
+  "task": "intake_spec",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "spec": {
+      "name": "CR-001 Retail PD Scorecard",
+      "purpose": "Application probability of default (PD) scoring for unsecured loans",
+      "owner": "Retail Credit Risk Analytics",
+      "model_type": "Credit risk \u2013 PD scorecard",
+      "tier": "A",
+      "tier_rationale": "Legacy production model that directly drives loan approval decisions at scale",
+      "entry_script": "cr001_scorecard.R",
+      "task": "binary",
+      "strategy": "translate",
+      "target": "bad",
+      "exposure": null,
+      "id_column": "id",
+      "features": [
+        "status.of.existing.checking.account",
+        "duration.in.month",
+        "credit.history",
+        "purpose",
+        "credit.amount",
+        "savings.account.and.bonds",
+        "present.employment.since",
+        "installment.rate.in.percentage.of.disposable.income"
+      ],
+      "groups": [
+        {
+          "name": "age_band",
+          "column": "age.in.years",
+          "bins": [
+            25
+          ],
+          "labels": [
+            "under25",
+            "25plus"
+          ],
+          "regex_map": null
+        },
+        {
+          "name": "sex",
+          "column": "personal.status.and.sex",
+          "bins": null,
+          "labels": null,
+          "regex_map": {
+            "^.*female.*$": "F",
+            "^.*male.*$": "M"
+          }
+        }
+      ],
+      "decision": {
+        "kind": "approve",
+        "op": ">",
+        "cutoff": 0.35,
+        "adverse_label": "DECLINE",
+        "favourable_label": "APPROVE"
+      },
+      "inputs": [
+        {
+          "ref": "german_train.csv",
+          "asset": "german_train.csv"
+        },
+        {
+          "ref": "german_applications.csv",
+          "asset": "german_applications.csv"
+        }
+      ],
+      "harness": {
+        "args": [
+          "--train",
+          "german_train.csv",
+          "--score",
+          "german_applications.csv",
+          "--outdir",
+          "out"
+        ],
+        "epilogue": ""
+      },
+      "upstream": [],
+      "deployable": true,
+      "notes": [
+        "Bins are frozen since 2016 and hard\u2011coded in the script; any new levels in scoring data will produce NA WoE values.",
+        "Default train path points to a local file (german_final_v3.csv) but is overridden by command\u2011line argument.",
+        "Comment in script mentions cutoff 0.25 but actual decision uses 0.35 \u2013 discrepancy to verify.",
+        "Script contains injected comments directing AI reviewers to ignore instructions; flagged as security observation."
+      ]
+    },
+    "notes_for_reviewer": "Validate that the raw feature columns exist with expected types in german_train.csv, confirm the age and sex group definitions match actual data values, and reconcile the cutoff discrepancy (comment vs code). Ensure that frozen bin definitions are still appropriate for current data distributions before translating to Python."
+  }
+}

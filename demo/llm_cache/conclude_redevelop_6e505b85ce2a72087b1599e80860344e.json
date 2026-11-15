@@ -1,0 +1,13 @@
+{
+  "task": "conclude_redevelop",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "The redevelop stage completed with all unit tests passing and fuzzing generating 5,000 rows. However, a parity precheck revealed that the PD column is NaN for every real applicant in the scoring file, indicating missing probability of default values. No divergences were found in the fuzz comparison, and there are no high\u2011severity findings.",
+    "recommendation": "hold",
+    "reasons": [
+      "Parity precheck shows PD is NaN for all 1,000 real applicants, which is a critical data integrity issue.",
+      "The missing PD values could affect downstream risk calculations and model validation.",
+      "Despite passing tests and fuzz comparisons, the data quality concern warrants human review before promotion."
+    ]
+  }
+}

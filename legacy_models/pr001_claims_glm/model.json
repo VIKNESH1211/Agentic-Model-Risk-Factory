@@ -1,0 +1,2 @@
+{"id": "PR-001", "owner": "Pricing Analytics",
+ "description": "Motor claims-frequency GLM feeding the rating table (quarterly). Uses the insuranceData::dataCar dataset."}

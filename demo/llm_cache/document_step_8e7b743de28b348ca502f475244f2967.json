@@ -1,0 +1,17 @@
+{
+  "task": "document_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The validation plan has been successfully drafted, and now I will proceed to create the monitoring plan for model CR-002.",
+    "action": "call",
+    "tool": "draft_monitoring_plan",
+    "args": {
+      "instructions": "Propose KPIs, alert rules, dashboard panels and drift scenarios for model CR-002."
+    },
+    "summary": "The monitoring plan will ensure ongoing oversight and performance tracking of the model.",
+    "recommendation": "hold",
+    "reasons": [
+      "Monitoring processes are not documented, which is critical for ongoing model governance."
+    ]
+  }
+}

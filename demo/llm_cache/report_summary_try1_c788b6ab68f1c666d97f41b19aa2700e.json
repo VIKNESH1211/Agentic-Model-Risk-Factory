@@ -1,0 +1,7 @@
+{
+  "task": "report_summary_try1",
+  "model": "gpt-4o-mini",
+  "data": {
+    "summary": "The independent validation report for CR-001 (CR-001 Retail PD Scorecard) has concluded with an overall rating of Not fit for use. Key findings include significant issues with input stability, specifically the red status for `status.of.existing.checking.account`, `credit.history`, `purpose`, and `savings.account.and.bonds`. Additionally, the `present.employment.since` variable received an amber status, indicating potential concerns. The report also highlights a medium severity finding regarding a hardcoded decision threshold and a high severity finding related to instructions aimed at AI reviewers."
+  }
+}

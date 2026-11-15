@@ -1,0 +1,166 @@
+{
+  "task": "validation_plan",
+  "model": "gpt-4o-mini",
+  "data": {
+    "plan": {
+      "checks": [
+        {
+          "id": "performance.gini_test",
+          "title": "Discrimination (Gini) on test",
+          "category": "performance",
+          "metric": "gini",
+          "params": {
+            "target": "occurred",
+            "score": "score",
+            "split": "test"
+          },
+          "expand": null,
+          "threshold": {
+            "op": "<",
+            "amber": 0.15,
+            "red": 0.05
+          },
+          "severity": "high",
+          "rationale": "A model that cannot rank risk is unfit for decisions."
+        },
+        {
+          "id": "performance.gini_oot",
+          "title": "Discrimination (Gini) on oot",
+          "category": "performance",
+          "metric": "gini",
+          "params": {
+            "target": "occurred",
+            "score": "score",
+            "split": "oot"
+          },
+          "expand": null,
+          "threshold": {
+            "op": "<",
+            "amber": 0.15,
+            "red": 0.05
+          },
+          "severity": "high",
+          "rationale": "A model that cannot rank risk is unfit for decisions."
+        },
+        {
+          "id": "calibration.ae_holdout",
+          "title": "Actual vs expected claims",
+          "category": "calibration",
+          "metric": "ae_ratio",
+          "params": {
+            "target": "numclaims",
+            "score": "score",
+            "exposure": "exposure",
+            "split": "test|oot"
+          },
+          "expand": null,
+          "threshold": {
+            "op": ">",
+            "amber": 1.15,
+            "red": 1.3
+          },
+          "severity": "medium",
+          "rationale": "Ensures predictions align with actual outcomes."
+        },
+        {
+          "id": "stability.score_psi",
+          "title": "Score stability train \u2192 oot (PSI)",
+          "category": "stability",
+          "metric": "psi",
+          "params": {
+            "col": "score",
+            "base": "train",
+            "comp": "oot"
+          },
+          "expand": null,
+          "threshold": {
+            "op": ">",
+            "amber": 0.1,
+            "red": 0.25
+          },
+          "severity": "medium",
+          "rationale": "Monitors stability of score distribution over time."
+        },
+        {
+          "id": "stability.csi",
+          "title": "Input stability train \u2192 oot (CSI)",
+          "category": "stability",
+          "metric": "psi",
+          "params": {
+            "base": "train",
+            "comp": "oot"
+          },
+          "expand": "features",
+          "threshold": {
+            "op": ">",
+            "amber": 0.1,
+            "red": 0.25
+          },
+          "severity": "low",
+          "rationale": "Assesses stability of input features over time."
+        },
+        {
+          "id": "data_quality.missing",
+          "title": "Rows with a missing model input",
+          "category": "data_quality",
+          "metric": "rate_true",
+          "params": {
+            "col": "missing_any",
+            "split": "test|oot"
+          },
+          "expand": null,
+          "threshold": {
+            "op": ">",
+            "amber": 0.02,
+            "red": 0.1
+          },
+          "severity": "medium",
+          "rationale": "Ensures data quality by monitoring missing inputs."
+        },
+        {
+          "id": "fairness.dp_diff",
+          "title": "Demographic parity difference in approval rate",
+          "category": "fairness",
+          "metric": "dp_diff",
+          "params": {
+            "group": "agecat",
+            "approve": "approve",
+            "split": "test|oot"
+          },
+          "expand": null,
+          "threshold": {
+            "op": "<",
+            "amber": 0.1,
+            "red": 0.2
+          },
+          "severity": "high",
+          "rationale": "Checks for fairness in approval rates across groups."
+        },
+        {
+          "id": "policy.adverse_decisions",
+          "title": "Share of adverse decisions",
+          "category": "policy",
+          "metric": "rate_true",
+          "params": {
+            "col": "flag",
+            "split": "test|oot"
+          },
+          "expand": null,
+          "threshold": {
+            "op": ">",
+            "amber": 0.2,
+            "red": 0.3
+          },
+          "severity": "high",
+          "rationale": "Monitors the rate of adverse decisions made by the model."
+        }
+      ],
+      "investigations": [
+        "slice_search",
+        "stress_test"
+      ],
+      "rationale": "The validation plan covers essential performance, calibration, stability, fairness, data quality, and policy checks for the PR-001 model."
+    },
+    "summary": "The validation plan for model PR-001 includes checks for performance, calibration, stability, fairness, and data quality, ensuring comprehensive assessment. It incorporates industry-standard thresholds to evaluate model effectiveness and compliance."
+  }
+}

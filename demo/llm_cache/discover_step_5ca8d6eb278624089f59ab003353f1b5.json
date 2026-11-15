@@ -1,0 +1,16 @@
+{
+  "task": "discover_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The specification for model CR-002 has been successfully drafted, including all required elements. The next step is to finalize the process and determine if the model is ready for promotion or if further review is needed.",
+    "action": "finish",
+    "tool": "none",
+    "args": {},
+    "summary": "Drafted a complete specification for model CR-002, ready for review.",
+    "recommendation": "promote",
+    "reasons": [
+      "Specification includes all necessary components: task, inputs, target, features, fairness groups, decision rule, tier, and strategy.",
+      "No errors were found in the draft process."
+    ]
+  }
+}

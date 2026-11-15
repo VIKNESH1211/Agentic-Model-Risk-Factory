@@ -1,0 +1,11 @@
+{
+  "task": "diagnose_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The alert indicates a significant shift in input characteristics, specifically related to the worst CSI metric. I will now check for input drift to understand how the inputs have changed since the last validation.",
+    "action": "call",
+    "tool": "input_drift",
+    "args": {},
+    "reasons": []
+  }
+}

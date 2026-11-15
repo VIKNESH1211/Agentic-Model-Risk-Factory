@@ -1,0 +1,10 @@
+{
+  "task": "redevelop_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "We need to export the legacy model bundle by running the R script with the epilogue.",
+    "action": "call",
+    "tool": "run_export",
+    "args": {}
+  }
+}

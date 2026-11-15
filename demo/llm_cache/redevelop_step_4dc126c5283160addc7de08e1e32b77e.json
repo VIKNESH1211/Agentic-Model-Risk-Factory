@@ -1,0 +1,12 @@
+{
+  "task": "redevelop_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "Parity failed because the export lacks train_rows.csv, causing the model to be fitted on all rows; we need to redraft the R epilogue to write the training row IDs.",
+    "action": "call",
+    "tool": "draft_export",
+    "args": {
+      "instructions": "Update the R epilogue to record and export the training row identifiers (train_rows.csv) used during model fitting, ensuring the same subset as the legacy model is captured. The epilogue should load the legacy model, apply it to the sandbox data, and save the standard bundle including data frame, scores, decisions, coefficients, and the new train_rows.csv file."
+    }
+  }
+}

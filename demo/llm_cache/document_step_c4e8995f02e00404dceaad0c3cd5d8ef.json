@@ -1,0 +1,10 @@
+{
+  "task": "document_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "First, apply the policy library to the script to identify any policy violations before drafting documentation.",
+    "action": "call",
+    "tool": "check_policies",
+    "args": {}
+  }
+}

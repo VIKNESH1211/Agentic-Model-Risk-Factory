@@ -17,7 +17,7 @@ export function FindingRow({ f }: { f: any }) {
             {(f.evidence?.tokens || []).map((t: string) => <Ev key={t} token={t} />)}
             {f.evidence?.line && <span className="mono text-xs text-muted">{f.evidence.file}:{f.evidence.line}</span>}
           </div>
-          {f.evidence?.code && <pre className="mono text-[12.5px] mt-2 bg-black/30 border border-line rounded-md px-3 py-2 overflow-x-auto scroll-thin text-warn/90">{f.evidence.code}</pre>}
+          {f.evidence?.code && <pre className="mono text-[12.5px] mt-2 bg-slate-50 border border-line rounded-md px-3 py-2 overflow-x-auto scroll-thin text-warn/90">{f.evidence.code}</pre>}
         </div>
       </div>
     </div>

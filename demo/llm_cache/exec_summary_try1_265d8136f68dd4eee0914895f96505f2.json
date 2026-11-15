@@ -1,0 +1,7 @@
+{
+  "task": "exec_summary_try1",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "summary": "The validation confirms that out\u2011of\u2011time Gini is higher than the test sample as indicated by {{m:run_352940:gini.oot}}. Calibration on the holdout set is within tolerance according to {{m:run_352940:calibration_ratio.holdout}}. The population score stability is demonstrated by a PSI below the amber threshold, referenced by {{m:run_352940:psi.score.oot}}. Age\u2011band approval ratio complies with the four\u2011fifths rule, reflected by {{m:run_352940:di_ratio.age_band}}. The expected\u2011loss gap is negative, indicating a conservative over\u2011prediction of risk as shown by {{m:run_352940:el_gap.holdout}}; the overall rating is Requires remediation before continued use. High severity findings count is {{m:run_352940:findings.high}}, medium severity findings count is {{m:run_352940:findings.medium}}, total findings count is {{m:run_352940:findings.total}}."
+  }
+}

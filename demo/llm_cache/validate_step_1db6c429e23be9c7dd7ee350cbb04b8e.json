@@ -1,0 +1,20 @@
+{
+  "task": "validate_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The slice search revealed segments with significantly lower Gini scores, indicating potential weaknesses in model performance across specific groups. Additionally, the fuzz testing identified a high number of no-decisions, suggesting robustness issues with unseen or missing data.",
+    "action": "call",
+    "tool": "raise_finding",
+    "args": {
+      "severity": "high",
+      "category": "performance",
+      "title": "Weak Gini in Key Segments",
+      "detail": "The model exhibits poor performance in segments such as purpose=furniture/equipment and age_band=under25, with Gini scores significantly below the overall average. This indicates potential bias or inadequacy in handling these groups.",
+      "tokens": [
+        "m:run_6e5c7f:investigate.gini.purpose=furniture_equipment",
+        "m:run_6e5c7f:investigate.gini.age_band=under25"
+      ]
+    },
+    "reasons": []
+  }
+}

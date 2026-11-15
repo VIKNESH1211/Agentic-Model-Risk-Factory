@@ -1,0 +1,16 @@
+{
+  "task": "redevelop_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The export was successful, but the candidate translation is missing, so I need to draft the Python translation for the model.",
+    "action": "call",
+    "tool": "draft_translation",
+    "args": {
+      "instructions": "Write the Python translation (LegacyModel) for the CR-001 model, ensuring it replicates the behavior of the legacy model."
+    },
+    "recommendation": "hold",
+    "reasons": [
+      "The candidate translation is required before proceeding to check parity."
+    ]
+  }
+}

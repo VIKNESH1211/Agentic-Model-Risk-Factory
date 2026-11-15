@@ -4,3 +4,4 @@ frontend/node_modules/
 frontend/.next/
 var/
 .env
+var_v2_backup/

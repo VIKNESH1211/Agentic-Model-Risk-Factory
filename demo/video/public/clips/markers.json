@@ -1,0 +1,366 @@
+{
+  "s01_floor": {
+    "duration": 15.9,
+    "marks": {
+      "open": 1.682,
+      "start_cr001": 5.964,
+      "start_cr002": 8.832
+    }
+  },
+  "s02_intake": {
+    "duration": 31,
+    "marks": {
+      "open": 1.666,
+      "stage": 4.38,
+      "tool_read_script": 11.181,
+      "tool_probe_legacy": 17.416,
+      "tool_draft_spec": 23.598,
+      "done": 29.019
+    }
+  },
+  "s06_document": {
+    "duration": 18.5,
+    "marks": {
+      "open": 1.623,
+      "stage": 4.304,
+      "tool_draft_monitoring_plan": 11.073,
+      "done": 16.495
+    }
+  },
+  "s08_graph": {
+    "duration": 26.5,
+    "marks": {
+      "open": 1.637,
+      "select_cr001": 4.902,
+      "edit": 9.202,
+      "pick_up": 10.76,
+      "added": 16.852,
+      "select_cr002": 23.451
+    }
+  },
+  "s09_redevelop": {
+    "duration": 37.1,
+    "marks": {
+      "open": 1.636,
+      "stage": 4.313,
+      "tool_run_export": 11.084,
+      "tool_draft_translation": 17.27,
+      "tool_check_parity": 23.469,
+      "tool_certify": 29.668,
+      "done": 35.074
+    }
+  },
+  "s10_parity": {
+    "duration": 23.4,
+    "marks": {
+      "open": 1.634
+    }
+  },
+  "s11_gate3_approvals": {
+    "duration": 12.8,
+    "marks": {
+      "open": 1.637,
+      "approve": 9.752
+    }
+  },
+  "s12_rehost": {
+    "duration": 20.9,
+    "marks": {
+      "open": 1.637,
+      "search": 4.336,
+      "parity": 10.406,
+      "overview": 16.939
+    }
+  },
+  "x_blocked_trace": {
+    "duration": 13.6,
+    "marks": {
+      "open": 1.661,
+      "errors": 4.807,
+      "hold": 10.124
+    }
+  },
+  "x_blocked_gate": {
+    "duration": 10.2,
+    "marks": {
+      "open": 1.64,
+      "blocked": 7.156
+    }
+  },
+  "s03_gate1_review": {
+    "duration": 23.4,
+    "marks": {
+      "open": 1.643,
+      "open_spec": 4.91,
+      "back_overview": 13.177,
+      "approve": 20.911
+    }
+  },
+  "s07_gate2_sendback": {
+    "duration": 28.2,
+    "marks": {
+      "open": 1.653,
+      "monitoring_plan": 8.336,
+      "back_overview": 17.37,
+      "sendback": 25.703
+    }
+  },
+  "s07b_doc_redraft": {
+    "duration": 19.5,
+    "marks": {
+      "open": 1.635,
+      "filtered": 5.673,
+      "tool_draft_monitoring_plan": 12.119,
+      "done": 17.526
+    }
+  },
+  "s07c_gate2_approve": {
+    "duration": 19.7,
+    "marks": {
+      "open": 1.684,
+      "approve": 17.182
+    }
+  },
+  "s13_validate": {
+    "duration": 30.9,
+    "marks": {
+      "open": 1.638,
+      "stage": 4.33,
+      "tool_slice_search": 11.072,
+      "tool_challenger": 17.254,
+      "tool_fuzz": 23.454,
+      "done": 28.861
+    }
+  },
+  "s14_report": {
+    "duration": 20.6,
+    "marks": {
+      "open": 1.654,
+      "pill": 10.303,
+      "reproduce": 14.602
+    }
+  },
+  "s15_gate4_deploy": {
+    "duration": 23.5,
+    "marks": {
+      "open": 1.651,
+      "approve": 8.919,
+      "deployed": 12.979,
+      "monitor_trace": 14.522
+    }
+  },
+  "s16_monitor": {
+    "duration": 64.3,
+    "marks": {
+      "open": 1.648,
+      "rows": 12.353,
+      "pick_scenario": 23.765,
+      "ramp": 25.482,
+      "watch": 27.03,
+      "red": 51.286,
+      "alerts": 57.329
+    }
+  },
+  "s17_diagnose": {
+    "duration": 31.2,
+    "marks": {
+      "open": 1.645,
+      "stage": 4.318,
+      "tool_data_quality": 11.063,
+      "tool_score_shift": 17.495,
+      "tool_diagnose": 23.728,
+      "done": 29.151
+    }
+  },
+  "s18_accept": {
+    "duration": 13,
+    "marks": {
+      "open": 1.64,
+      "approve": 9.939
+    }
+  },
+  "s19_governance": {
+    "duration": 17.8,
+    "marks": {
+      "open": 1.641,
+      "verify1": 5.44,
+      "tamper": 9.789,
+      "verify2": 12.623
+    }
+  },
+  "s20_floor_end": {
+    "duration": 8.6,
+    "marks": {
+      "open": 1.638
+    }
+  },
+  "v_floor_start": {
+    "duration": 28.3,
+    "marks": {
+      "open": 1.802,
+      "start_all": 6.083,
+      "gates": 18.264,
+      "approve_card": 24.252
+    }
+  },
+  "v_approvals": {
+    "duration": 22.9,
+    "marks": {
+      "open": 1.672,
+      "read": 7.406,
+      "comment": 8.172,
+      "approve_one": 12.505,
+      "select_all": 15.805,
+      "approve_bulk": 19.354
+    }
+  },
+  "v_floor_docs": {
+    "duration": 10.7,
+    "marks": {
+      "open": 1.666
+    }
+  },
+  "v_floor_plans": {
+    "duration": 7.7,
+    "marks": {
+      "open": 1.697
+    }
+  },
+  "v_kpi_edit": {
+    "duration": 407.9,
+    "marks": {
+      "open": 1.746,
+      "agent_note": 375.152,
+      "rules": 377.994,
+      "panels": 381.729,
+      "add_panel": 382.495,
+      "rename": 384.227,
+      "save": 391.636,
+      "pick_draft": 394.419,
+      "approve_plan": 396.713,
+      "dashboard": 400.828,
+      "new_panel": 403.879
+    }
+  },
+  "v_monitor": {
+    "duration": 1351.1,
+    "marks": {
+      "open": 1.677,
+      "rows": 999.78,
+      "pick_scenario": 1003.393,
+      "ramp": 1004.416,
+      "watch": 1005.679,
+      "red": 1181.821,
+      "alerts": 1345.074
+    }
+  },
+  "v_floor_end": {
+    "duration": 73.5,
+    "marks": {
+      "open": 1.68
+    }
+  },
+  "v_workbench": {
+    "duration": 388.5,
+    "marks": {
+      "open": 1.654,
+      "tab_spec": 5.422,
+      "tab_contract": 13.139,
+      "tab_documentation": 20.873,
+      "tab_validation": 28.609,
+      "tab_monitoring": 36.34,
+      "tab_findings": 376.652,
+      "tab_runs": 384.388
+    }
+  },
+  "v_parity": {
+    "duration": 19.2,
+    "marks": {
+      "open": 1.699,
+      "charts": 9.972,
+      "coef": 16.724
+    }
+  },
+  "v_rehost": {
+    "duration": 238.4,
+    "marks": {
+      "open": 1.641,
+      "overview": 8.186
+    }
+  },
+  "v_graph": {
+    "duration": 12.8,
+    "marks": {
+      "open": 1.729,
+      "select_cr001": 4.998,
+      "select_cr003": 10.301
+    }
+  },
+  "v_trace_intake": {
+    "duration": 96,
+    "marks": {
+      "open": 1.691,
+      "stage": 4.34,
+      "tool_read_script": 11.46,
+      "tool_probe_legacy": 82.317,
+      "tool_draft_spec": 88.587,
+      "done": 94.029
+    }
+  },
+  "v_trace_document": {
+    "duration": 235.2,
+    "marks": {
+      "open": 1.652,
+      "stage": 4.334,
+      "tool_draft_monitoring_plan": 11.102,
+      "done": 233.158
+    }
+  },
+  "v_trace_redevelop": {
+    "duration": 352.6,
+    "marks": {
+      "open": 1.694,
+      "stage": 4.376,
+      "tool_draft_translation": 11.143,
+      "tool_check_parity": 338.994,
+      "tool_certify": 345.192,
+      "done": 350.621
+    }
+  },
+  "v_trace_validate": {
+    "duration": 31.1,
+    "marks": {
+      "open": 1.63,
+      "stage": 4.326,
+      "tool_slice_search": 11.137,
+      "tool_challenger": 17.422,
+      "tool_fuzz": 23.644,
+      "done": 29.051
+    }
+  },
+  "v_trace_diagnose": {
+    "duration": 162.2,
+    "marks": {
+      "open": 133.027,
+      "stage": 135.665,
+      "tool_data_quality": 142.401,
+      "tool_score_shift": 148.587,
+      "tool_diagnose": 154.802,
+      "done": 160.241
+    }
+  },
+  "v_governance": {
+    "duration": 41.9,
+    "marks": {
+      "open": 1.659,
+      "coverage": 5.161,
+      "injection": 11.375,
+      "inject": 12.16,
+      "injection_result": 14.559,
+      "ledger": 19.625,
+      "verify1": 20.408,
+      "tamper": 28.309,
+      "verify2": 31.157
+    }
+  }
+}

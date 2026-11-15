@@ -1,0 +1,220 @@
+{
+  "task": "monitoring_plan",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "plan": {
+      "kpis": [
+        "requests",
+        "rpm",
+        "latency_p50_ms",
+        "latency_p95_ms",
+        "error_rate",
+        "no_decision_rate",
+        "mean_score",
+        "adverse_rate",
+        "score_psi",
+        "worst_csi",
+        "realized_rate",
+        "predicted_rate",
+        "ae_ratio",
+        "realized_gini",
+        "realized_recall"
+      ],
+      "rules": [
+        {
+          "id": "score_psi_amber",
+          "kpi": "score_psi",
+          "op": ">",
+          "threshold": 0.1,
+          "windows": 3,
+          "severity": "amber",
+          "action": "notify",
+          "rationale": ""
+        },
+        {
+          "id": "score_psi_red",
+          "kpi": "score_psi",
+          "op": ">",
+          "threshold": 0.25,
+          "windows": 3,
+          "severity": "red",
+          "action": "revalidate",
+          "rationale": ""
+        },
+        {
+          "id": "input_csi_red",
+          "kpi": "worst_csi",
+          "op": ">",
+          "threshold": 0.25,
+          "windows": 3,
+          "severity": "red",
+          "action": "revalidate",
+          "rationale": ""
+        },
+        {
+          "id": "errors",
+          "kpi": "error_rate",
+          "op": ">",
+          "threshold": 0.01,
+          "windows": 2,
+          "severity": "amber",
+          "action": "notify",
+          "rationale": ""
+        },
+        {
+          "id": "no_decision",
+          "kpi": "no_decision_rate",
+          "op": ">",
+          "threshold": 0.02,
+          "windows": 2,
+          "severity": "amber",
+          "action": "notify",
+          "rationale": ""
+        },
+        {
+          "id": "latency",
+          "kpi": "latency_p95_ms",
+          "op": ">",
+          "threshold": 150.0,
+          "windows": 3,
+          "severity": "amber",
+          "action": "notify",
+          "rationale": ""
+        },
+        {
+          "id": "ae_high",
+          "kpi": "ae_ratio",
+          "op": ">",
+          "threshold": 1.25,
+          "windows": 3,
+          "severity": "red",
+          "action": "revalidate",
+          "rationale": ""
+        },
+        {
+          "id": "ae_low",
+          "kpi": "ae_ratio",
+          "op": "<",
+          "threshold": 0.8,
+          "windows": 3,
+          "severity": "red",
+          "action": "revalidate",
+          "rationale": ""
+        }
+      ],
+      "panels": [
+        {
+          "id": "volume",
+          "title": "Volume & Latency",
+          "kind": "area",
+          "kpis": [
+            "rpm",
+            "latency_p95_ms"
+          ],
+          "unit": ""
+        },
+        {
+          "id": "stability",
+          "title": "Stability (PSI/CSI)",
+          "kind": "line",
+          "kpis": [
+            "score_psi",
+            "worst_csi"
+          ],
+          "unit": ""
+        },
+        {
+          "id": "quality",
+          "title": "Errors & No\u2011Decision",
+          "kind": "bar",
+          "kpis": [
+            "error_rate",
+            "no_decision_rate"
+          ],
+          "unit": ""
+        },
+        {
+          "id": "decisions",
+          "title": "Mean Score & Adverse Rate",
+          "kind": "line",
+          "kpis": [
+            "mean_score",
+            "adverse_rate"
+          ],
+          "unit": ""
+        },
+        {
+          "id": "outcomes",
+          "title": "Actual vs Expected",
+          "kind": "line",
+          "kpis": [
+            "realized_rate",
+            "predicted_rate",
+            "ae_ratio"
+          ],
+          "unit": ""
+        },
+        {
+          "id": "calibration",
+          "title": "Model Calibration",
+          "kind": "stat",
+          "kpis": [
+            "realized_gini",
+            "realized_recall"
+          ],
+          "unit": ""
+        }
+      ],
+      "scenarios": [
+        {
+          "id": "cost_of_living",
+          "title": "Cost\u2011of\u2011Living Squeeze",
+          "description": "",
+          "transforms": [
+            {
+              "op": "shift",
+              "column": "credit.amount",
+              "value": 0.1,
+              "fraction": 0.3
+            },
+            {
+              "op": "shift",
+              "column": "installment.rate.in.percentage.of.disposable.income",
+              "value": 0.05,
+              "fraction": 0.3
+            }
+          ]
+        },
+        {
+          "id": "young_driver_mix",
+          "title": "Shift to Younger Applicants",
+          "description": "",
+          "transforms": [
+            {
+              "op": "set_category",
+              "column": "age_band",
+              "value": "under25",
+              "fraction": 0.2
+            }
+          ]
+        },
+        {
+          "id": "data_quality_issue",
+          "title": "Missing Savings Data",
+          "description": "",
+          "transforms": [
+            {
+              "op": "null_rate",
+              "column": "savings.account.and.bonds",
+              "value": 0,
+              "fraction": 0.15
+            }
+          ]
+        }
+      ],
+      "rpm": 240,
+      "rationale": "Monitoring plan aligns with tier\u2011A credit\u2011risk governance, adds calibration KPIs and realistic drift scenarios, and flags hard\u2011coded threshold and WoE\u2011NA risks."
+    },
+    "summary": "The plan adds calibration metrics, concrete drift scenarios, and alerts while noting the hard\u2011coded cutoff discrepancy and the injected AI\u2011ignore comment as a security observation. It provides owners with actionable panels and remediation triggers for CR\u2011001."
+  }
+}

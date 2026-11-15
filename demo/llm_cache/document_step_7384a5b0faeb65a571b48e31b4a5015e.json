@@ -1,0 +1,17 @@
+{
+  "task": "document_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The documentation and validation plan for model CR-003 have been successfully completed. Now, I will proceed to draft the monitoring plan to ensure ongoing oversight of the model's performance.",
+    "action": "call",
+    "tool": "draft_monitoring_plan",
+    "args": {
+      "instructions": "Propose a monitoring plan for model CR-003 Credit Limit Assignment, covering KPIs, alert rules, dashboard panels, and drift scenarios relevant to its task, tier, decision rule, and risks."
+    },
+    "summary": "The monitoring plan will provide a framework for tracking the model's performance and identifying potential issues.",
+    "recommendation": "hold",
+    "reasons": [
+      "Monitoring plan needs to be completed before finalizing the review."
+    ]
+  }
+}

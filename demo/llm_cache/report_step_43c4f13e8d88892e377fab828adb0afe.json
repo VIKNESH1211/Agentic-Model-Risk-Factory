@@ -1,0 +1,15 @@
+{
+  "task": "report_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The report is not passing the unsourced-number checker, indicating issues with the summary or the use of tokens. I will attempt to write the report again to address these violations.",
+    "action": "call",
+    "tool": "write_report",
+    "args": {},
+    "summary": "",
+    "recommendation": "hold",
+    "reasons": [
+      "The report has unresolved violations that need to be corrected before it can be promoted."
+    ]
+  }
+}

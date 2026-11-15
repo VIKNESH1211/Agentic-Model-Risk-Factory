@@ -1,0 +1,14 @@
+{
+  "task": "validate_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The run plan has produced an amber result for calibration, indicating a potential issue that requires further investigation. I will conduct a slice search to identify segments where the model may be underperforming.",
+    "action": "call",
+    "tool": "slice_search",
+    "args": {},
+    "recommendation": "hold",
+    "reasons": [
+      "Amber result in calibration indicates potential issues that need to be explored further."
+    ]
+  }
+}

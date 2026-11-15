@@ -104,3 +104,14 @@ def roc_points(y, p, n: int = 40) -> list[dict]:
     fpr, tpr, _ = roc_curve(y, p)
     idx = np.unique(np.linspace(0, len(fpr) - 1, min(n, len(fpr))).astype(int))
     return [{"fpr": round(float(fpr[i]), 4), "tpr": round(float(tpr[i]), 4)} for i in idx]
+
+
+def ks_two_sample(expected, actual) -> float:
+    """Two-sample KS distance between two score distributions (0 = identical, 1 = disjoint)."""
+    e = np.sort(np.asarray(expected, dtype=float))
+    a = np.sort(np.asarray(actual, dtype=float))
+    e, a = e[~np.isnan(e)], a[~np.isnan(a)]
+    if not len(e) or not len(a):
+        return float("nan")
+    grid = np.concatenate([e, a])
+    return float(np.max(np.abs(np.searchsorted(e, grid, side="right") / len(e) - np.searchsorted(a, grid, side="right") / len(a))))

@@ -1,0 +1,15 @@
+{
+  "task": "report_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The report has been successfully drafted with no violations and a valid summary. It contains 89 traceable tokens, meeting the requirements for the validation report.",
+    "action": "finish",
+    "args": {},
+    "summary": "The validation report for legacy model CR-002 has been completed with all numbers traceable and the summary passing the unsourced-number checker.",
+    "recommendation": "promote",
+    "reasons": [
+      "The report is compliant with all validation requirements.",
+      "No violations were found in the report."
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "task": "translation_draft",
+  "model": "gpt-4o-mini",
+  "data": {
+    "python_code": "import numpy as np\nimport pandas as pd\nimport statsmodels.api as sm\n\nclass LegacyModel:\n    def __init__(self):\n        self.coefficients = None\n        self.model = None\n\n    def fit(self, frame: pd.DataFrame, train_rows: np.ndarray | None = None) -> \"LegacyModel\":\n        if train_rows is not None:\n            train_data = frame[frame[\".row\"].isin(train_rows)]\n        else:\n            train_data = frame\n\n        train_data[\"logamt\"] = np.log1p(train_data[\"Amount\"])\n\n        # Fit the logistic regression model\n        X = train_data[[\"V1\", \"V3\", \"V4\", \"V10\", \"V12\", \"V14\", \"V17\", \"logamt\"]]\n        y = train_data[\"Class\"]\n        X = sm.add_constant(X, has_constant=\"add\")\n        self.model = sm.GLM(y, X, family=sm.families.Binomial()).fit(tol=1e-12, maxiter=100)\n        self.coefficients = self.model.params\n        self.coefficients.index = [\"(Intercept)\"] + list(self.coefficients.index[1:])  # Rename intercept\n        return self\n\n    def score(self, frame: pd.DataFrame) -> pd.DataFrame:\n        frame[\"logamt\"] = np.log1p(frame[\"Amount\"])\n        X = frame[[\"V1\", \"V3\", \"V4\", \"V10\", \"V12\", \"V14\", \"V17\", \"logamt\"]]\n        X = sm.add_constant(X, has_constant=\"add\")\n        scores = self.model.predict(X)\n        decisions = scores > 0.5\n\n        result = pd.DataFrame({\"score\": scores, \"decision\": decisions})\n        return result\n\n    @property\n    def coef(self) -> pd.Series | None:\n        if self.coefficients is not None:\n            return self.coefficients\n        return None",
+    "notes": [
+      "QUIRK: The model fitting uses a constant added for the intercept, which is renamed to match R's coefficient naming convention."
+    ]
+  }
+}

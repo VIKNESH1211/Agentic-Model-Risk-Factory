@@ -1,0 +1,15 @@
+{
+  "task": "validate_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The model CR-003 cannot proceed to validation as there is no approved validation plan available. This is a critical issue that needs to be addressed before further steps can be taken.",
+    "action": "finish",
+    "args": {},
+    "summary": "Validation cannot be completed due to the absence of an approved validation plan.",
+    "recommendation": "hold",
+    "reasons": [
+      "No validation plan available to execute checks.",
+      "Mandatory steps cannot be completed."
+    ]
+  }
+}

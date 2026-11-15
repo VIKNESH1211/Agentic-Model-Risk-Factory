@@ -1,0 +1,8 @@
+{
+  "task": "epilogue_draft",
+  "model": "gpt-4o-mini",
+  "data": {
+    "r_code": "pd <- as.numeric(predict(fit, newdata = dat, type = 'response'))\ndecision <- ifelse(pd > 0.35, 'DECLINE', 'APPROVE')\nmrf_export(frame = dat, score = pd, decision = decision, coef = coef(fit), train_rows = seq_len(nrow(dat)))",
+    "explanation": "The frame used is 'dat', which contains all the raw inputs as the model saw them. The score is calculated using the entire dataset to ensure it matches the number of rows in 'dat'. The decision is also derived from the same scoring logic. The training rows are specified as all rows in 'dat' since the model was fitted on the entire dataset."
+  }
+}

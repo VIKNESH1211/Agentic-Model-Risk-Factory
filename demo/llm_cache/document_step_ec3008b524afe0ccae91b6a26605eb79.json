@@ -1,0 +1,16 @@
+{
+  "task": "document_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The policy check has revealed several findings that need to be documented. I will now proceed to draft the model documentation based on the evidence available.",
+    "action": "call",
+    "tool": "draft_documentation",
+    "args": {
+      "instructions": "Document the model CR-001 Retail PD Scorecard following the SR 11-7 / SS1/23 structure, incorporating findings from the policy check."
+    },
+    "recommendation": "hold",
+    "reasons": [
+      "Documentation is required to address the findings from the policy check before proceeding."
+    ]
+  }
+}

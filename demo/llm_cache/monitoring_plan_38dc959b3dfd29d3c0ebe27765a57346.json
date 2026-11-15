@@ -1,0 +1,295 @@
+{
+  "task": "monitoring_plan",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "plan": {
+      "kpis": [
+        "rpm",
+        "latency_p95_ms",
+        "score_psi",
+        "worst_csi",
+        "adverse_rate",
+        "mean_score",
+        "error_rate",
+        "no_decision_rate",
+        "realized_rate",
+        "predicted_rate",
+        "ae_ratio",
+        "realized_gini",
+        "realized_recall"
+      ],
+      "rules": [
+        {
+          "id": "r_score_psi_amber",
+          "kpi": "score_psi",
+          "op": ">",
+          "threshold": 0.1,
+          "windows": 2,
+          "severity": "amber",
+          "action": "notify",
+          "rationale": "Early sign of distribution shift"
+        },
+        {
+          "id": "r_score_psi_red",
+          "kpi": "score_psi",
+          "op": ">",
+          "threshold": 0.25,
+          "windows": 3,
+          "severity": "red",
+          "action": "revalidate",
+          "rationale": "Significant drift, model may be invalid"
+        },
+        {
+          "id": "r_worst_csi_amber",
+          "kpi": "worst_csi",
+          "op": ">",
+          "threshold": 0.1,
+          "windows": 2,
+          "severity": "amber",
+          "action": "notify"
+        },
+        {
+          "id": "r_worst_csi_red",
+          "kpi": "worst_csi",
+          "op": ">",
+          "threshold": 0.25,
+          "windows": 3,
+          "severity": "red",
+          "action": "revalidate"
+        },
+        {
+          "id": "r_error_rate_amber",
+          "kpi": "error_rate",
+          "op": ">",
+          "threshold": 0.02,
+          "windows": 2,
+          "severity": "amber",
+          "action": "notify"
+        },
+        {
+          "id": "r_error_rate_red",
+          "kpi": "error_rate",
+          "op": ">",
+          "threshold": 0.05,
+          "windows": 3,
+          "severity": "red",
+          "action": "revalidate"
+        },
+        {
+          "id": "r_no_decision_amber",
+          "kpi": "no_decision_rate",
+          "op": ">",
+          "threshold": 0.01,
+          "windows": 2,
+          "severity": "amber",
+          "action": "notify"
+        },
+        {
+          "id": "r_no_decision_red",
+          "kpi": "no_decision_rate",
+          "op": ">",
+          "threshold": 0.03,
+          "windows": 3,
+          "severity": "red",
+          "action": "revalidate"
+        },
+        {
+          "id": "r_latency_amber",
+          "kpi": "latency_p95_ms",
+          "op": ">",
+          "threshold": 2000,
+          "windows": 2,
+          "severity": "amber",
+          "action": "notify"
+        },
+        {
+          "id": "r_latency_red",
+          "kpi": "latency_p95_ms",
+          "op": ">",
+          "threshold": 5000,
+          "windows": 3,
+          "severity": "red",
+          "action": "revalidate"
+        },
+        {
+          "id": "r_adverse_rate_amber",
+          "kpi": "adverse_rate",
+          "op": ">",
+          "threshold": 0.4,
+          "windows": 2,
+          "severity": "amber",
+          "action": "notify"
+        },
+        {
+          "id": "r_adverse_rate_red",
+          "kpi": "adverse_rate",
+          "op": ">",
+          "threshold": 0.55,
+          "windows": 3,
+          "severity": "red",
+          "action": "revalidate"
+        },
+        {
+          "id": "r_realized_gini_amber",
+          "kpi": "realized_gini",
+          "op": "<",
+          "threshold": 0.45,
+          "windows": 2,
+          "severity": "amber",
+          "action": "notify"
+        },
+        {
+          "id": "r_realized_gini_red",
+          "kpi": "realized_gini",
+          "op": "<",
+          "threshold": 0.3,
+          "windows": 3,
+          "severity": "red",
+          "action": "revalidate"
+        },
+        {
+          "id": "r_realized_recall_amber",
+          "kpi": "realized_recall",
+          "op": "<",
+          "threshold": 0.6,
+          "windows": 2,
+          "severity": "amber",
+          "action": "notify"
+        },
+        {
+          "id": "r_realized_recall_red",
+          "kpi": "realized_recall",
+          "op": "<",
+          "threshold": 0.4,
+          "windows": 3,
+          "severity": "red",
+          "action": "revalidate"
+        }
+      ],
+      "panels": [
+        {
+          "id": "p_volume_latency",
+          "title": "Volume & Latency",
+          "kind": "line",
+          "kpis": [
+            "rpm",
+            "latency_p95_ms"
+          ]
+        },
+        {
+          "id": "p_stability",
+          "title": "Stability Metrics",
+          "kind": "area",
+          "kpis": [
+            "score_psi",
+            "worst_csi"
+          ]
+        },
+        {
+          "id": "p_decisions",
+          "title": "Decision Rates",
+          "kind": "bar",
+          "kpis": [
+            "adverse_rate",
+            "mean_score"
+          ]
+        },
+        {
+          "id": "p_outcomes",
+          "title": "Outcome Metrics",
+          "kind": "stat",
+          "kpis": [
+            "realized_rate",
+            "predicted_rate",
+            "ae_ratio",
+            "realized_gini",
+            "realized_recall"
+          ]
+        },
+        {
+          "id": "p_quality",
+          "title": "Quality Indicators",
+          "kind": "line",
+          "kpis": [
+            "error_rate",
+            "no_decision_rate"
+          ]
+        }
+      ],
+      "scenarios": [
+        {
+          "id": "s_cost_of_living",
+          "title": "Cost\u2011of\u2011living squeeze",
+          "description": "Borrowers take larger loans and extend repayment periods as living costs rise.",
+          "transforms": [
+            {
+              "op": "scale",
+              "column": "credit.amount",
+              "value": 0.2,
+              "fraction": 1.0
+            },
+            {
+              "op": "scale",
+              "column": "duration.in.month",
+              "value": 0.15,
+              "fraction": 1.0
+            }
+          ]
+        },
+        {
+          "id": "s_fraud_pattern",
+          "title": "Emerging fraud pattern",
+          "description": "A new fraud scheme alters reported installment rates and purpose categories.",
+          "transforms": [
+            {
+              "op": "shift",
+              "column": "installment.rate.in.percentage.of.disposable.income",
+              "value": -0.05,
+              "fraction": 0.3
+            },
+            {
+              "op": "set_category",
+              "column": "purpose",
+              "value": "new_fraud",
+              "fraction": 0.1
+            }
+          ]
+        },
+        {
+          "id": "s_young_mix",
+          "title": "Shift to younger borrowers",
+          "description": "Increased share of younger applicants and slight gender balance change.",
+          "transforms": [
+            {
+              "op": "scale",
+              "column": "age.in.years",
+              "value": -0.3,
+              "fraction": 0.25
+            },
+            {
+              "op": "set_category",
+              "column": "personal.status.and.sex",
+              "value": "F",
+              "fraction": 0.2
+            }
+          ]
+        },
+        {
+          "id": "s_missing_checking",
+          "title": "Data collection outage",
+          "description": "Missing values appear in checking account status for a subset of requests.",
+          "transforms": [
+            {
+              "op": "null_rate",
+              "column": "status.of.existing.checking.account",
+              "fraction": 0.15
+            }
+          ]
+        }
+      ],
+      "rpm": 240,
+      "rationale": "Provides continuous monitoring of performance, stability and data quality for the CR\u2011001 PD scorecard."
+    },
+    "summary": "The monitoring plan defines real\u2011time KPIs, alert rules, dashboard panels and drift scenarios for the CR\u2011001 PD scorecard. It enables early detection of score distribution shifts, outcome changes and operational issues."
+  }
+}

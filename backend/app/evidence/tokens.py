@@ -8,12 +8,12 @@ from app.evidence import metric_store
 
 TOKEN_RE = re.compile(r"\{\{(m:[A-Za-z0-9_\-]+:[A-Za-z0-9_.\-=]+)\}\}")
 # Any digit sequence that is not inside a token. Allow-list handled in check().
-NUM_RE = re.compile(r"(?<![A-Za-z_\-])[-+]?\d[\d,]*(?:\.\d+)?%?")
+NUM_RE = re.compile(r"(?<![A-Za-z_\-\d.])[-+]?\d[\d,]*(?:\.\d+)?%?")  # not inside identifiers like V10
 ALLOWED_PATTERNS = [
     re.compile(r"^#{1,6}\s+\d+(\.\d+)*\.?\s"),            # numbered headings: "## 3. Performance"
 ]
 ALLOWED_TOKENS_IN_TEXT = re.compile(  # model ids, finding codes, run ids, years, rule refs
-    r"(SS1/23|CR-\d{3}|PR-\d{3}|FR-\d{3}|F-\d{2}|run_[a-z0-9]+|Tier [ABC]|\b(19|20)\d{2}\b|\bP[1-5]\b|1e-\d+)",
+    r"(SS1/23|SR 11-7|\b[A-Z]{2,4}-\d{2,4}\b|F-\d{2}|run_[a-z0-9_]+|Tier [ABC]|\b(19|20)\d{2}\b|\bP[1-5]\b|1e-\d+)",
     re.IGNORECASE,
 )
 
@@ -59,6 +59,8 @@ def check(markdown: str) -> dict:
     violations = []
     unknown = []
     for i, line in enumerate(markdown.splitlines(), 1):
+        if line.lstrip().startswith(">"):  # quoted source text (spec notes, code comments) is shown verbatim, not claimed
+            continue
         if any(p.match(line) for p in ALLOWED_PATTERNS):
             line = re.sub(r"^#{1,6}\s+\d+(\.\d+)*\.?", "", line)
         stripped = TOKEN_RE.sub("", line)

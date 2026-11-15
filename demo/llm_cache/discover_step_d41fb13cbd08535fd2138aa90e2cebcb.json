@@ -1,0 +1,30 @@
+{
+  "task": "discover_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "The script likely expects the exact filenames passed via command line, so map the input references to those filenames directly.",
+    "action": "call",
+    "tool": "probe_legacy",
+    "args": {
+      "args": [
+        "--train",
+        "german_train.csv",
+        "--score",
+        "german_applications.csv",
+        "--outdir",
+        "out"
+      ],
+      "inputs": [
+        {
+          "ref": "german_train.csv",
+          "asset": "german_train.csv"
+        },
+        {
+          "ref": "german_applications.csv",
+          "asset": "german_applications.csv"
+        }
+      ],
+      "script": "cr001_scorecard.R"
+    }
+  }
+}

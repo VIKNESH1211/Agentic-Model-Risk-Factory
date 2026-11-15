@@ -1,0 +1,51 @@
+{
+  "task": "intake_spec",
+  "model": "gpt-4o-mini",
+  "data": {
+    "spec": {
+      "name": "FR-001 Card transaction fraud detector",
+      "purpose": "Detect fraudulent card transactions using a logistic regression model.",
+      "owner": "Financial Crime Analytics",
+      "model_type": "Card transaction fraud detection",
+      "tier": "B",
+      "tier_rationale": "Supports decisions based on the output of the logistic model.",
+      "entry_script": "fr001_fraud.R",
+      "task": "binary",
+      "strategy": "translate",
+      "target": "Class",
+      "exposure": null,
+      "id_column": null,
+      "features": [
+        "V1",
+        "V3",
+        "V4",
+        "V10",
+        "V12",
+        "V14",
+        "V17",
+        "logamt"
+      ],
+      "groups": [],
+      "decision": {
+        "kind": "alert",
+        "op": ">",
+        "cutoff": 0.5,
+        "adverse_label": "",
+        "favourable_label": ""
+      },
+      "inputs": [
+        {
+          "ref": "creditcard.csv",
+          "asset": "creditcard.csv"
+        }
+      ],
+      "harness": {
+        "args": []
+      },
+      "upstream": [],
+      "deployable": true,
+      "notes": []
+    },
+    "notes_for_reviewer": "Ensure that the model's performance is validated against the base rate of 0.17% and that the threshold for alerts is appropriate."
+  }
+}

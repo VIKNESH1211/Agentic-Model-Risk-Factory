@@ -1,0 +1,11 @@
+{
+  "task": "validate_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The model CR-001 has significant issues, as indicated by the 'Not fit for use' rating and multiple errors in the validation plan. I will proceed with a slice search to identify weak segments contributing to the poor performance.",
+    "action": "call",
+    "tool": "slice_search",
+    "args": {},
+    "reasons": []
+  }
+}
