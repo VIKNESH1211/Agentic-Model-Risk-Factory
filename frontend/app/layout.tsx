@@ -8,7 +8,7 @@ const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 const mono = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Model Risk Factory",
+  title: "Model Risk Factory · Zero Gradient",
   description: "Agentic model documentation, redevelopment and independent validation with traceable evidence.",
 };
 

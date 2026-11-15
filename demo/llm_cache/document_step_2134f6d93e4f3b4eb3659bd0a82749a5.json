@@ -1,0 +1,16 @@
+{
+  "task": "document_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The next step is to propose a monitoring plan for the CR-003 model, ensuring it includes KPIs, alert rules, and drift scenarios as required.",
+    "action": "call",
+    "tool": "draft_monitoring_plan",
+    "args": {
+      "instructions": "Propose a monitoring plan for CR-003 Credit Limit Assignment, covering KPIs, alert rules, dashboard panels, and drift scenarios."
+    },
+    "recommendation": "hold",
+    "reasons": [
+      "Monitoring plan is still outstanding and must be completed before finishing."
+    ]
+  }
+}

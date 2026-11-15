@@ -1,0 +1,69 @@
+{
+  "task": "intake_spec",
+  "model": "gpt-4o-mini",
+  "data": {
+    "spec": {
+      "name": "PR-001 Motor claims frequency GLM",
+      "purpose": "Pricing model for motor claims frequency",
+      "owner": "Pricing Analytics",
+      "model_type": "Motor claims frequency GLM",
+      "tier": "B",
+      "tier_rationale": "Supports decisions based on pricing engine outputs.",
+      "entry_script": "pr001_claims_freq.R",
+      "task": "frequency",
+      "strategy": "translate",
+      "target": "numclaims",
+      "exposure": "exposure",
+      "id_column": null,
+      "features": [
+        "veh_body",
+        "veh_age",
+        "agecat",
+        "area",
+        "gender"
+      ],
+      "groups": [
+        {
+          "name": "agecat",
+          "column": "agecat",
+          "bins": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "labels": [
+            "cat1",
+            "cat2",
+            "cat3",
+            "cat4",
+            "cat5",
+            "cat6"
+          ]
+        }
+      ],
+      "decision": {
+        "kind": "none",
+        "op": ">",
+        "cutoff": null,
+        "adverse_label": "",
+        "favourable_label": ""
+      },
+      "inputs": [
+        {
+          "ref": "//shared/riskdata/pr001_freq.csv",
+          "asset": "pr001_freq.csv"
+        }
+      ],
+      "harness": {
+        "args": []
+      },
+      "upstream": [],
+      "deployable": true,
+      "notes": []
+    },
+    "notes_for_reviewer": "Double-check the mapping of inputs and ensure that the decision rule aligns with the model's intended use."
+  }
+}

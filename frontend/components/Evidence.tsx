@@ -22,7 +22,7 @@ export function Ev({ token, info, fallback }: { token: string; info?: TokenInfo;
   );
 }
 
-const tooltipStyle = { background: "#121a33", border: "1px solid rgba(148,163,255,.25)", borderRadius: 8, color: "#e6e9f5" };
+const tooltipStyle = { background: "#ffffff", border: "1px solid rgba(15,23,42,.12)", borderRadius: 8, color: "#0f172a" };
 
 function Chart({ chart }: { chart: any }) {
   if (!chart) return null;
@@ -30,11 +30,11 @@ function Chart({ chart }: { chart: any }) {
     return (
       <ResponsiveContainer width="100%" height={200}>
         <AreaChart data={chart.points} margin={{ top: 8, right: 8, bottom: 0, left: -18 }}>
-          <CartesianGrid stroke="rgba(148,163,255,.08)" />
-          <XAxis dataKey="fpr" type="number" domain={[0, 1]} tick={{ fill: "#8f98b8", fontSize: 11 }} />
-          <YAxis domain={[0, 1]} tick={{ fill: "#8f98b8", fontSize: 11 }} />
+          <CartesianGrid stroke="rgba(15,23,42,.07)" />
+          <XAxis dataKey="fpr" type="number" domain={[0, 1]} tick={{ fill: "#64748b", fontSize: 11 }} />
+          <YAxis domain={[0, 1]} tick={{ fill: "#64748b", fontSize: 11 }} />
           <Tooltip contentStyle={tooltipStyle} />
-          <Area type="monotone" dataKey="tpr" stroke="#2dd4bf" fill="rgba(45,212,191,.18)" strokeWidth={2} name="TPR" />
+          <Area type="monotone" dataKey="tpr" stroke="#0d9488" fill="rgba(45,212,191,.18)" strokeWidth={2} name="TPR" />
         </AreaChart>
       </ResponsiveContainer>
     );
@@ -42,27 +42,39 @@ function Chart({ chart }: { chart: any }) {
     return (
       <ResponsiveContainer width="100%" height={200}>
         <LineChart data={chart.points} margin={{ top: 8, right: 8, bottom: 0, left: -18 }}>
-          <CartesianGrid stroke="rgba(148,163,255,.08)" />
-          <XAxis dataKey="decile" tick={{ fill: "#8f98b8", fontSize: 11 }} />
-          <YAxis tick={{ fill: "#8f98b8", fontSize: 11 }} />
+          <CartesianGrid stroke="rgba(15,23,42,.07)" />
+          <XAxis dataKey="decile" tick={{ fill: "#64748b", fontSize: 11 }} />
+          <YAxis tick={{ fill: "#64748b", fontSize: 11 }} />
           <Tooltip contentStyle={tooltipStyle} />
           <Legend wrapperStyle={{ fontSize: 12 }} />
-          <Line dataKey="predicted" stroke="#a78bfa" strokeWidth={2} dot={false} />
-          <Line dataKey="observed" stroke="#2dd4bf" strokeWidth={2} />
+          <Line dataKey="predicted" stroke="#7c3aed" strokeWidth={2} dot={false} />
+          <Line dataKey="observed" stroke="#0d9488" strokeWidth={2} />
         </LineChart>
+      </ResponsiveContainer>
+    );
+  if (chart.kind === "groups")
+    return (
+      <ResponsiveContainer width="100%" height={200}>
+        <BarChart data={chart.points} margin={{ top: 8, right: 8, bottom: 0, left: -18 }}>
+          <CartesianGrid stroke="rgba(15,23,42,.07)" />
+          <XAxis dataKey="group" tick={{ fill: "#64748b", fontSize: 11 }} />
+          <YAxis tick={{ fill: "#64748b", fontSize: 11 }} />
+          <Tooltip contentStyle={tooltipStyle} />
+          <Bar dataKey="value" fill="#7c3aed" name="rate / mean" />
+        </BarChart>
       </ResponsiveContainer>
     );
   if (chart.kind === "dist")
     return (
       <ResponsiveContainer width="100%" height={200}>
         <BarChart data={chart.points} margin={{ top: 8, right: 8, bottom: 0, left: -18 }}>
-          <CartesianGrid stroke="rgba(148,163,255,.08)" />
-          <XAxis dataKey="bin" tick={{ fill: "#8f98b8", fontSize: 10 }} />
-          <YAxis tick={{ fill: "#8f98b8", fontSize: 11 }} />
+          <CartesianGrid stroke="rgba(15,23,42,.07)" />
+          <XAxis dataKey="bin" tick={{ fill: "#64748b", fontSize: 10 }} />
+          <YAxis tick={{ fill: "#64748b", fontSize: 11 }} />
           <Tooltip contentStyle={tooltipStyle} />
           <Legend wrapperStyle={{ fontSize: 12 }} />
-          <Bar dataKey="base" fill="#60a5fa" name="development" />
-          <Bar dataKey="comp" fill="#f5a524" name="comparison" />
+          <Bar dataKey="base" fill="#2563eb" name="development" />
+          <Bar dataKey="comp" fill="#d97706" name="comparison" />
         </BarChart>
       </ResponsiveContainer>
     );
@@ -79,7 +91,7 @@ export function EvidenceDrawer() {
     <AnimatePresence>
       {token && (
         <>
-          <motion.div className="fixed inset-0 z-40 bg-black/50" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+          <motion.div className="fixed inset-0 z-40 bg-slate-900/40" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             onClick={() => { close(null); rep.reset(); }} />
           <motion.aside role="dialog" aria-label="Evidence" className="fixed right-0 top-0 z-50 h-full w-full max-w-[560px] overflow-y-auto scroll-thin border-l border-line-strong bg-ink-2 p-6"
             initial={{ x: 600 }} animate={{ x: 0 }} exit={{ x: 600 }} transition={{ type: "spring", damping: 30, stiffness: 260 }}>
@@ -122,11 +134,11 @@ export function EvidenceDrawer() {
                 <Chart chart={d.chart} />
                 <div>
                   <div className="panel-title mb-2">Function that computed it</div>
-                  <pre className="mono text-[12.5px] leading-relaxed bg-black/30 border border-line rounded-lg p-3 overflow-x-auto scroll-thin text-[#cbd3ff]">{d.source}</pre>
+                  <pre className="mono text-[12.5px] leading-relaxed bg-slate-50 border border-line rounded-lg p-3 overflow-x-auto scroll-thin text-slate-700">{d.source}</pre>
                 </div>
                 <div>
                   <div className="panel-title mb-2">Recipe <Tag tone="agent">stored</Tag></div>
-                  <pre className="mono text-[12px] bg-black/30 border border-line rounded-lg p-3 overflow-x-auto scroll-thin text-muted">{JSON.stringify(d.recipe, null, 2)}</pre>
+                  <pre className="mono text-[12px] bg-slate-50 border border-line rounded-lg p-3 overflow-x-auto scroll-thin text-muted">{JSON.stringify(d.recipe, null, 2)}</pre>
                 </div>
                 <div className="flex items-center gap-3 pt-1">
                   <button className="btn btn-primary" onClick={() => rep.mutate()} disabled={rep.isPending}>

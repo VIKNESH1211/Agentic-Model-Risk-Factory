@@ -1,0 +1,7 @@
+{
+  "task": "exec_summary_FR-001_try1",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "summary": "The independent validation of the FR-001 Card transaction fraud detector confirms strong discriminative power, with Gini \u2014 test reported as {{m:run_f6245a:gini.test}} and Gini \u2014 out-of-time as {{m:run_f6245a:gini.oot}}. Additional performance indicators include KS \u2014 out-of-time {{m:run_f6245a:ks.oot}}, AUC \u2014 hold-out {{m:run_f6245a:auc.holdout}}, Brier score \u2014 hold-out {{m:run_f6245a:brier.holdout}}, and Predicted\u202f\u00d7\u202fobserved \u2014 hold-out {{m:run_f6245a:calibration_ratio.holdout}}. The model\u2019s observed outcome rate \u2014 hold-out is {{m:run_f6245a:bad_rate.holdout}}, with Recall at coded threshold {{m:run_f6245a:recall_at.holdout}}, Precision at coded threshold {{m:run_f6245a:precision_at.holdout}}, Average precision (PR\u2011AUC) {{m:run_f6245a:avg_precision.holdout}} and Alert rate {{m:run_f6245a:alert_rate.holdout}}. Findings include {{m:run_f6245a:findings.high}} high\u2011severity and {{m:run_f6245a:findings.medium}} medium\u2011severity issues for a total of {{m:run_f6245a:findings.total}}, and parity checks show {{m:run_f6245a:coef_max_abs_diff}}, {{m:run_f6245a:score_max_abs_diff}} and rows compared {{m:run_f6245a:rows_compared}}. The overall rating is Requires remediation before continued use."
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "task": "discover_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "I have successfully read the script and probed the legacy model, which provided insights into the model's structure and outputs. Now, I will draft the specification based on the gathered evidence.",
+    "action": "call",
+    "tool": "draft_spec",
+    "args": {
+      "instructions": "Draft a specification for model PR-001, including task, inputs, target, features, fairness groups, decision rule, tier, and strategy based on the observed outputs and structure."
+    },
+    "recommendation": "hold",
+    "reasons": [
+      "Specification drafting is still pending."
+    ]
+  }
+}

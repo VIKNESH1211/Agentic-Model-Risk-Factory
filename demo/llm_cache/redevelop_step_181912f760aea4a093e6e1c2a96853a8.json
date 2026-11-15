@@ -1,0 +1,10 @@
+{
+  "task": "redevelop_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "Re-run the export after updating the epilogue to produce a proper bundle for inspection",
+    "action": "call",
+    "tool": "run_export",
+    "args": {}
+  }
+}

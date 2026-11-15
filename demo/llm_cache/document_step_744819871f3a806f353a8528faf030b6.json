@@ -1,0 +1,13 @@
+{
+  "task": "document_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The policy check has identified several findings that need to be documented and addressed in the validation plan. I will now draft the model documentation based on the evidence collected so far.",
+    "action": "call",
+    "tool": "draft_documentation",
+    "args": {
+      "instructions": "Document the model CR-001 Retail PD Scorecard, focusing on the findings from the policy check and the model's specifications."
+    },
+    "reasons": []
+  }
+}

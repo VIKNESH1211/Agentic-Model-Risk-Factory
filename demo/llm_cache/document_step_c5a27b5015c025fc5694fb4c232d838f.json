@@ -1,0 +1,13 @@
+{
+  "task": "document_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "I will now draft the model documentation based on the findings from the policy check and the known model details.",
+    "action": "call",
+    "tool": "draft_documentation",
+    "args": {
+      "instructions": "Document the model CR-002 Random-forest PD challenger following the SR 11-7 / SS1/23 structure, incorporating the findings from the policy check."
+    },
+    "reasons": []
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "task": "report_summary_try1",
+  "model": "gpt-4o-mini",
+  "data": {
+    "summary": "The independent validation report for CR-001 Retail PD Scorecard has been completed, resulting in an overall rating of Not fit for use. Key findings include the following: Calibration ratio (over-prediction) and Calibration ratio (under-prediction) both passed, while Score PSI train\u2192oot and Input CSI train\u2192oot \u2014 savings.account.and.bonds received an amber status. Additionally, the Equal-opportunity diff for age was rated red, indicating significant concerns. Overall, the findings highlight critical areas that require attention to ensure the model's reliability."
+  }
+}

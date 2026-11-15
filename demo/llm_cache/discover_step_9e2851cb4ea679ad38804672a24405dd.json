@@ -1,0 +1,16 @@
+{
+  "task": "discover_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The legacy model FR-001 has been successfully read and probed, revealing its structure and outputs. Now, I will draft the model specification based on the gathered evidence.",
+    "action": "call",
+    "tool": "draft_spec",
+    "args": {
+      "instructions": "Draft a specification for the FR-001 model including task, inputs, target, features, fairness groups, decision rule, tier, and strategy."
+    },
+    "recommendation": "hold",
+    "reasons": [
+      "Waiting for the specification draft to ensure it meets all requirements before proceeding."
+    ]
+  }
+}

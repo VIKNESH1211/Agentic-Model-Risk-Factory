@@ -1,0 +1,221 @@
+{
+  "task": "validation_plan",
+  "model": "gpt-4o-mini",
+  "data": {
+    "plan": {
+      "title": "Validation Plan for CR-003 Credit Limit Assignment Strategy",
+      "checks": [
+        {
+          "id": "perf.auc_test",
+          "title": "AUC on Test Set",
+          "category": "performance",
+          "metric": "auc",
+          "params": {
+            "target": "occurred",
+            "score": "score",
+            "split": "test",
+            "slice": "str"
+          },
+          "threshold": {
+            "op": "<",
+            "amber": 0.7,
+            "red": 0.6
+          },
+          "severity": "high",
+          "rationale": "AUC measures the model's ability to discriminate between approved and declined applications."
+        },
+        {
+          "id": "perf.auc_oot",
+          "title": "AUC on Out-of-Time Sample",
+          "category": "performance",
+          "metric": "auc",
+          "params": {
+            "target": "occurred",
+            "score": "score",
+            "split": "oot",
+            "slice": "str"
+          },
+          "threshold": {
+            "op": "<",
+            "amber": 0.7,
+            "red": 0.6
+          },
+          "severity": "high",
+          "rationale": "AUC on OOT ensures the model maintains performance over time."
+        },
+        {
+          "id": "perf.gini_test",
+          "title": "Gini Coefficient on Test Set",
+          "category": "performance",
+          "metric": "gini",
+          "params": {
+            "target": "occurred",
+            "score": "score",
+            "split": "test",
+            "slice": "str"
+          },
+          "threshold": {
+            "op": "<",
+            "amber": 0.4,
+            "red": 0.25
+          },
+          "severity": "high",
+          "rationale": "Gini coefficient indicates the model's discriminatory power."
+        },
+        {
+          "id": "perf.gini_oot",
+          "title": "Gini Coefficient on Out-of-Time Sample",
+          "category": "performance",
+          "metric": "gini",
+          "params": {
+            "target": "occurred",
+            "score": "score",
+            "split": "oot",
+            "slice": "str"
+          },
+          "threshold": {
+            "op": "<",
+            "amber": 0.4,
+            "red": 0.25
+          },
+          "severity": "high",
+          "rationale": "Gini on OOT assesses the model's stability over time."
+        },
+        {
+          "id": "calibration.brier_test",
+          "title": "Brier Score on Test Set",
+          "category": "calibration",
+          "metric": "brier",
+          "params": {
+            "target": "occurred",
+            "score": "score",
+            "split": "test",
+            "slice": "str"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.2,
+            "red": 0.3
+          },
+          "severity": "medium",
+          "rationale": "Brier score measures the accuracy of predicted probabilities."
+        },
+        {
+          "id": "calibration.brier_oot",
+          "title": "Brier Score on Out-of-Time Sample",
+          "category": "calibration",
+          "metric": "brier",
+          "params": {
+            "target": "occurred",
+            "score": "score",
+            "split": "oot",
+            "slice": "str"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.2,
+            "red": 0.3
+          },
+          "severity": "medium",
+          "rationale": "Brier score on OOT ensures the model's predictions remain accurate."
+        },
+        {
+          "id": "stability.psi",
+          "title": "Population Stability Index (PSI)",
+          "category": "stability",
+          "metric": "psi",
+          "params": {
+            "col": "score",
+            "base": "train",
+            "comp": "oot",
+            "categorical": false
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.1,
+            "red": 0.25
+          },
+          "severity": "medium",
+          "rationale": "PSI measures the stability of the score distribution over time."
+        },
+        {
+          "id": "fairness.dp_diff",
+          "title": "Demographic Parity Difference",
+          "category": "fairness",
+          "metric": "dp_diff",
+          "params": {
+            "group": "pd_band",
+            "approve": "approve",
+            "split": "test"
+          },
+          "threshold": {
+            "op": "<",
+            "amber": 0.1,
+            "red": 0.2
+          },
+          "severity": "high",
+          "rationale": "DP difference assesses fairness in approval rates across demographic groups."
+        },
+        {
+          "id": "data_quality.missing_any",
+          "title": "Missing Any Rate",
+          "category": "data_quality",
+          "metric": "rate_true",
+          "params": {
+            "col": "missing_any",
+            "split": "all"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.05,
+            "red": 0.1
+          },
+          "severity": "medium",
+          "rationale": "Missing data can significantly impact model performance."
+        },
+        {
+          "id": "policy.adverse_decisions",
+          "title": "Share of Adverse Decisions",
+          "category": "policy",
+          "metric": "rate_true",
+          "params": {
+            "col": "flag",
+            "split": "test"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.3,
+            "red": 0.4
+          },
+          "severity": "high",
+          "rationale": "Monitoring adverse decisions ensures compliance with lending policies."
+        },
+        {
+          "id": "policy.monotonicity",
+          "title": "Monotonicity Check",
+          "category": "policy",
+          "metric": "monotone_by",
+          "params": {
+            "col": "score",
+            "by": "pd_band",
+            "split": "test"
+          },
+          "threshold": {
+            "op": "<=",
+            "amber": 0.5,
+            "red": 0.5
+          },
+          "severity": "high",
+          "rationale": "Monotonicity ensures that higher scores correlate with higher approval rates."
+        }
+      ],
+      "investigations": [
+        "challenger",
+        "slice_search",
+        "stress_test"
+      ],
+      "rationale": "This validation plan covers performance, calibration, stability, fairness, data quality, and policy checks for the CR-003 model."
+    },
+    "summary": "The validation plan for CR-003 includes a comprehensive set of checks focusing on performance metrics like AUC and Gini, calibration through Brier scores, and stability via PSI. Additionally, it addresses fairness, data quality, and policy compliance to ensure the model's robustness and ethical standards."
+  }
+}

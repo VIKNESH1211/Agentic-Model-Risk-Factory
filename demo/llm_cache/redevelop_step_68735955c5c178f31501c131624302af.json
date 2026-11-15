@@ -1,0 +1,14 @@
+{
+  "task": "redevelop_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The export was successful, and the data has been inspected. Next, I will check the parity between the legacy model and the exported data to ensure they match.",
+    "action": "call",
+    "tool": "check_parity",
+    "args": {},
+    "recommendation": "hold",
+    "reasons": [
+      "Parity check is necessary to confirm the model's behavior matches the legacy version before proceeding to certification."
+    ]
+  }
+}

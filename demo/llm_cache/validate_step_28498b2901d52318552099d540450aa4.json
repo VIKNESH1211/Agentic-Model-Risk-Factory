@@ -1,0 +1,20 @@
+{
+  "task": "validate_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The model shows significant weaknesses in performance and fairness, with a challenger model outperforming it. Further investigation is warranted to address the red and amber findings from the plan results.",
+    "action": "call",
+    "tool": "raise_finding",
+    "args": {
+      "severity": "high",
+      "category": "performance",
+      "title": "Challenger Model Outperforms Legacy Model",
+      "detail": "The challenger model demonstrates a Gini uplift of 0.115, indicating significant performance issues with the legacy model CR-001.",
+      "tokens": [
+        "m:run_642f56:investigate.gini.champion",
+        "m:run_642f56:investigate.gini.challenger"
+      ]
+    },
+    "reasons": []
+  }
+}

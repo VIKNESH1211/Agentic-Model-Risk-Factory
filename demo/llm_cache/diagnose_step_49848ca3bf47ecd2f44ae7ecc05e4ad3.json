@@ -1,0 +1,13 @@
+{
+  "task": "diagnose_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The alert indicates a significant shift in input characteristics, necessitating a detailed analysis of recent KPI windows to identify operational changes.",
+    "action": "call",
+    "tool": "kpi_history",
+    "args": {
+      "n": 12
+    },
+    "reasons": []
+  }
+}

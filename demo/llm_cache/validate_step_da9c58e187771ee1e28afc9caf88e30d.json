@@ -1,0 +1,15 @@
+{
+  "task": "validate_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The model has failed the performance check and has amber results in fairness and policy checks, indicating areas that require further investigation. I will now conduct a slice search to identify segments where the model's performance may be weak.",
+    "action": "call",
+    "tool": "slice_search",
+    "args": {},
+    "summary": "N/A",
+    "recommendation": "hold",
+    "reasons": [
+      "Model has critical failures in performance and policy checks that need to be addressed before considering promotion."
+    ]
+  }
+}

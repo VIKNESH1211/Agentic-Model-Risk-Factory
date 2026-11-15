@@ -1,0 +1,7 @@
+{
+  "task": "report_summary_try1",
+  "model": "gpt-4o-mini",
+  "data": {
+    "summary": "The independent validation report for CR-002, the Random-forest PD challenger, concludes with an overall rating of 'Fit for use with conditions'. Key findings include 'Input stability train \u2192 oot (CSI) \u2014 purpose' and 'Input stability train \u2192 oot (CSI) \u2014 age.in.years', both marked as amber, indicating areas that require attention. Additionally, the report highlights 'Monotonicity of score with respect to bad rate' as amber, suggesting a need for further review. All other checks, including discrimination and calibration metrics, have passed, demonstrating the model's robustness in these areas."
+  }
+}

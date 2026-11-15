@@ -1,0 +1,11 @@
+{
+  "task": "report_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "I need to assemble the validation report for legacy model PR-001 using the available tools.",
+    "action": "call",
+    "tool": "write_report",
+    "args": {},
+    "reasons": []
+  }
+}

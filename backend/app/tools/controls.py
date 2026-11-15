@@ -4,7 +4,7 @@ from __future__ import annotations
 from sqlmodel import select
 
 from app.core.db import session
-from app.domain.tables import Control, ControlResult, Finding, Gate, Model, MonitorBatch, Report, Run
+from app.domain.tables import Control, Finding, Gate, Model, Report
 from app.evidence import ledger
 
 CONTROLS = [
@@ -32,42 +32,42 @@ def seed() -> None:
 
 
 def evaluate(model_id: str) -> list[dict]:
+    """Evidence-based status of each control for one model, read from specs, plans, runs, reports and the ledger."""
+    from app import repositories as repo
+    from app.domain.tables import MonitorWindow
     with session() as s:
         m = s.get(Model, model_id)
-        runs = s.exec(select(Run).where(Run.model_id == model_id)).all()
-        rids = [r.id for r in runs]
+        if not m:
+            return []
         gates = s.exec(select(Gate).where(Gate.model_id == model_id)).all()
-        reports = s.exec(select(Report).where(Report.model_id == model_id)).all()
         findings = s.exec(select(Finding).where(Finding.model_id == model_id)).all()
-        batches = s.exec(select(MonitorBatch).where(MonitorBatch.model_id == model_id)).all()
+        reports = s.exec(select(Report).where(Report.model_id == model_id)).all()
+        windows = s.exec(select(MonitorWindow).where(MonitorWindow.model_id == model_id).limit(1)).all()
     meta = m.meta or {}
+    vplan, mplan = repo.plans.approved(model_id, "validation"), repo.plans.approved(model_id, "monitoring")
+    dq = bool(vplan) and any(c.get("category") == "data_quality" for c in vplan.body.get("checks", []))
     led = ledger.verify()
-    hero = meta.get("hero", False)
-    na = "n/a"
+    code_hash = (meta.get("parse") or {}).get("code_hash", "")
 
     def st(ok, warn=False):
         return "pass" if ok else ("warn" if warn else "fail")
+    decided = [g for g in gates if g.status != "pending"]
     res = {
-        "P1.1": (st(bool(m.owner and m.purpose and m.code_hash), bool(m.code_hash)), {"owner": m.owner, "code_hash": m.code_hash[:12]}),
-        "P1.2": (st(bool(m.tier and m.tier_rationale)), {"tier": m.tier}),
+        "P1.1": (st(bool(m.owner and m.purpose and code_hash), bool(code_hash)), {"owner": m.owner, "code_hash": code_hash[:12]}),
+        "P1.2": (st(bool(m.tier and m.tier_rationale)), {"tier": m.tier, "rationale": m.tier_rationale}),
         "P2.1": (st(bool(m.owner)), {"owner": m.owner}),
-        "P2.2": (st(bool(gates) and all(g.status in ("approved",) for g in gates), bool(gates)) if gates else "warn",
+        "P2.2": (st(bool(decided) and len(decided) == len(gates), bool(gates)) if gates else "warn",
                  {"gates": [{"stage": g.stage, "status": g.status, "by": g.decided_by} for g in gates]}),
         "P3.1": (st(bool(meta.get("doc_run_id"))), {"doc_run_id": meta.get("doc_run_id")}),
-        "P3.2": ((st(meta.get("parity_verdict") == "PASS") if hero else na), {"verdict": meta.get("parity_verdict"),
-                                                                             "fingerprint": meta.get("parity_fingerprint")}),
-        "P3.3": ((st(any(f.detector in ("data_quality", "data_integrity") for f in findings) or bool(reports)) if hero else na), {}),
-        "P4.1": ((st(bool(reports)) if hero else "warn"), {"reports": [r.id for r in reports]}),
-        "P4.2": ((st(bool(findings)) if hero else na), {"findings": len(findings)}),
-        "P4.3": ((st(bool(reports) and all(r.checker.get("ok") for r in reports)) if hero else na),
+        "P3.2": (st(meta.get("parity_verdict") == "PASS", meta.get("parity_verdict") == "REHOSTED"),
+                 {"verdict": meta.get("parity_verdict"), "fingerprint": meta.get("parity_fingerprint")}),
+        "P3.3": (st(dq and bool(reports), dq), {"validation_plan": vplan.version if vplan else None}),
+        "P4.1": (st(bool(reports)), {"reports": [r.id for r in reports]}),
+        "P4.2": (st(bool(findings), not reports), {"findings": len(findings)}),
+        "P4.3": (st(bool(reports) and all(r.checker.get("ok") for r in reports), not reports),
                  {"checks": [r.checker.get("token_count") for r in reports]}),
-        "P5.1": ((st(bool(batches)) if hero else "fail"), {"batches": len(batches)}),
+        "P5.1": (st(bool(mplan) and bool(windows), bool(mplan) or meta.get("deployable") is False),
+                 {"monitoring_plan": mplan.version if mplan else None, "live": bool(meta.get("deployed"))}),
         "P5.2": (st(led["ok"]), led),
     }
-    out = []
-    with session() as s:
-        for ref, (status, ev) in res.items():
-            s.add(ControlResult(ref=ref, model_id=model_id, status=status, evidence=ev))
-            out.append({"ref": ref, "status": status, "evidence": ev})
-        s.commit()
-    return out
+    return [{"ref": ref, "status": status, "evidence": ev} for ref, (status, ev) in res.items()]

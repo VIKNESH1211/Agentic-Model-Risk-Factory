@@ -1,0 +1,19 @@
+{
+  "task": "validate_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "I need to retry raising the finding for the calibration ratio holdout, ensuring to include the correct metric token from this run.",
+    "action": "call",
+    "tool": "raise_finding",
+    "args": {
+      "severity": "medium",
+      "category": "performance",
+      "title": "Calibration Ratio Holdout is Amber",
+      "detail": "The calibration ratio for the holdout set is 1.3344, indicating potential issues with model calibration.",
+      "tokens": [
+        "m:run_642f56:investigate.gini.calibration.ratio_holdout"
+      ]
+    },
+    "reasons": []
+  }
+}

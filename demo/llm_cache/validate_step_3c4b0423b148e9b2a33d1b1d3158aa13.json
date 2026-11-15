@@ -1,0 +1,20 @@
+{
+  "task": "validate_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The model shows significant weaknesses in specific segments, particularly with Gini scores below the overall average. Additionally, the fuzz testing revealed a high number of no-decisions, indicating potential issues with input handling.",
+    "action": "call",
+    "tool": "raise_finding",
+    "args": {
+      "severity": "high",
+      "category": "performance",
+      "title": "Segment Performance Issues",
+      "detail": "The model exhibits poor performance in segments such as purpose=furniture/equipment and age_band=under25, with Gini scores significantly below the overall average. This indicates a risk of unfair treatment of these segments.",
+      "tokens": [
+        "m:run_9d4d1e:investigate.gini.purpose=furniture_equipment",
+        "m:run_9d4d1e:investigate.gini.age_band=under25"
+      ]
+    },
+    "reasons": []
+  }
+}

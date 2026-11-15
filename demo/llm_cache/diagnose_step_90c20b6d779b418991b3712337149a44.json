@@ -1,0 +1,16 @@
+{
+  "task": "diagnose_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The diagnosis indicates a significant shift in the input data distribution, particularly for the 'credit.amount' feature, which has a high PSI value. This suggests that the model may not be performing well under current conditions, necessitating a revalidation.",
+    "action": "finish",
+    "args": {},
+    "summary": "The model's input distribution has shifted significantly, particularly for 'credit.amount', leading to a recommendation for revalidation.",
+    "recommendation": "hold",
+    "reasons": [
+      "The worst_csi exceeds the threshold of 0.25 for 3 consecutive windows, indicating a persistent issue.",
+      "The PSI value for 'credit.amount' is significantly high, suggesting a drift in the input distribution.",
+      "The adverse rate has increased from 0.3791 (baseline) to 0.5103 (live), indicating a deterioration in model performance."
+    ]
+  }
+}

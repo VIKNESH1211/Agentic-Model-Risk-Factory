@@ -1,0 +1,10 @@
+{
+  "task": "redevelop_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "Proceed to run the export now that the epilogue has been drafted.",
+    "action": "call",
+    "tool": "run_export",
+    "args": {}
+  }
+}

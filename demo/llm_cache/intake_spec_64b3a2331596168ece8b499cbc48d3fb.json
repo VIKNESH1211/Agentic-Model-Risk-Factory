@@ -1,0 +1,76 @@
+{
+  "task": "intake_spec",
+  "model": "gpt-4o-mini",
+  "data": {
+    "spec": {
+      "name": "PR-001 Motor claims frequency GLM",
+      "purpose": "Predict motor claims frequency for pricing",
+      "owner": "Pricing Analytics",
+      "model_type": "Motor claims frequency GLM",
+      "tier": "B",
+      "tier_rationale": "Supports pricing decisions based on claims frequency predictions.",
+      "entry_script": "pr001_claims_freq.R",
+      "task": "frequency",
+      "strategy": "rehost",
+      "target": null,
+      "exposure": "exposure",
+      "id_column": null,
+      "features": [
+        "veh_body",
+        "veh_age",
+        "agecat",
+        "area",
+        "gender"
+      ],
+      "groups": [
+        {
+          "name": "agecat",
+          "column": "agecat",
+          "bins": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "labels": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
+        }
+      ],
+      "decision": {
+        "kind": "none",
+        "op": ">",
+        "cutoff": null,
+        "adverse_label": "",
+        "favourable_label": ""
+      },
+      "inputs": [
+        {
+          "ref": "//shared/riskdata/applications_today.csv",
+          "asset": "applications_today.csv"
+        },
+        {
+          "ref": "//shared/riskdata/cr001_scores.csv",
+          "asset": "cr001_scores.csv"
+        }
+      ],
+      "harness": {
+        "args": []
+      },
+      "upstream": [],
+      "deployable": false,
+      "notes": [
+        "Ensure the fairness group 'agecat' has the correct number of labels.",
+        "The model uses a Poisson GLM with log(exposure) offset."
+      ]
+    },
+    "notes_for_reviewer": "Double-check the mapping of input files and ensure the fairness group 'agecat' is correctly defined."
+  }
+}

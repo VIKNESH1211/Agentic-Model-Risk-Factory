@@ -1,0 +1,10 @@
+{
+  "task": "redevelop_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "Run the export again with the updated epilogue to produce the training row identifiers and a correct bundle for parity testing.",
+    "action": "call",
+    "tool": "run_export",
+    "args": {}
+  }
+}

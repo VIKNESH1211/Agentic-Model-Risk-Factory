@@ -1,0 +1,2 @@
+{"id": "CR-003", "owner": "Retail Credit Strategy",
+ "description": "Assigns initial credit limits from CR-001's PD and the applicant's stated income. Runs nightly after CR-001."}

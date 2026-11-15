@@ -1,0 +1,13 @@
+{
+  "task": "conclude_validate",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "The validation stage processed 20,000 rows with defined splits, refitted and scored the model, and generated a scored CSV. No detectors fired and the challenger was skipped due to lack of training split. However, a high\u2011severity finding (untuned alert threshold for a rare\u2011event fraud rate) and a medium\u2011severity finding (development data outside the controlled estate) remain, along with two code review issues.",
+    "recommendation": "hold",
+    "reasons": [
+      "High\u2011severity finding F-01 indicates the alert threshold is not tuned for the rare fraud rate, risking false negatives/positives.",
+      "Finding F-02 shows development data is not in the controlled estate, raising data provenance concerns.",
+      "Two code review issues suggest potential implementation problems that need human review."
+    ]
+  }
+}

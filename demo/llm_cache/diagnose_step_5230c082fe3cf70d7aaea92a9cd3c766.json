@@ -1,0 +1,11 @@
+{
+  "task": "diagnose_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The input drift analysis revealed significant PSI for 'installment.rate.in.percentage.of.disposable.income', indicating a major shift in this input. Additionally, the data quality check highlighted new unseen category codes for this input, which could impact model performance.",
+    "action": "call",
+    "tool": "diagnose",
+    "args": {},
+    "reasons": []
+  }
+}

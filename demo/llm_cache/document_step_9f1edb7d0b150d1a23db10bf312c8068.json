@@ -1,0 +1,12 @@
+{
+  "task": "document_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "Next step is to create the required monitoring plan for CR-001 Retail PD Scorecard.",
+    "action": "call",
+    "tool": "draft_monitoring_plan",
+    "args": {
+      "instructions": "Propose a monitoring plan for the binary PD scorecard (tier A, translate strategy). Include key performance indicators (e.g., monthly AUC, KS, Brier score, default rate), drift detection metrics (population stability index for age_band and sex, feature distribution shifts), alert thresholds (e.g., AUC drop >0.05, PSI >0.2), dashboard panels (overall performance, subgroup performance, calibration, data quality), and remediation workflow. Address the hard\u2011coded threshold discrepancy and the risk of NA WoE values for new levels."
+    }
+  }
+}

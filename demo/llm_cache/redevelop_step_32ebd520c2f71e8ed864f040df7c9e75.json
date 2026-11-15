@@ -1,0 +1,14 @@
+{
+  "task": "redevelop_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The Python translation has been drafted, but I need to check its parity against the legacy export before proceeding to certification.",
+    "action": "call",
+    "tool": "check_parity",
+    "args": {},
+    "recommendation": "hold",
+    "reasons": [
+      "Parity check must be successful before certification can be issued."
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "task": "doc_draft",
+  "model": "gpt-4o-mini",
+  "data": {
+    "purpose": "Benchmark for CR-001",
+    "scope_and_use": "The model is used as a challenger and benchmark for the existing model CR-001. It is not utilized for live decision-making.",
+    "data": "The model uses the same German credit extract as CR-001, specifically the dataset 'german_final_v3.csv' and 'cr001_scores.csv'.",
+    "methodology": "The model employs a Random Forest algorithm implemented through the 'ranger' library.",
+    "variables": "The model includes the following features: status of existing checking account, duration in months, credit history, purpose, credit amount, savings account and bonds, present employment since, installment rate in percentage of disposable income, personal status and sex, other debtors or guarantors, present residence since, property, age in years, other installment plans, housing, number of existing credits at this bank, job, number of people being liable to provide maintenance for, telephone, and foreign worker.",
+    "implementation": "The model is implemented in the script 'cr002_rf.R'. It reads data from 'german_final_v3.csv' and 'cr001_scores.csv' and writes output to 'cr002_importance.csv'.",
+    "assumptions_limitations": "The model is tiered as 'C' and is not used for live decisions, which limits its applicability in real-time scenarios. Additionally, the model has hardcoded file paths and utilizes every column in the dataset.",
+    "performance_and_monitoring": "Not documented",
+    "governance": "Not documented",
+    "gaps": "Performance and monitoring details are not documented. Governance structure and processes are not documented."
+  }
+}

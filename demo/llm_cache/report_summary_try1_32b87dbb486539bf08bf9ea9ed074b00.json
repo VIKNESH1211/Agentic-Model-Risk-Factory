@@ -1,0 +1,7 @@
+{
+  "task": "report_summary_try1",
+  "model": "gpt-4o-mini",
+  "data": {
+    "summary": "The independent validation report for PR-001 Motor claims frequency GLM indicates an overall rating of Fit for use with conditions. Key findings include the use of a protected characteristic as a model input, which is classified as high severity. Additionally, the discrimination (Gini) on test and out-of-time (oot) both received an amber status. Other checks related to actual versus expected claims, score stability, and input stability across various categories have passed."
+  }
+}

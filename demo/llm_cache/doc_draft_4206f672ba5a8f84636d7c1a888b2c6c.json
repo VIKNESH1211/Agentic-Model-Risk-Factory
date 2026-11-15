@@ -1,0 +1,16 @@
+{
+  "task": "doc_draft",
+  "model": "gpt-4o-mini",
+  "data": {
+    "purpose": "Benchmark for CR-001",
+    "scope_and_use": "The model is a Credit risk \u2013 PD scorecard used as a challenger for the existing model CR-001. It is classified as Tier C, indicating it is not used for live decisions.",
+    "data": "The model uses the same German credit extract as CR-001, specifically the dataset 'german_final_v3.csv' and 'cr001_scores.csv'.",
+    "methodology": "The model employs a Random Forest algorithm using the 'ranger' library. It is designed for binary classification tasks.",
+    "variables": "The model includes various features such as status of existing checking account, duration in months, credit history, purpose, credit amount, savings account and bonds, present employment since, installment rate in percentage of disposable income, personal status and sex, other debtors or guarantors, present residence since, property, age in years, other installment plans, housing, number of existing credits at this bank, job, number of people being liable to provide maintenance for, telephone, and foreign worker.",
+    "implementation": "The model is implemented in the script 'cr002_rf.R' and reads data from specified CSV files. It writes output to 'cr002_importance.csv'.",
+    "assumptions_limitations": "The model has hardcoded file paths and uses every column in the dataset, which may limit flexibility and adaptability to changes in data structure.",
+    "performance_and_monitoring": "Not documented",
+    "governance": "Not documented",
+    "gaps": "Performance and monitoring details are not documented. Governance structure and processes are not documented."
+  }
+}

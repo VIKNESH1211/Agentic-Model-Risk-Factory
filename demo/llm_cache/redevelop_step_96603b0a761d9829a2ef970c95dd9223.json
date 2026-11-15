@@ -1,0 +1,12 @@
+{
+  "task": "redevelop_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "We need to create the missing R epilogue that exports the standard bundle before we can run the export.",
+    "action": "call",
+    "tool": "draft_export",
+    "args": {
+      "instructions": "Write an R epilogue that loads the legacy model (cr001_scorecard.R), executes it on the sandbox data, and saves the resulting standard bundle (including the data frame, scores, decisions, and model coefficients) to a file named export_bundle.rds. Ensure the script exits cleanly so run_export can succeed."
+    }
+  }
+}

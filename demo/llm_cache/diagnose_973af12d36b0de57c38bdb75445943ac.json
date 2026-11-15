@@ -1,0 +1,14 @@
+{
+  "task": "diagnose",
+  "model": "gpt-4o-mini",
+  "data": {
+    "diagnosis": "The worst_csi has significantly shifted to 1.122, indicating a substantial change in the input data distribution, particularly for the 'credit.amount' feature which has a PSI of 1.1222. This shift suggests that the model may not be performing as expected under current conditions.",
+    "likely_cause": "population shift",
+    "action": "revalidate",
+    "reasons": [
+      "The worst_csi exceeds the threshold of 0.25 for 3 consecutive windows, indicating a persistent issue.",
+      "The PSI value for 'credit.amount' is significantly high, suggesting a drift in the input distribution.",
+      "The adverse rate has increased from 0.3791 (baseline) to 0.5103 (live), indicating a deterioration in model performance."
+    ]
+  }
+}

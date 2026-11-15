@@ -1,0 +1,14 @@
+{
+  "task": "validate_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The run_plan tool has consistently failed due to the absence of a validation plan, indicating that the documentation stage needs to draft one before proceeding. Therefore, I cannot complete the mandatory steps required for validation.",
+    "action": "finish",
+    "args": {},
+    "summary": "The validation process could not be completed due to the lack of an approved validation plan.",
+    "recommendation": "hold",
+    "reasons": [
+      "Validation plan is missing, preventing the execution of mandatory checks."
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "task": "report_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The initial report draft has been generated but contains violations and the summary does not pass the unsourced-number checker. I need to revise the report to address these issues.",
+    "action": "call",
+    "tool": "write_report",
+    "args": {},
+    "recommendation": "hold",
+    "reasons": [
+      "The report has 4 violations that need to be resolved before it can be promoted."
+    ]
+  }
+}

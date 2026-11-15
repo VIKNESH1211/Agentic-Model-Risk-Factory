@@ -1,0 +1,7 @@
+{
+  "task": "report_summary_try1",
+  "model": "gpt-4o-mini",
+  "data": {
+    "summary": "The independent validation report for CR-001 (CR-001 Retail PD Scorecard) has concluded with an overall rating of Not fit for use. Key findings include Favourable-outcome parity across groups (disparate impact) \u2014 `age_band` with a status of amber, Share of adverse decisions with a status of amber, and Monotonicity of score with respect to bad rate with a status of red. Other metrics such as Discrimination (Gini) on oot, Calibration (predicted \u00f7 observed), and Input stability train \u2192 oot (CSI) for various factors have passed. The report highlights the need for re-validation on recent live traffic due to the identified issues."
+  }
+}

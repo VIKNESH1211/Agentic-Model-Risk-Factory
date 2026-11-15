@@ -1,0 +1,14 @@
+{
+  "task": "redevelop_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The first step is to run the legacy export to validate the bundle, which is mandatory before proceeding further.",
+    "action": "call",
+    "tool": "run_export",
+    "args": {},
+    "recommendation": "hold",
+    "reasons": [
+      "The export must be validated before any further actions can be taken."
+    ]
+  }
+}

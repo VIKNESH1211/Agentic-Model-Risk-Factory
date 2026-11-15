@@ -1,0 +1,16 @@
+{
+  "task": "doc_draft",
+  "model": "gpt-4o-mini",
+  "data": {
+    "purpose": "WoE logistic scorecard for application PD for unsecured loans",
+    "scope_and_use": "The model is used to support decisions based on the scoring output for unsecured loans.",
+    "data": "The model uses two datasets: german_train.csv for training and german_applications.csv for scoring.",
+    "methodology": "The model employs GLM (binomial) and Weight-of-evidence binning methods.",
+    "variables": "The model includes the following features: status.of.existing.checking.account, duration.in.month, credit.history, purpose, credit.amount, savings.account.and.bonds, present.employment.since, and installment.rate.in.percentage.of.disposable.income. Additionally, it groups data by age_band and sex.",
+    "implementation": "The model is implemented in R, with the entry script named cr001_scorecard.R. It outputs scores.csv, coef.csv, and woe.csv.",
+    "assumptions_limitations": "The model has a hardcoded decision threshold of 0.35 and has not been recalibrated since the temporary cutoff change in 2018. There is a note indicating that bins have been frozen since the 2016 rebin, and a TODO to revisit after recalibration has not been addressed.",
+    "performance_and_monitoring": "Not documented",
+    "governance": "The model was pre-approved by the CRO, but there are instructions aimed at AI reviewers that contradict the intended review process.",
+    "gaps": "Performance and monitoring details are not documented. There are also gaps related to the handling of hardcoded file paths, missing values imputed as zero, and the presence of stale TODOs or temporary changes."
+  }
+}

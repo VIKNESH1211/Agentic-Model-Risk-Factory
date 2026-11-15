@@ -14,6 +14,19 @@ def _bool(name: str, default: bool) -> bool:
     return os.getenv(name, str(default)).lower() in {"1", "true", "yes", "on"}
 
 
+_MODEL_DEFAULTS = {"openai": ("gpt-4o-mini", "gpt-4o-mini"), "groq": ("openai/gpt-oss-120b", "openai/gpt-oss-20b"),
+                   "anthropic": ("claude-sonnet-5-5", "")}
+_MODEL_FAMILY = {"openai": ("gpt-", "o1", "o3", "o4", "chatgpt"), "groq": ("openai/", "qwen/", "moonshotai/", "meta-llama/"),
+                 "anthropic": ("claude",)}
+
+
+def _model(env: str, provider: str, idx: int) -> str:
+    """Model from env if it belongs to the provider's family (a leftover name from another provider is ignored)."""
+    v = os.getenv(env, "")
+    fam = _MODEL_FAMILY.get(provider, ())
+    return v if v and (not fam or v.startswith(fam)) else _MODEL_DEFAULTS.get(provider, ("", ""))[idx]
+
+
 class Settings:
     root: Path = ROOT
     legacy_dir: Path = ROOT / "legacy_models"
@@ -22,16 +35,17 @@ class Settings:
     llm_cache_dir: Path = ROOT / "demo" / "llm_cache"
 
     db_url: str = os.getenv("DATABASE_URL", "")
-    # A Groq key (gsk_…) always routes to Groq, whichever line of .env it was pasted on.
+    # Provider follows the key that is present (OPENAI_API_KEY → openai, a gsk_… key → groq), else LLM_PROVIDER.
+    _openai_key = os.getenv("OPENAI_API_KEY", "")
     _key_any = os.getenv("GROQ_API_KEY") or os.getenv("LLM_API_KEY", "")
     _is_groq = _key_any.startswith("gsk_")
-    llm_provider: str = "groq" if _is_groq else os.getenv("LLM_PROVIDER", "offline")  # offline | anthropic | groq
-    llm_model: str = ("openai/gpt-oss-120b" if _is_groq and not os.getenv("LLM_MODEL", "").startswith(("openai/", "qwen/", "moonshotai/", "meta-llama/"))
-                      else os.getenv("LLM_MODEL") or "claude-sonnet-5-5")
+    llm_provider: str = "openai" if _openai_key else "groq" if _is_groq else os.getenv("LLM_PROVIDER", "offline")
+    llm_model: str = _model("LLM_MODEL", llm_provider, 0)
+    llm_fast_model: str = _model("LLM_FAST_MODEL", llm_provider, 1)  # cheaper model for agent steps
+    openai_api_key: str = _openai_key or (os.getenv("LLM_API_KEY", "") if llm_provider == "openai" else "")
+    openai_base_url: str = os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1").rstrip("/")
     groq_api_key: str = _key_any if _is_groq else ""
-    # cheaper/faster model for agent planning and reflections
-    llm_fast_model: str = os.getenv("LLM_FAST_MODEL") or ("openai/gpt-oss-20b" if _is_groq else "")
-    llm_api_key: str = "" if _is_groq else os.getenv("LLM_API_KEY", os.getenv("ANTHROPIC_API_KEY", ""))
+    llm_api_key: str = os.getenv("ANTHROPIC_API_KEY") or (os.getenv("LLM_API_KEY", "") if llm_provider == "anthropic" else "")
     llm_mode: str = os.getenv("LLM_MODE", "replay")  # live | record | replay
     max_run_cost: float = float(os.getenv("MAX_RUN_COST", "2.0"))
     max_run_tokens: int = int(os.getenv("MAX_RUN_TOKENS", "200000"))

@@ -1,0 +1,12 @@
+{
+  "task": "redevelop_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "The export succeeded and the strategy is set to translate, so the next step is to draft the Python translation of the legacy model.",
+    "action": "call",
+    "tool": "draft_translation",
+    "args": {
+      "instructions": "Write a Python implementation (LegacyModel class) that reproduces the exact scoring logic of the CR-001 R script, using the exported frame.csv, scores.csv, and coef.csv as reference. Ensure the class loads the coefficients, applies the same preprocessing (e.g., handling categorical encodings, missing values) and computes the probability scores and binary decisions identical to the R output for every row."
+    }
+  }
+}

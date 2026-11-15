@@ -1,0 +1,13 @@
+{
+  "task": "redevelop_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "We have successfully exported the legacy model bundle; next we must confirm the translation strategy before building the Python version.",
+    "action": "call",
+    "tool": "choose_strategy",
+    "args": {
+      "strategy": "translate",
+      "reason": "Default strategy is to rebuild the model in Python for exact parity"
+    }
+  }
+}

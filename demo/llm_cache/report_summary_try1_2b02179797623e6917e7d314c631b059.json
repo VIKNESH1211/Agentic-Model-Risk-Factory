@@ -1,0 +1,7 @@
+{
+  "task": "report_summary_try1",
+  "model": "gpt-4o-mini",
+  "data": {
+    "summary": "The independent validation of CR-001 Retail PD Scorecard resulted in an overall rating of Not fit for use. Key findings include Score PSI train\u2192oot with a status of amber, Input CSI train\u2192oot \u2014 savings.account.and.bonds also rated amber, and a critical finding of Equal-opportunity diff for age marked as red. Additionally, the report highlights the Challenger Model Underperformance as a significant concern. Despite several components passing, the overall assessment indicates substantial issues that need addressing."
+  }
+}

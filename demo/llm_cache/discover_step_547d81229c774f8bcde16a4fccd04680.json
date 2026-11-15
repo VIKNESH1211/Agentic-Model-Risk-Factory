@@ -1,0 +1,33 @@
+{
+  "task": "discover_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "Attempt to run the script with correct expected filenames by mapping the data room assets to the script's relative file arguments.",
+    "action": "call",
+    "tool": "probe_legacy",
+    "args": {
+      "args": [
+        "--train",
+        "train.csv",
+        "--score",
+        "score.csv",
+        "--outdir",
+        "out"
+      ],
+      "inputs": [
+        {
+          "ref": "train.csv",
+          "asset": "german_train.csv"
+        },
+        {
+          "ref": "score.csv",
+          "asset": "german_applications.csv"
+        }
+      ],
+      "script": "cr001_scorecard.R"
+    },
+    "summary": "",
+    "recommendation": "",
+    "reasons": []
+  }
+}

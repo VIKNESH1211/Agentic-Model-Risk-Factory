@@ -1,0 +1,2 @@
+{"id": "FR-001", "owner": "Financial Crime Analytics",
+ "description": "Card transaction fraud detector (logistic model). Reads creditcard.csv from its working directory."}

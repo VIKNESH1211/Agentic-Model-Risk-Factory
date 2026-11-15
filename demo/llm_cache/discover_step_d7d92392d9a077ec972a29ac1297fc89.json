@@ -1,0 +1,12 @@
+{
+  "task": "discover_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "We have successfully read the script and probed the legacy model, obtaining the fitted glm formula and output objects. The next mandatory step is to draft the model specification based on these observations.",
+    "action": "call",
+    "tool": "draft_spec",
+    "args": {
+      "instructions": "Create a model specification for CR-001 using the evidence from read_script and probe_legacy. Include: task (application PD scoring for unsecured loans), inputs (features derived from the training data german_train.csv, specifically the WoE variables woe_checking, woe_duration, woe_history, woe_purpose, woe_amount, woe_savings, woe_employment, woe_instalment), target (binary variable 'bad'), decision rule (use the fitted glm model with formula bad ~ woe_checking + woe_duration + woe_history + woe_purpose + woe_amount + woe_savings + woe_employment + woe_instalment; decisions output as APPROVE/DECLINE based on a score threshold), fairness groups (any demographic columns present in the 23\u2011column dataset, but do not assume names), tier (assign appropriate tier based on legacy status), strategy (scorecard with frozen bins). Ensure the spec passes the linter."
+    }
+  }
+}

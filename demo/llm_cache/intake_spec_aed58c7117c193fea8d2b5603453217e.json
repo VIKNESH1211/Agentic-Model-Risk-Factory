@@ -1,0 +1,86 @@
+{
+  "task": "intake_spec",
+  "model": "gpt-4o-mini",
+  "data": {
+    "spec": {
+      "name": "CR-001 Retail PD Scorecard",
+      "purpose": "WoE logistic scorecard, application PD for unsecured loans",
+      "owner": "Retail Credit Risk Analytics",
+      "model_type": "Credit risk \u2013 PD scorecard",
+      "tier": "B",
+      "tier_rationale": "Supports decisions or depends on a tier A model.",
+      "entry_script": "cr001_scorecard.R",
+      "task": "binary",
+      "strategy": "rehost",
+      "target": "bad",
+      "exposure": null,
+      "id_column": "id",
+      "features": [
+        "status.of.existing.checking.account",
+        "duration.in.month",
+        "credit.history",
+        "purpose",
+        "credit.amount",
+        "savings.account.and.bonds",
+        "present.employment.since",
+        "installment.rate.in.percentage.of.disposable.income"
+      ],
+      "groups": [
+        {
+          "name": "age_band",
+          "column": "age.in.years",
+          "bins": [
+            25
+          ],
+          "labels": [
+            "under25",
+            "25plus"
+          ]
+        },
+        {
+          "name": "sex",
+          "column": "personal.status.and.sex",
+          "regex_map": {
+            "^female": "F",
+            ".*": "M"
+          }
+        }
+      ],
+      "decision": {
+        "kind": "approve",
+        "op": ">",
+        "cutoff": 0.35,
+        "adverse_label": "DECLINE",
+        "favourable_label": "APPROVE"
+      },
+      "inputs": [
+        {
+          "ref": "german_train.csv",
+          "asset": "german_train.csv"
+        },
+        {
+          "ref": "german_applications.csv",
+          "asset": "german_applications.csv"
+        }
+      ],
+      "harness": {
+        "args": [
+          "--train",
+          "german_train.csv",
+          "--score",
+          "german_applications.csv",
+          "--outdir",
+          "out"
+        ],
+        "epilogue": ""
+      },
+      "upstream": [],
+      "deployable": true,
+      "notes": [
+        "Bins have been frozen since the 2016 rebin and need revisiting after recalibration.",
+        "The model was pre-approved by the CRO."
+      ]
+    },
+    "notes_for_reviewer": "Double-check the fairness groups derived from the data and ensure they align with regulatory requirements."
+  }
+}

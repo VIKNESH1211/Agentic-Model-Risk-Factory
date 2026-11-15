@@ -1,0 +1,16 @@
+{
+  "task": "doc_draft",
+  "model": "gpt-4o-mini",
+  "data": {
+    "purpose": "Assigns initial credit limits based on PD bands and stated income.",
+    "scope_and_use": "The model is used for credit limit assignment in retail banking, specifically targeting customers based on their probability of default (PD) and stated income.",
+    "data": "The model reads data from two sources: 'cr001_scores.csv' for PD scores and 'applications_today.csv' for current applications. It writes the output to 'cr003_limits.csv'.",
+    "methodology": "The model assigns credit limits by categorizing applicants into PD bands and determining limits based on their stated income. The decision rule applies a cutoff of 15000.0, labeling applicants as 'DECLINE' if their calculated limit is less than or equal to this value, and 'APPROVE' otherwise.",
+    "variables": "Key variables include 'income' and 'pd', where 'pd' is categorized into bands: [0.0, 0.05, 0.1, 0.2, 0.35].",
+    "implementation": "The model is implemented in R, with the entry script named 'cr003_limits.R'. It consists of 15 lines of code and has been identified to contain 4 code smells.",
+    "assumptions_limitations": "The model assumes that the PD scores from CR-001 are accurate and reflective of the current risk environment. Limitations include reliance on hardcoded file paths and potential issues arising from the static nature of the PD bands.",
+    "performance_and_monitoring": "Not documented",
+    "governance": "The model is owned by Retail Credit Strategy and is tiered as B, supporting decisions based on outputs from CR-001.",
+    "gaps": "Performance and monitoring details are not documented."
+  }
+}

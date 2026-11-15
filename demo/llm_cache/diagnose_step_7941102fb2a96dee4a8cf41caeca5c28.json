@@ -1,0 +1,11 @@
+{
+  "task": "diagnose_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "I will start by retrieving the alert context to understand the specifics of the red live alert that initiated this re-validation.",
+    "action": "call",
+    "tool": "alert_context",
+    "args": {},
+    "reasons": []
+  }
+}

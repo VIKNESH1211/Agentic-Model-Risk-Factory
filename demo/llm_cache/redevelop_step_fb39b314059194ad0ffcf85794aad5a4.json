@@ -1,0 +1,12 @@
+{
+  "task": "redevelop_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "We need a Python translation of the CR-001 scorecard model to compare against the exported bundle.",
+    "action": "call",
+    "tool": "draft_translation",
+    "args": {
+      "instructions": "Write a Python module that implements the CR-001 scorecard. Define a class LegacyModel that loads the exported coefficients (9 coefficients) and any categorical encodings from the exported bundle, applies the same preprocessing as the R script, computes the linear score, applies the decision threshold, and returns a DataFrame with 'score' and 'decision' columns matching the exported bundle. The implementation must exactly mirror the R logic so that check_parity will succeed."
+    }
+  }
+}

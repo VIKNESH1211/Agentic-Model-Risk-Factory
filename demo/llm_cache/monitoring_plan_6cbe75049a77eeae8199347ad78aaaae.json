@@ -1,0 +1,211 @@
+{
+  "task": "monitoring_plan",
+  "model": "gpt-4o-mini",
+  "data": {
+    "plan": {
+      "kpis": [
+        "adverse_rate",
+        "ae_ratio",
+        "error_rate",
+        "latency_p95_ms",
+        "mean_score",
+        "no_decision_rate",
+        "predicted_rate",
+        "realized_rate",
+        "rpm",
+        "score_psi",
+        "worst_csi",
+        "realized_gini",
+        "realized_recall"
+      ],
+      "rules": [
+        {
+          "id": "score_psi_amber",
+          "kpi": "score_psi",
+          "op": ">",
+          "threshold": 0.1,
+          "windows": 3,
+          "severity": "amber",
+          "action": "notify",
+          "rationale": ""
+        },
+        {
+          "id": "score_psi_red",
+          "kpi": "score_psi",
+          "op": ">",
+          "threshold": 0.25,
+          "windows": 3,
+          "severity": "red",
+          "action": "revalidate",
+          "rationale": ""
+        },
+        {
+          "id": "input_csi_red",
+          "kpi": "worst_csi",
+          "op": ">",
+          "threshold": 0.25,
+          "windows": 3,
+          "severity": "red",
+          "action": "revalidate",
+          "rationale": ""
+        },
+        {
+          "id": "errors",
+          "kpi": "error_rate",
+          "op": ">",
+          "threshold": 0.01,
+          "windows": 2,
+          "severity": "amber",
+          "action": "notify",
+          "rationale": ""
+        },
+        {
+          "id": "no_decision",
+          "kpi": "no_decision_rate",
+          "op": ">",
+          "threshold": 0.02,
+          "windows": 2,
+          "severity": "amber",
+          "action": "notify",
+          "rationale": ""
+        },
+        {
+          "id": "latency",
+          "kpi": "latency_p95_ms",
+          "op": ">",
+          "threshold": 150.0,
+          "windows": 3,
+          "severity": "amber",
+          "action": "notify",
+          "rationale": ""
+        },
+        {
+          "id": "ae_high",
+          "kpi": "ae_ratio",
+          "op": ">",
+          "threshold": 1.25,
+          "windows": 3,
+          "severity": "red",
+          "action": "revalidate",
+          "rationale": ""
+        },
+        {
+          "id": "ae_low",
+          "kpi": "ae_ratio",
+          "op": "<",
+          "threshold": 0.8,
+          "windows": 3,
+          "severity": "red",
+          "action": "revalidate",
+          "rationale": ""
+        },
+        {
+          "id": "realized_recall",
+          "kpi": "realized_recall",
+          "op": "<",
+          "threshold": 0.5,
+          "windows": 3,
+          "severity": "red",
+          "action": "revalidate",
+          "rationale": ""
+        }
+      ],
+      "panels": [
+        {
+          "id": "volume",
+          "title": "Volume & latency",
+          "kind": "area",
+          "kpis": [
+            "rpm",
+            "latency_p95_ms"
+          ],
+          "unit": ""
+        },
+        {
+          "id": "stability",
+          "title": "Stability (PSI / CSI)",
+          "kind": "line",
+          "kpis": [
+            "score_psi",
+            "worst_csi"
+          ],
+          "unit": ""
+        },
+        {
+          "id": "quality",
+          "title": "Errors & no-decision",
+          "kind": "bar",
+          "kpis": [
+            "error_rate",
+            "no_decision_rate"
+          ],
+          "unit": ""
+        },
+        {
+          "id": "decisions",
+          "title": "Mean score & adverse rate",
+          "kind": "line",
+          "kpis": [
+            "mean_score",
+            "adverse_rate"
+          ],
+          "unit": ""
+        },
+        {
+          "id": "outcomes",
+          "title": "Actual vs expected",
+          "kind": "line",
+          "kpis": [
+            "realized_rate",
+            "predicted_rate",
+            "ae_ratio"
+          ],
+          "unit": ""
+        }
+      ],
+      "scenarios": [
+        {
+          "id": "economic_downturn",
+          "title": "Economic Downturn",
+          "description": "Simulates a scenario where economic conditions worsen, affecting applicants' financial stability.",
+          "transforms": [
+            {
+              "op": "scale",
+              "column": "credit.amount",
+              "value": -0.2,
+              "fraction": 0.5
+            },
+            {
+              "op": "flip_target",
+              "column": "bad",
+              "value": 1,
+              "fraction": 0.1
+            }
+          ]
+        },
+        {
+          "id": "fraud_increase",
+          "title": "Increase in Fraudulent Applications",
+          "description": "Simulates a rise in fraudulent applications leading to higher adverse decisions.",
+          "transforms": [
+            {
+              "op": "set_category",
+              "column": "purpose",
+              "value": "fraud",
+              "fraction": 0.05
+            },
+            {
+              "op": "flip_target",
+              "column": "bad",
+              "value": 1,
+              "fraction": 0.15
+            }
+          ]
+        }
+      ],
+      "rpm": 240,
+      "rationale": "This plan addresses identified gaps by including comprehensive KPIs, alert rules, and realistic drift scenarios tailored to the CR-001 model."
+    },
+    "summary": "The monitoring plan for the CR-001 Retail PD Scorecard includes a robust set of KPIs and alert rules to ensure model performance and stability. Additionally, it incorporates plausible drift scenarios to proactively manage potential risks."
+  }
+}

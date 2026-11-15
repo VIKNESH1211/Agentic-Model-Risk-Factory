@@ -1,0 +1,10 @@
+{
+  "task": "redevelop_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "The next mandatory step is to certify the model under the chosen rehost strategy, which should succeed now that the export is available.",
+    "action": "call",
+    "tool": "certify",
+    "args": {}
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "task": "intake_spec",
+  "model": "gpt-4o-mini",
+  "data": {
+    "spec": {
+      "name": "Motor claims frequency GLM",
+      "purpose": "Pricing",
+      "owner": "Pricing Analytics",
+      "model_type": "Motor claims frequency GLM",
+      "tier": "B",
+      "tier_rationale": "Supports decisions or depends on a tier A model.",
+      "entry_script": "pr001_claims_freq.R",
+      "task": "frequency",
+      "strategy": "rehost",
+      "target": null,
+      "exposure": "exposure",
+      "id_column": null,
+      "features": [
+        "veh_body",
+        "veh_age",
+        "agecat",
+        "area",
+        "gender"
+      ],
+      "groups": [
+        {
+          "name": "agecat",
+          "column": "agecat",
+          "bins": null,
+          "labels": null,
+          "regex_map": null
+        }
+      ],
+      "decision": {
+        "kind": "none",
+        "op": ">",
+        "cutoff": null,
+        "adverse_label": "",
+        "favourable_label": ""
+      },
+      "inputs": [
+        {
+          "ref": "dataCar",
+          "asset": "insuranceData::dataCar"
+        }
+      ],
+      "harness": {
+        "args": []
+      },
+      "upstream": [],
+      "deployable": false,
+      "notes": []
+    },
+    "notes_for_reviewer": "Double-check the mapping of the input 'dataCar' to the asset 'insuranceData::dataCar', as it was noted that this asset is not present in the data room."
+  }
+}

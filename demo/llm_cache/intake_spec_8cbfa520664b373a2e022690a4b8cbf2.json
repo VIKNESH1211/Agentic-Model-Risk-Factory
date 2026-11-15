@@ -1,0 +1,77 @@
+{
+  "task": "intake_spec",
+  "model": "gpt-4o-mini",
+  "data": {
+    "spec": {
+      "name": "CR-003 Credit Limit Assignment",
+      "purpose": "Assigns initial credit limits based on PD bands and stated income.",
+      "owner": "Retail Credit Strategy",
+      "model_type": "Credit risk \u2013 Credit limit assignment",
+      "tier": "B",
+      "tier_rationale": "Supports decisions based on outputs from CR-001.",
+      "entry_script": "cr003_limits.R",
+      "task": "regression",
+      "strategy": "rehost",
+      "target": "limit",
+      "exposure": null,
+      "id_column": "id",
+      "features": [
+        "income",
+        "pd"
+      ],
+      "groups": [
+        {
+          "name": "pd_band",
+          "column": "pd",
+          "bins": [
+            0,
+            0.05,
+            0.1,
+            0.2,
+            0.35,
+            1
+          ],
+          "labels": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E"
+          ]
+        }
+      ],
+      "decision": {
+        "kind": "limit",
+        "op": "<=",
+        "cutoff": null,
+        "adverse_label": "DECLINE",
+        "favourable_label": "APPROVE"
+      },
+      "inputs": [
+        {
+          "ref": "//shared/riskdata/cr001_scores.csv",
+          "asset": "cr001_scores.csv"
+        },
+        {
+          "ref": "//shared/riskdata/applications_today.csv",
+          "asset": "applications_today.csv"
+        }
+      ],
+      "harness": {
+        "args": []
+      },
+      "upstream": [
+        {
+          "model_id": "CR-001",
+          "via_asset": "cr001_scores.csv"
+        }
+      ],
+      "deployable": true,
+      "notes": [
+        "Ensure that the income multipliers are updated if the strategy changes.",
+        "The decision rule sets limits based on the calculated income and PD band."
+      ]
+    },
+    "notes_for_reviewer": "Double-check the accuracy of the income multipliers and the PD band definitions."
+  }
+}

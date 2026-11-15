@@ -1,0 +1,14 @@
+{
+  "task": "validate_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The model CR-002 has been validated with a focus on its performance and stability. The results indicate areas of concern, particularly with the monotonicity check, which is red, and two amber checks related to stability.",
+    "action": "call",
+    "tool": "stress_test",
+    "args": {
+      "column": "some_numeric_column",
+      "factor": 1.2
+    },
+    "reasons": []
+  }
+}

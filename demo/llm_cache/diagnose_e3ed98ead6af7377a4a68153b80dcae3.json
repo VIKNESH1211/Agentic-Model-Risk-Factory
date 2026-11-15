@@ -1,0 +1,14 @@
+{
+  "task": "diagnose",
+  "model": "gpt-4o-mini",
+  "data": {
+    "diagnosis": "The worst_csi metric has significantly exceeded the threshold of 0.25 for three consecutive windows, indicating a potential shift in input data quality or population characteristics. The PSI for the column 'installment.rate.in.percentage.of.disposable.income' is notably high at 10.8562, suggesting a significant change in the distribution of this input feature.",
+    "likely_cause": "data issue",
+    "action": "revalidate",
+    "reasons": [
+      "The PSI value indicates a significant shift in input data, particularly for 'installment.rate.in.percentage.of.disposable.income'.",
+      "The presence of new codes in the input data suggests that the model may not be adequately capturing the current population characteristics.",
+      "The worst_csi metric being above the threshold for three consecutive windows necessitates a re-evaluation of the model's performance against the new data."
+    ]
+  }
+}

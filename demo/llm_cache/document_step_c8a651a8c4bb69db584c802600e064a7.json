@@ -1,0 +1,14 @@
+{
+  "task": "document_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "I will start by checking the policies against the model script to identify any compliance issues.",
+    "action": "call",
+    "tool": "check_policies",
+    "args": {},
+    "recommendation": "hold",
+    "reasons": [
+      "This step is mandatory and must succeed before proceeding."
+    ]
+  }
+}

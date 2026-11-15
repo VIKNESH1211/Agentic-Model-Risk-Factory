@@ -1,0 +1,318 @@
+{
+  "task": "validation_plan",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "plan": {
+      "checks": [
+        {
+          "id": "performance.auc_test",
+          "title": "AUC on test",
+          "category": "performance",
+          "metric": "auc",
+          "params": {
+            "target": "bad",
+            "score": "score",
+            "split": "test"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.75,
+            "red": 0.7
+          },
+          "severity": "high",
+          "rationale": "AUC measures discrimination; must meet industry standards."
+        },
+        {
+          "id": "performance.auc_oot",
+          "title": "AUC on oot",
+          "category": "performance",
+          "metric": "auc",
+          "params": {
+            "target": "bad",
+            "score": "score",
+            "split": "oot"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.75,
+            "red": 0.7
+          },
+          "severity": "high",
+          "rationale": "AUC on out\u2011of\u2011time data ensures temporal robustness."
+        },
+        {
+          "id": "performance.ks_test",
+          "title": "KS statistic on test",
+          "category": "performance",
+          "metric": "ks",
+          "params": {
+            "target": "bad",
+            "score": "score",
+            "split": "test"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.3,
+            "red": 0.2
+          },
+          "severity": "high",
+          "rationale": "KS captures max separation between good and bad."
+        },
+        {
+          "id": "performance.ks_oot",
+          "title": "KS statistic on oot",
+          "category": "performance",
+          "metric": "ks",
+          "params": {
+            "target": "bad",
+            "score": "score",
+            "split": "oot"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.3,
+            "red": 0.2
+          },
+          "severity": "high",
+          "rationale": "Temporal KS validates stability of separation."
+        },
+        {
+          "id": "performance.brier_test",
+          "title": "Brier score on test",
+          "category": "performance",
+          "metric": "brier",
+          "params": {
+            "target": "bad",
+            "score": "score",
+            "split": "test"
+          },
+          "threshold": {
+            "op": "<",
+            "amber": 0.2,
+            "red": 0.3
+          },
+          "severity": "medium",
+          "rationale": "Brier assesses probability calibration; lower is better."
+        },
+        {
+          "id": "performance.brier_oot",
+          "title": "Brier score on oot",
+          "category": "performance",
+          "metric": "brier",
+          "params": {
+            "target": "bad",
+            "score": "score",
+            "split": "oot"
+          },
+          "threshold": {
+            "op": "<",
+            "amber": 0.2,
+            "red": 0.3
+          },
+          "severity": "medium",
+          "rationale": "Checks probability accuracy on out\u2011of\u2011time data."
+        },
+        {
+          "id": "calibration.ratio_over",
+          "title": "Calibration ratio (over\u2011prediction)",
+          "category": "calibration",
+          "metric": "calibration_ratio",
+          "params": {
+            "target": "bad",
+            "score": "score",
+            "split": "test|oot"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 1.2,
+            "red": 1.5
+          },
+          "severity": "medium",
+          "rationale": "Detects systematic over\u2011prediction of PD."
+        },
+        {
+          "id": "calibration.ratio_under",
+          "title": "Calibration ratio (under\u2011prediction)",
+          "category": "calibration",
+          "metric": "calibration_ratio",
+          "params": {
+            "target": "bad",
+            "score": "score",
+            "split": "test|oot"
+          },
+          "threshold": {
+            "op": "<",
+            "amber": 0.8,
+            "red": 0.6
+          },
+          "severity": "medium",
+          "rationale": "Detects systematic under\u2011prediction of PD."
+        },
+        {
+          "id": "stability.score_psi",
+          "title": "Score PSI train\u2192oot",
+          "category": "stability",
+          "metric": "psi",
+          "params": {
+            "col": "score",
+            "base": "train",
+            "comp": "oot"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.1,
+            "red": 0.25
+          },
+          "severity": "medium",
+          "rationale": "Monitors population shift of the model score."
+        },
+        {
+          "id": "stability.input_csi",
+          "title": "Input CSI train\u2192oot",
+          "category": "stability",
+          "metric": "psi",
+          "params": {
+            "col": "feature",
+            "base": "train",
+            "comp": "oot"
+          },
+          "expand": "features",
+          "threshold": {
+            "op": ">",
+            "amber": 0.1,
+            "red": 0.25
+          },
+          "severity": "low",
+          "rationale": "Detects drift in individual input distributions."
+        },
+        {
+          "id": "fairness.di_age_band",
+          "title": "Disparate impact across age bands",
+          "category": "fairness",
+          "metric": "di_ratio",
+          "params": {
+            "group": "age_band",
+            "approve": "approve",
+            "split": "all"
+          },
+          "threshold": {
+            "op": "<",
+            "amber": 0.8,
+            "red": 0.6
+          },
+          "severity": "medium",
+          "rationale": "Ensures four\u2011fifths rule for age groups."
+        },
+        {
+          "id": "fairness.di_sex",
+          "title": "Disparate impact across sex",
+          "category": "fairness",
+          "metric": "di_ratio",
+          "params": {
+            "group": "sex",
+            "approve": "approve",
+            "split": "all"
+          },
+          "threshold": {
+            "op": "<",
+            "amber": 0.8,
+            "red": 0.6
+          },
+          "severity": "medium",
+          "rationale": "Checks gender parity in approvals."
+        },
+        {
+          "id": "fairness.eo_age_band",
+          "title": "Equal\u2011opportunity diff for age",
+          "category": "fairness",
+          "metric": "eo_diff",
+          "params": {
+            "group": "age_band",
+            "approve": "approve",
+            "target": "bad",
+            "split": "all"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.05,
+            "red": 0.1
+          },
+          "severity": "medium",
+          "rationale": "Limits approval\u2011rate gap among non\u2011defaulters by age."
+        },
+        {
+          "id": "fairness.eo_sex",
+          "title": "Equal\u2011opportunity diff for sex",
+          "category": "fairness",
+          "metric": "eo_diff",
+          "params": {
+            "group": "sex",
+            "approve": "approve",
+            "target": "bad",
+            "split": "all"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.05,
+            "red": 0.1
+          },
+          "severity": "medium",
+          "rationale": "Limits approval\u2011rate gap among non\u2011defaulters by gender."
+        },
+        {
+          "id": "data_quality.missing_any",
+          "title": "Rows with missing model inputs",
+          "category": "data_quality",
+          "metric": "rate_true",
+          "params": {
+            "col": "missing_any",
+            "split": "test|oot"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.02,
+            "red": 0.1
+          },
+          "severity": "medium",
+          "rationale": "High missing\u2011input rate indicates data\u2011quality issues."
+        },
+        {
+          "id": "policy.adverse_rate",
+          "title": "Share of adverse decisions",
+          "category": "policy",
+          "metric": "rate_true",
+          "params": {
+            "col": "flag",
+            "split": "test|oot"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.5,
+            "red": 0.7
+          },
+          "severity": "high",
+          "rationale": "Ensures adverse decision rate stays within acceptable bounds (PC\u201101)."
+        },
+        {
+          "id": "policy.cutoff_check",
+          "title": "Decision cutoff discrepancy",
+          "category": "policy",
+          "metric": "rate_true",
+          "params": {
+            "col": "approve",
+            "split": "all"
+          },
+          "severity": "high",
+          "rationale": "Documented cutoff 0.25 differs from implemented 0.35 (PC\u201102)."
+        }
+      ],
+      "investigations": [
+        "stress_test",
+        "slice_search",
+        "challenger"
+      ],
+      "rationale": "The plan covers discrimination, calibration, stability, fairness, data quality and policy compliance for the CR\u2011001 PD scorecard."
+    },
+    "summary": "The validation plan applies a comprehensive set of performance, calibration, stability, fairness, data\u2011quality and policy checks using only catalogued metrics. Thresholds follow industry best\u2011practice and address documented policy gaps and the cutoff discrepancy."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "task": "epilogue_draft",
+  "model": "gpt-4o-mini",
+  "data": {
+    "r_code": "mrf_export(frame = cc[-idx, ], score = p, decision = alert, coef = coef(fit), train_rows = idx)",
+    "explanation": "The frame used is the test set 'cc[-idx, ]' which contains the raw inputs for scoring. The score 'p' is the predicted probabilities for this frame. The decision 'alert' indicates whether the score exceeds the threshold of 0.5. The training rows 'idx' captures the indices of the rows used to fit the model, ensuring that the training subset is correctly documented."
+  }
+}

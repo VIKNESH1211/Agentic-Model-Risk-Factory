@@ -1,0 +1,2 @@
+{"id": "CR-001", "owner": "Retail Credit Risk Analytics",
+ "description": "Retail unsecured-loan PD scorecard. The nightly batch job runs: Rscript cr001_scorecard.R --train german_train.csv --score german_applications.csv --outdir out"}

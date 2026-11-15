@@ -1,0 +1,14 @@
+{
+  "task": "report_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The report cannot be assembled due to the absence of validation results. I need to ensure that there are validation results before proceeding with the report generation.",
+    "action": "finish",
+    "args": {},
+    "summary": "No validation results available to complete the report.",
+    "recommendation": "hold",
+    "reasons": [
+      "No validation results to support the report generation."
+    ]
+  }
+}

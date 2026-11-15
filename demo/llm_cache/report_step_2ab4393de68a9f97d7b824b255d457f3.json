@@ -1,0 +1,15 @@
+{
+  "task": "report_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The initial report draft has been generated but failed the unsourced-number checker due to violations. I need to revise the report to address these issues before proceeding.",
+    "action": "call",
+    "tool": "write_report",
+    "args": {},
+    "summary": "",
+    "recommendation": "hold",
+    "reasons": [
+      "Report contains unsourced numbers that need to be corrected."
+    ]
+  }
+}

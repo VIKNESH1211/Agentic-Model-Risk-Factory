@@ -1,0 +1,14 @@
+{
+  "task": "diagnose",
+  "model": "gpt-4o-mini",
+  "data": {
+    "diagnosis": "The worst_csi has significantly increased to 0.6915, exceeding the threshold of 0.25 for three consecutive windows, indicating a potential population shift in the input data, particularly in the 'credit.amount' feature which has a PSI of 0.6915.",
+    "likely_cause": "population shift",
+    "action": "revalidate",
+    "reasons": [
+      "The input data shows a significant shift in the 'credit.amount' feature, which could affect model predictions.",
+      "The worst_csi value indicates that at least one input has shifted significantly, warranting a revalidation of the model.",
+      "Recent KPI windows show a consistent increase in worst_csi, suggesting a trend that needs to be addressed."
+    ]
+  }
+}

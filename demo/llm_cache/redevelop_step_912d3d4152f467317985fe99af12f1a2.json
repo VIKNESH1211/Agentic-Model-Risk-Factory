@@ -1,0 +1,10 @@
+{
+  "task": "redevelop_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "Now run the export using the drafted epilogue to generate the standard bundle.",
+    "action": "call",
+    "tool": "run_export",
+    "args": {}
+  }
+}

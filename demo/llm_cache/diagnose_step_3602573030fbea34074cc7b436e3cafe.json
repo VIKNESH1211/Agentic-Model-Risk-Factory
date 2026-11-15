@@ -1,0 +1,11 @@
+{
+  "task": "diagnose_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The input drift analysis indicates a significant shift in the 'credit.amount' feature, with a PSI of 1.1222, which is a major concern. Additionally, the score shift analysis shows a notable increase in the adverse decision rate from baseline, suggesting that the model's performance may have deteriorated.",
+    "action": "call",
+    "tool": "diagnose",
+    "args": {},
+    "reasons": []
+  }
+}

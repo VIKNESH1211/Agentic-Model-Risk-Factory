@@ -1,0 +1,16 @@
+{
+  "task": "discover_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "I have gathered sufficient information from the script and the legacy probe to draft the model specification. Now I will proceed to draft the specification based on the findings.",
+    "action": "call",
+    "tool": "draft_spec",
+    "args": {
+      "instructions": "Set tier to A as per reviewer feedback. Include task, inputs, target, features, fairness groups, decision rule, strategy based on the legacy model findings."
+    },
+    "recommendation": "hold",
+    "reasons": [
+      "Specification needs to be drafted and validated before proceeding."
+    ]
+  }
+}

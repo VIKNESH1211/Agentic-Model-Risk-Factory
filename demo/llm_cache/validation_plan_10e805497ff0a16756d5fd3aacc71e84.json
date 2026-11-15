@@ -1,0 +1,158 @@
+{
+  "task": "validation_plan",
+  "model": "gpt-4o-mini",
+  "data": {
+    "plan": {
+      "checks": [
+        {
+          "id": "performance.auc_test",
+          "title": "AUC on test set",
+          "category": "performance",
+          "metric": "auc",
+          "params": {
+            "target": "occurred",
+            "score": "score",
+            "split": "test",
+            "slice": "str"
+          },
+          "threshold": {
+            "op": "<",
+            "amber": 0.7,
+            "red": 0.6
+          },
+          "severity": "medium",
+          "rationale": "AUC indicates model discrimination ability."
+        },
+        {
+          "id": "performance.gini_test",
+          "title": "Gini on test set",
+          "category": "performance",
+          "metric": "gini",
+          "params": {
+            "target": "occurred",
+            "score": "score",
+            "split": "test",
+            "slice": "str"
+          },
+          "threshold": {
+            "op": "<",
+            "amber": 0.4,
+            "red": 0.3
+          },
+          "severity": "medium",
+          "rationale": "Gini coefficient measures model's discriminatory power."
+        },
+        {
+          "id": "calibration.brier_test",
+          "title": "Brier score on test set",
+          "category": "calibration",
+          "metric": "brier",
+          "params": {
+            "target": "occurred",
+            "score": "score",
+            "split": "test",
+            "slice": "str"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.1,
+            "red": 0.15
+          },
+          "severity": "medium",
+          "rationale": "Brier score assesses the accuracy of predicted probabilities."
+        },
+        {
+          "id": "stability.score_psi",
+          "title": "Score stability train \u2192 oot (PSI)",
+          "category": "stability",
+          "metric": "psi",
+          "params": {
+            "col": "score",
+            "base": "train",
+            "comp": "oot"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.1,
+            "red": 0.25
+          },
+          "severity": "medium",
+          "rationale": "PSI indicates stability of score distribution over time."
+        },
+        {
+          "id": "stability.csi",
+          "title": "Input stability train \u2192 oot (CSI)",
+          "category": "stability",
+          "metric": "psi",
+          "params": {
+            "base": "train",
+            "comp": "oot"
+          },
+          "expand": "features",
+          "threshold": {
+            "op": ">",
+            "amber": 0.1,
+            "red": 0.25
+          },
+          "severity": "low",
+          "rationale": "CSI assesses stability of input features over time."
+        },
+        {
+          "id": "fairness.di_ratio",
+          "title": "Favourable-outcome parity across groups (disparate impact)",
+          "category": "fairness",
+          "metric": "di_ratio",
+          "params": {
+            "group": "pd_band",
+            "approve": "approve",
+            "split": "all"
+          },
+          "expand": "groups",
+          "threshold": {
+            "op": "<",
+            "amber": 0.8,
+            "red": 0.6
+          },
+          "severity": "medium",
+          "rationale": "Disparate impact ratio evaluates fairness across groups."
+        },
+        {
+          "id": "data_quality.missing",
+          "title": "Rows with a missing model input",
+          "category": "data_quality",
+          "metric": "rate_true",
+          "params": {
+            "col": "missing_any",
+            "split": "test|oot"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.02,
+            "red": 0.1
+          },
+          "severity": "medium",
+          "rationale": "Missing inputs can affect model performance."
+        },
+        {
+          "id": "policy.adverse_rate",
+          "title": "Share of adverse decisions",
+          "category": "policy",
+          "metric": "rate_true",
+          "params": {
+            "col": "flag",
+            "split": "all"
+          },
+          "threshold": null,
+          "severity": "low",
+          "rationale": "Context for the decision rule; no pass/fail."
+        }
+      ],
+      "investigations": [
+        "slice_search",
+        "stress_test"
+      ],
+      "rationale": "The validation plan focuses on performance, calibration, stability, fairness, data quality, and policy checks relevant to the CR-003 model."
+    },
+    "summary": "The validation plan for CR-003 includes checks for performance metrics like AUC and Gini, calibration through Brier score, stability assessments via PSI, fairness through disparate impact ratio, and data quality checks for missing inputs. This comprehensive approach ensures the model's robustness and compliance with industry standards."
+  }
+}

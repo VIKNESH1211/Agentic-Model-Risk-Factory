@@ -1,0 +1,14 @@
+{
+  "task": "document_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "I will start by checking the policies to identify any findings related to the model CR-001.",
+    "action": "call",
+    "tool": "check_policies",
+    "args": {},
+    "recommendation": "hold",
+    "reasons": [
+      "The mandatory step of checking policies must be completed before proceeding."
+    ]
+  }
+}

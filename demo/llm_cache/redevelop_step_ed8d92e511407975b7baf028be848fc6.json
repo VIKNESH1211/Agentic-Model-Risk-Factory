@@ -1,0 +1,16 @@
+{
+  "task": "redevelop_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The export was successful, but I need to create a candidate translation in Python to check for parity with the legacy model.",
+    "action": "call",
+    "tool": "draft_translation",
+    "args": {
+      "instructions": "Write the Python translation (LegacyModel) that replicates the behavior of the legacy model FR-001."
+    },
+    "recommendation": "hold",
+    "reasons": [
+      "A candidate translation is required to proceed with the parity check."
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "task": "validate_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The model CR-002 has been validated through the approved plan, revealing significant issues with stability and monotonicity. The challenger model performed worse than the legacy model, indicating no immediate concerns with the model's performance.",
+    "action": "finish",
+    "args": {},
+    "summary": "The validation of model CR-002 is complete, with findings indicating it is not fit for use due to amber and red results in stability and monotonicity checks.",
+    "recommendation": "hold",
+    "reasons": [
+      "Model not fit for use due to stability and monotonicity issues.",
+      "Amber and red findings require human review before proceeding."
+    ]
+  }
+}

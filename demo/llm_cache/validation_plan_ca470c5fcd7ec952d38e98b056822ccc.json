@@ -1,0 +1,164 @@
+{
+  "task": "validation_plan",
+  "model": "gpt-4o-mini",
+  "data": {
+    "plan": {
+      "title": "Independent Validation Plan for CR-003",
+      "checks": [
+        {
+          "id": "perf.auc_test",
+          "title": "AUC on Test Set",
+          "category": "performance",
+          "metric": "auc",
+          "params": {
+            "target": "occurred",
+            "score": "score",
+            "split": "test",
+            "slice": "str"
+          },
+          "threshold": {
+            "op": "<",
+            "amber": 0.7,
+            "red": 0.6
+          },
+          "severity": "high",
+          "rationale": "AUC indicates the model's ability to discriminate between approved and declined applications."
+        },
+        {
+          "id": "perf.auc_oot",
+          "title": "AUC on Out-of-Time Sample",
+          "category": "performance",
+          "metric": "auc",
+          "params": {
+            "target": "occurred",
+            "score": "score",
+            "split": "oot",
+            "slice": "str"
+          },
+          "threshold": {
+            "op": "<",
+            "amber": 0.7,
+            "red": 0.6
+          },
+          "severity": "high",
+          "rationale": "AUC on OOT sample assesses model stability over time."
+        },
+        {
+          "id": "calibration.brier",
+          "title": "Brier Score",
+          "category": "calibration",
+          "metric": "brier",
+          "params": {
+            "target": "occurred",
+            "score": "score",
+            "split": "test",
+            "slice": "str"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.2,
+            "red": 0.3
+          },
+          "severity": "medium",
+          "rationale": "Lower Brier scores indicate better calibration of predicted probabilities."
+        },
+        {
+          "id": "stability.psi",
+          "title": "Population Stability Index (PSI)",
+          "category": "stability",
+          "metric": "psi",
+          "params": {
+            "col": "score",
+            "base": "train",
+            "comp": "oot",
+            "categorical": false
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.1,
+            "red": 0.25
+          },
+          "severity": "high",
+          "rationale": "PSI measures changes in the distribution of scores over time."
+        },
+        {
+          "id": "fairness.di_ratio",
+          "title": "Disparate Impact Ratio",
+          "category": "fairness",
+          "metric": "di_ratio",
+          "params": {
+            "group": "pd_band",
+            "approve": "approve",
+            "split": "test"
+          },
+          "threshold": {
+            "op": "<",
+            "amber": 0.8,
+            "red": 0.7
+          },
+          "severity": "high",
+          "rationale": "Ensures that the model does not disproportionately favor or disadvantage any group."
+        },
+        {
+          "id": "data_quality.missing_any",
+          "title": "Missing Any Rate",
+          "category": "data_quality",
+          "metric": "rate_true",
+          "params": {
+            "col": "missing_any",
+            "split": "test"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.05,
+            "red": 0.1
+          },
+          "severity": "medium",
+          "rationale": "High missing rates can indicate data quality issues affecting model performance."
+        },
+        {
+          "id": "policy.adverse_decision_share",
+          "title": "Share of Adverse Decisions",
+          "category": "policy",
+          "metric": "rate_true",
+          "params": {
+            "col": "flag",
+            "split": "test"
+          },
+          "threshold": {
+            "op": ">=",
+            "amber": 0.3,
+            "red": 0.4
+          },
+          "severity": "medium",
+          "rationale": "Monitors the rate of adverse decisions to ensure compliance with policy limits."
+        },
+        {
+          "id": "policy.monotonicity",
+          "title": "Monotonicity Check",
+          "category": "policy",
+          "metric": "monotone_by",
+          "params": {
+            "col": "limit",
+            "by": "pd_band",
+            "split": "test"
+          },
+          "threshold": {
+            "op": "<=",
+            "amber": 1,
+            "red": 0
+          },
+          "severity": "high",
+          "rationale": "Ensures that credit limits do not increase as PD increases."
+        }
+      ],
+      "investigations": [
+        "challenger",
+        "slice_search",
+        "stress_test"
+      ],
+      "rationale": "This validation plan covers key performance, calibration, stability, fairness, data quality, and policy checks relevant to the CR-003 model. The thresholds are set based on industry standards to ensure the model's reliability and compliance."
+    },
+    "summary": "The validation plan for CR-003 includes a comprehensive set of checks focusing on performance, calibration, stability, fairness, data quality, and policy adherence. Each check is designed to ensure the model operates effectively within defined thresholds, promoting responsible credit limit assignment."
+  }
+}

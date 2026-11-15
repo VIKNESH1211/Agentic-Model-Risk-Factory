@@ -1,0 +1,16 @@
+{
+  "task": "doc_draft",
+  "model": "gpt-4o-mini",
+  "data": {
+    "purpose": "WoE logistic scorecard, application PD for unsecured loans",
+    "scope_and_use": "The model is used for predicting the probability of default (PD) on unsecured loans within the retail credit portfolio. It is classified as a tier B model as it supports decisions or depends on a tier A model.",
+    "data": "The model utilizes two datasets: 'german_train.csv' for training and 'german_applications.csv' for scoring.",
+    "methodology": "The model employs a Generalized Linear Model (GLM) with a binomial distribution and uses Weight-of-Evidence (WoE) binning for feature transformation.",
+    "variables": "The model includes the following features: status of existing checking account, duration in months, credit history, purpose, credit amount, savings account and bonds, present employment since, and installment rate in percentage of disposable income. Additionally, it categorizes age into two bands (under 25 and 25 plus) and sex into female and male.",
+    "implementation": "The model is implemented in R, with the entry script named 'cr001_scorecard.R'. It outputs scores, coefficients, and WoE values to 'scores.csv', 'coef.csv', and 'woe.csv'.",
+    "assumptions_limitations": "The bins used in the model have been frozen since the 2016 rebin and require revisiting after recalibration. The model was pre-approved by the CRO, but there are hardcoded elements such as file paths and decision thresholds. Missing values are imputed as zero, which may not be appropriate.",
+    "performance_and_monitoring": "Not documented",
+    "governance": "The model is owned by Retail Credit Risk Analytics and has undergone a pre-approval process by the Chief Risk Officer (CRO).",
+    "gaps": "Performance and monitoring details are not documented. There are also gaps related to the need for revisiting the frozen bins and addressing hardcoded elements in the implementation."
+  }
+}

@@ -1,86 +1,272 @@
-# Model Risk Factory
+<p align="center">
+  <img src="docs/assets/banner.png" alt="Model Risk Factory by Zero Gradient" width="100%">
+</p>
 
-Agentic factory that takes a legacy model estate (messy R scripts, no docs) and produces
-**documentation, a Python redevelopment with a parity certificate, an independent validation report
-where every number is traceable and reproducible, and live drift monitoring** — under human gates,
-with a hash-chained audit ledger. Built from `../build_plan.md`.
+<p align="center">
+  <b>An agentic model-risk platform for any legacy R model.</b><br>
+  Agents discover, document, rebuild, validate and monitor your models, and a person approves every step.
+</p>
 
-## Run it
+<p align="center">
+  <img src="https://img.shields.io/badge/agents-6_specialists-14b8a6?style=for-the-badge" alt="6 specialist agents">
+  <img src="https://img.shields.io/badge/human_gates-every_stage-f59e0b?style=for-the-badge" alt="Human gates at every stage">
+  <img src="https://img.shields.io/badge/R_→_Python-parity_certified-22c55e?style=for-the-badge" alt="R to Python, parity certified">
+  <img src="https://img.shields.io/badge/ledger-hash_chained-8b5cf6?style=for-the-badge" alt="Hash-chained ledger">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white" alt="Python 3.11">
+  <img src="https://img.shields.io/badge/FastAPI-backend-009688?logo=fastapi&logoColor=white" alt="FastAPI">
+  <img src="https://img.shields.io/badge/Next.js-15-000000?logo=nextdotjs&logoColor=white" alt="Next.js 15">
+  <img src="https://img.shields.io/badge/R-sandboxed-276DC3?logo=r&logoColor=white" alt="R sandbox">
+  <img src="https://img.shields.io/badge/Docker-no_network-2496ED?logo=docker&logoColor=white" alt="Docker">
+  <img src="https://img.shields.io/badge/SR_11--7_·_SS1%2F23-aligned-475569" alt="SR 11-7 and SS1/23">
+</p>
+
+<p align="center">
+  <a href="#-see-it-in-3-minutes">Demo</a> ·
+  <a href="#-why-it-matters">Why</a> ·
+  <a href="#-whats-new">Innovation</a> ·
+  <a href="#-a-tour-of-the-product">Tour</a> ·
+  <a href="#%EF%B8%8F-how-a-model-flows">How it works</a> ·
+  <a href="#-run-it">Run it</a>
+</p>
+
+---
+
+## 🎬 See it in 3 minutes
+
+<p align="center">
+  <a href="docs/demo/model-risk-factory-demo.mp4">
+    <img src="docs/assets/demo-thumbnail.png" alt="Watch the 3-minute demo" width="85%">
+  </a>
+  <br>
+  <sub>A real run, recorded end to end: five legacy R models, six agents, one reviewer. Click to play (MP4, 3:01).</sub>
+</p>
+
+<!-- INLINE PLAYER: on github.com, edit this README, drag docs/demo/model-risk-factory-demo.mp4 into the editor,
+     and paste the generated https://github.com/user-attachments/assets/… link on its own line here. -->
+
+## 💡 Why it matters
+
+Banks run hundreds of models written in R by people who have moved on. Supervisors (**SR 11-7**, **PRA SS1/23**) expect
+every one of them to be inventoried, documented, validated, monitored and traceable. Today that means **weeks of manual
+re-work per model**: re-running scripts, re-deriving numbers, re-writing documentation.
+
+Model Risk Factory turns that into a governed production line. Upload the script and its data. Agents work out what the
+model is, document it, rebuild it in Python with **proven parity**, validate it against a plan they designed for *that*
+model, and monitor it live. **People approve every step.** Nothing about any model is hard-coded: specifications,
+contracts, validation plans, monitoring plans, prompts and policy rules are versioned records you can edit.
+
+### Measured in the recorded run
+
+| ⏱️ Legacy R → certified Python | 🏭 Models in parallel | 💸 LLM cost, whole run | 🧾 Agent steps on the ledger |
+|:---:|:---:|:---:|:---:|
+| **15 min** for CR-001, reviews included | **5** | **$0.03** | **445** |
+
+<sub>From the recorded demo run (`gpt-4o-mini`). Your timings depend on the model, the hardware and how fast reviewers decide.</sub>
+
+## ✨ What's new
+
+| | |
+|---|---|
+| 🧠 **Evidence-bound agents** | Every agent plans, thinks, calls real tools and checks results. It cannot finish until its mandatory tools *succeed*; step budgets and hard blockers force a **HOLD**. |
+| ✅ **Proven translation** | Legacy R → Python, certified row by row: every score, coefficient and decision within 1e-6, plus single-request scoring. Models that can't be reproduced exactly are **rehosted**, never faked. |
+| 🔢 **Numbers you can audit** | The LLM never writes a figure. Every number in a report is a token linked to code, data and a one-click **Reproduce**. |
+| 📈 **Agent-designed monitoring** | KPIs, thresholds, alert rules, dashboard panels and drift scenarios chosen per model, editable by people. A red alert triggers diagnosis and re-validation. |
+| 🧑‍⚖️ **Human in the loop** | A gate at every stage, decided from the floor or the approvals queue: approve, send back with instructions, or reject. Every decision goes on a **hash-chained ledger**. |
+| 🛡️ **Responsible AI, built in** | Fairness checks in every validation, SS1/23 controls scored from evidence, a prompt-injection self-test, sandboxed execution of untrusted code. |
+
+## 🖼️ A tour of the product
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <img src="docs/screenshots/01-factory-floor.png" alt="Factory floor"><br>
+      <b>Factory floor.</b> Every model, every stage, live. Start the whole estate in one click and approve gates straight from the cards.
+    </td>
+    <td width="50%" valign="top">
+      <img src="docs/screenshots/02-approvals.png" alt="Approvals queue"><br>
+      <b>Approvals.</b> What is being approved, the agent's recommendation and its evidence. Decide one by one or in bulk.
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <img src="docs/screenshots/03-agent-console.png" alt="Agent console"><br>
+      <b>Agent console.</b> Every plan, thought, tool call (with arguments), result and decision, streamed and filterable.
+    </td>
+    <td valign="top">
+      <img src="docs/screenshots/04-model-workbench.png" alt="Model workbench"><br>
+      <b>Model workbench.</b> Spec, contract, documentation, validation and monitoring plans, parity, findings: versioned and approvable.
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <img src="docs/screenshots/06-parity-certificate.png" alt="Parity certificate"><br>
+      <b>Parity certificate.</b> R and Python agree on all 604 rows: scores to 9.84e-14, coefficients to 3.92e-13, 100% identical decisions.
+    </td>
+    <td valign="top">
+      <img src="docs/screenshots/05-monitoring-plan-editor.png" alt="Monitoring plan editor"><br>
+      <b>Monitoring plan.</b> The agent's KPIs, alert rules and panels, which a person can edit, version, diff and approve.
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <img src="docs/screenshots/08-live-monitoring.png" alt="Live monitoring dashboard"><br>
+      <b>Live monitoring.</b> A Grafana-style dashboard built from the approved plan: operations, data quality, drift, outcomes.
+    </td>
+    <td valign="top">
+      <img src="docs/screenshots/07-blast-radius.png" alt="Dependency graph and blast radius"><br>
+      <b>Blast radius.</b> Lineage inferred from specs and data provenance. Select a model to see everything a defect would reach.
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <img src="docs/screenshots/09-validation-report.png" alt="Validation report"><br>
+      <b>Validation report.</b> Every figure is a traceable pill: click it to see the code and data, and recompute it live.
+    </td>
+    <td valign="top">
+      <img src="docs/screenshots/10-governance.png" alt="Governance and ledger"><br>
+      <b>Governance.</b> SS1/23 controls per model, a prompt-injection test, and a hash-chained ledger that catches tampering.
+    </td>
+  </tr>
+</table>
+
+## ⚙️ How a model flows
+
+```mermaid
+flowchart LR
+    U([📤 Upload R script + data]) --> I[🔎 Intake agent<br/>probe · spec]
+    I --> G1{{👤 Approve spec}}
+    G1 --> D[📝 Documentation & planning<br/>docs · validation plan · monitoring plan]
+    D --> G2{{👤 Approve docs + plans}}
+    G2 --> R[🔁 Redevelopment<br/>R → Python · parity]
+    R --> G3{{👤 Approve parity certificate}}
+    G3 --> V[🧪 Validator + report writer]
+    V --> G4{{👤 Approve · deploy}}
+    G4 --> M[📈 Live monitoring]
+    M -- red alert --> X[🩺 Monitor agent diagnoses]
+    X --> RV[🧪 Re-validation on live traffic]
+    RV --> G5{{👤 Accept}}
+
+    classDef agent fill:#0d1324,stroke:#14b8a6,color:#e8edf7
+    classDef gate fill:#1f1406,stroke:#f59e0b,color:#fde68a
+    class I,D,R,V,M,X,RV agent
+    class G1,G2,G3,G4,G5 gate
+```
+
+| Agent | Decides (LLM) | Verifies (deterministic) |
+|---|---|---|
+| **Intake** | how to run the script (arguments, input files), then the **ModelSpec**: task, target, features, fairness groups, decision rule, tier, strategy | static parse, sandbox **probe** of every object the script creates, spec **linter** |
+| **Documentation & planning** | SR 11-7 documentation, a code review, the model-specific **validation plan** (metrics + thresholds) and **monitoring plan** (KPIs, alert rules, dashboard panels, drift scenarios) | policy-rule library, review findings must cite real lines, plan **linter** (catalog metrics only, real columns, threshold direction) |
+| **Redevelopment** | an R export epilogue, then a Python translation; reads parity gaps and repairs | sandbox run, **bundle validator**, out-of-process **parity worker** (every row, coefficients, decisions, single-row scoring) |
+| **Validator** | which investigations the evidence calls for (slice search, stress test, challenger, fuzzing, baseline compare) and findings | executes the **approved plan**: every check → reproducible metric → status from the plan's thresholds |
+| **Report writer** | executive summary (tokens only) | unsourced-number checker; every figure is `{{m:run:metric}}` |
+| **Monitor** | alert diagnosis and recommended action | KPI windows, plan rules with consecutive-breach logic |
+
+**Agent runtime** (`agents/runtime.py`): one tool-use loop for every stage. The LLM chooses the next tool or finishes.
+Guardrails it cannot override: a tool allow-list, finish refused until mandatory tools *succeed*, step and failure
+budgets, deterministic policy takeover when the model is stuck, and hard blockers that force HOLD. A reviewer's "send
+back" comment is fed to the agent as top-priority context. Every thought, call, argument, result and decision is
+persisted and streamed.
+
+**The one contract with R** (`engine/bundle.py`): an agent-written epilogue (using the platform helper `mrf_export()`)
+leaves `frame.csv`, `scores.csv`, optional `coef.csv` and `train_rows.csv`. Everything downstream (parity, validation,
+serving, the traffic pool, outcomes) reads that bundle, so the platform needs no per-model code.
+
+## 🚀 Run it
 
 ```bash
 git clone https://github.com/VIKNESH1211/Agentic-Model-Risk-Factory.git
 cd Agentic-Model-Risk-Factory
-cp .env.example .env   # add GROQ_API_KEY (free) or leave LLM_PROVIDER=offline
-make setup        # Python 3.11 venv (uv) + npm install
-make sandbox      # builds the no-network R image, exports the germancredit dataset
-make test         # unit + golden tests
-make demo         # builds + starts API :8100 and web :3210, resets state
+cp .env.example .env   # add OPENAI_API_KEY (gpt-4o-mini by default)
+make setup             # Python 3.11 venv (uv) + npm install
+make sandbox           # builds the no-network R image (rocker/r-ver + ranger + insuranceData)
+make test              # unit + API tests
+make demo              # build, start API :8100 + web :3210, factory reset, onboard the 5 test models
 open http://localhost:3210
-make e2e          # scripted check of the whole demo path through the API
+make e2e               # every test model through the whole factory via the API, then drift → alert
+make logs              # follow the platform log
 ```
 
-Ports are 8100/3210 because 8000/3000/3100 were already in use on the dev machine.
-No API key is needed: `LLM_PROVIDER=offline` uses deterministic drafters. To use Claude,
-set `LLM_PROVIDER=anthropic` and `LLM_API_KEY` in `.env` (see `.env.example`); `make record-llm`
-caches responses in `demo/llm_cache/` so the demo replays offline.
+> [!TIP]
+> **LLM:** `OPENAI_API_KEY` → OpenAI (`gpt-4o-mini`, plain HTTPS, no SDK); a `gsk_…` key → Groq; `LLM_MODEL` overrides.
+> Responses are recorded in `demo/llm_cache/` (`LLM_MODE=replay`), so a repeated run replays identical prompts.
 
-## What's real vs. simulated
+<details>
+<summary><b>🗺️ Code map (backend/app)</b></summary>
 
-| Real | Simulated / illustrative |
-|---|---|
-| Legacy R runs unmodified in Docker (`--network none`, read-only, 1 CPU/1 GB) | Out-of-time sample and drift batches (dataset has no dates) |
-| R ↔ Python parity: coefficients Δ ≈ 4e-13, PD Δ ≈ 1e-13, 0/5,000 fuzz divergences | ROI inputs other than measured runtime and LLM cost |
-| Fuzzing finds 1,528 inputs where the legacy code returns **no decision** | "Manual baseline ~10 weeks" (assumption, tagged in UI) |
-| Seeded-defect benchmark: **8/10 caught, 0/2 false alarms** (2 subtle misses shown) | Controls are our interpretation of SS1/23, not legal advice |
-| Every report number is a `{{m:run:metric}}` token; checker rejects raw numbers; Reproduce recomputes | Without an API key, prose is drafted by deterministic templates |
-| Hash-chained ledger; tamper is detected at the exact entry | |
+- `domain/` tables (SQLModel) + `schemas.py` (ModelSpec, ValidationPlan, MonitoringPlan …)
+- `repositories.py` CRUD + versioning (draft → approved → superseded)
+- `services/` onboarding (uploads, data room), specs, plans, prompts (DB registry), policy library
+- `engine/` R harness (`r/run_legacy.R`, `r/probe.R`, `r/mrf_export.R`), bundle, scoring, metric catalog + linters,
+  plan executor, parity worker, serving, traffic simulator, deterministic default plans
+- `agents/` runtime, intake, documentation, redevelopment, validator, reporter, monitor; `prompts/defaults.py` = seed texts
+- `evidence/` metric store (recipes → Reproduce), tokens checker, hash-chained ledger
+- `orchestrator/` pipeline (stages, gates, checkpoints, resume), services (reset, seed, autopilot, injection test)
+- `api/routers/` catalog · knowledge · factory · evidence · monitoring · library · system
+- `core/` config, db, storage (content-addressed files), llm (OpenAI/Groq/Anthropic + cache), logging, events (SSE)
 
-## Architecture (backend/app)
+</details>
 
-- `agents/` Discovery · Documentation · Redevelopment · Validator (independent re-fit) · Red-team · Monitor
-- `tools/` deterministic: `sandbox`, `fuzz`, `metrics`, `fairness`, `challenger`, `drift`, `defect_injector`,
-  `validation_core` (all pass/fail thresholds), `impact`, `controls`, `graph_build`, `parsers/r_parser`
-- `evidence/` `metric_store` (recipes → reproducible numbers), `tokens` (resolver + unsourced-number checker),
-  `ledger` (hash chain), `report_builder`
-- `orchestrator/pipeline.py` stage graph with human gates persisted in the DB (resume after restart).
-  A small hand-rolled equivalent of LangGraph's interrupt/resume — no extra dependency.
-- `core/llm.py` Claude adapter (structured JSON output, refusal fallback, cost caps) with live/record/replay cache;
-  untrusted files are wrapped as data and pre-scanned for injection.
-- API: `api/routes.py` (REST + SSE `/api/events`), contract in `contracts/`.
+<details>
+<summary><b>🖥️ UI (frontend, Next.js 15)</b></summary>
 
-Frontend (`frontend/`, Next.js 15 + Tailwind 4 + Framer Motion + React Flow + Recharts): Mission Control,
-Inventory & graph, Workbench, Parity Certificate, Report + Evidence drawer, Scorecard, Monitoring, Governance,
-Responsible AI, Impact, Approvals, ⌘K palette, demo bar (beats 1–9, notes, Autopilot, Reset).
+Factory floor (stations, gate actions, bulk decisions) · Approvals · **Agent console** (structured, filterable log of
+every run) · Models (inventory + lineage graph) · **Onboard** (upload wizard with the live intake trace) · **Model
+workspace** (Overview · Spec editor with versions/diff/approve · Contract · Documentation · Validation-plan editor ·
+Monitoring-plan editor · Parity certificate · Findings triage · Runs · Files) · Data room · Live monitoring (dashboards
+built from each plan) · Reports (every number a clickable, reproducible pill) · Governance (SS1/23 controls, injection
+test, ledger) · **Library** (prompt templates, policy checks, metric/KPI catalog). ⌘K palette everywhere.
 
-## v2: the whole estate, human-driven pipeline, live traffic
+</details>
 
-- **All five legacy models** go through the factory. Each legacy R script runs **unmodified** in the sandbox via a harness
-  (`backend/app/modelkit/instrument/`) that sources it and exports what parity needs; the data it expects at
-  `//shared/riskdata` is mounted from the data room (`var/data_room`).
-  | Model | Strategy | Parity |
-  |---|---|---|
-  | CR-001 PD scorecard | translate + fuzz | coef Δ 3.9e-13, PD Δ 1.1e-13 |
-  | PR-001 claims GLM (real dataCar, 67,856 policies) | translate | coef Δ 5.5e-10, freq Δ 6.8e-11 |
-  | FR-001 fraud GLM (synthetic ULB-schema data) | translate, R's split pinned | coef Δ 2.1e-9 |
-  | CR-003 limit rules (consumes real CR-001 output) | translate | identical |
-  | CR-002 random forest (ranger) | rehost (validated as-is) | n/a |
-- **Promotion gates between every stage.** Each agent recommends promote/hold; humans decide on the Pipeline board or
-  Approvals page, one model or many at once (`POST /api/gates/bulk-decision`). Optional *auto-promote* follows PROMOTE
-  recommendations only.
-- **Agentic trace.** Every stage: LLM plan (incl. which optional analyses to run) → tool calls with arguments/results →
-  findings → LLM recommendation. Stored in `agent_steps`, shown in the Agent Console.
-- **State.** Runs checkpoint after every stage; gates, lifecycle, traffic settings and KPI windows persist in SQLite.
-  A restart resumes runs and redeploys live models.
-- **Live monitoring.** Deployed models score simulated requests one by one (measured latency); outcomes mature after 40s
-  (stands in for 12 months). 10-second KPI windows: volume, p50/p95 latency, error/no-decision rate, decision rate,
-  score PSI, worst-input CSI, actual/expected, realised Gini/recall. Alert rules need consecutive breaches; a red one
-  starts re-validation on the latest live requests. Drift scenarios ramp in gradually.
-- **Models Folder** browses the legacy code, the data room and every run's artifacts.
+<details>
+<summary><b>🧪 Test estate (<code>legacy_models/</code>)</b></summary>
 
-## Scope notes / not built
+Five unmodified legacy R models used as fixtures, onboarded through the same upload path as any user model (`make seed`):
 
-- FR-001 uses a synthetic stand-in with the Kaggle ULB schema (the real file needs a manual download); CR-003 incomes
-  are synthetic. Both are labelled in reports and the UI. SAS/Python legacy models deferred per the plan.
-- MLflow is optional (compose profile `mlflow`); metrics live in the app's own metric store.
-- SQLite (WAL) instead of Postgres; Playwright replaced by `demo/smoke.py` API-level E2E.
-- `backup.mp4` must be screen-recorded by the team.
+| Id | Model | What it exercises |
+|---|---|---|
+| **CR-001** | WoE PD scorecard (GLM) | CLI arguments, translate → parity certificate |
+| **CR-002** | ranger random-forest challenger | rehost (validated in R, not deployable) |
+| **CR-003** | limit-assignment rules | reads CR-001's output (lineage, blast radius) |
+| **FR-001** | fraud GLM | random train/test split |
+| **PR-001** | Poisson claims GLM | data from an R package |
+
+`_data_room/` is their shared drive (`make testdata` regenerates it). Each folder may hold a `reference_translation.py`:
+an uploaded, known-good fallback the redevelopment agent can use only after its own drafts fail. It must pass the same
+parity check.
+
+</details>
+
+<details>
+<summary><b>🎥 Rebuilding the demo film</b></summary>
+
+The film is recorded from the real product with Playwright and edited with Remotion (`demo/video/`):
+
+```bash
+cd demo/video
+npx tsx capture/record.ts --v3      # resets the demo data, drives the lifecycle, records every scene
+npm run vo                          # narration (OpenAI TTS) → public/vo
+npm run render:voice                # → out/model-risk-factory-voice.mp4 (render:silent for the captioned cut)
+npx tsx capture/screens.ts          # README screenshots → docs/screenshots
+```
+
+</details>
+
+## ⚖️ Honest limits
+
+- The out-of-time sample is simulated (the data has no dates); FR-001 and CR-003 incomes use synthetic data (labelled).
+- `gpt-4o-mini` reliably drives the loops and writes exports, specs and plans; complex translations (e.g. the WoE
+  scorecard) may need the uploaded reference or a stronger code model. Rehost is the fallback for anything not portable.
+- The demo's drift scene uses a reviewer-added stress scenario; the agent's own scenarios in that run were too mild to
+  trip an alert.
+- SQLite (WAL); no auth/tenancy yet (DATABASE_URL-ready). Schema changes need `make fresh` (no migrations).
+
+---
+
+<p align="center">
+  <sub>Agents draft · tools compute · people decide · everything is evidence.</sub><br>
+  <b>Built by Team Zero Gradient</b>
+</p>

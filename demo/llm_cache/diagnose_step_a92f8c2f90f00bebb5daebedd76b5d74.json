@@ -1,0 +1,11 @@
+{
+  "task": "diagnose_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The input drift analysis indicates a significant shift in the 'credit.amount' feature with a PSI of 0.6915, which is likely contributing to the red alert. I will now check the data quality to identify any issues with the inputs.",
+    "action": "call",
+    "tool": "data_quality",
+    "args": {},
+    "reasons": []
+  }
+}

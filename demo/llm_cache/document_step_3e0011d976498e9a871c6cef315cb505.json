@@ -1,0 +1,16 @@
+{
+  "task": "document_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The monitoring plan needs to be drafted to address the identified gaps and incorporate the feedback regarding data-quality alerts for missing inputs and out-of-range values.",
+    "action": "call",
+    "tool": "draft_monitoring_plan",
+    "args": {
+      "instructions": "Propose a monitoring plan for model CR-001 Retail PD Scorecard, including KPIs, alert rules, dashboard panels, and drift scenarios, while addressing the feedback on data-quality alerts."
+    },
+    "recommendation": "hold",
+    "reasons": [
+      "Monitoring plan is still outstanding and needs to be completed before proceeding."
+    ]
+  }
+}

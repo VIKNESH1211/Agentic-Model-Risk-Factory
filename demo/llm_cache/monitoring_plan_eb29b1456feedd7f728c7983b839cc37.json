@@ -1,0 +1,175 @@
+{
+  "task": "monitoring_plan",
+  "model": "gpt-4o-mini",
+  "data": {
+    "plan": {
+      "kpis": [
+        "adverse_rate",
+        "error_rate",
+        "latency_p95_ms",
+        "mean_score",
+        "no_decision_rate",
+        "rpm",
+        "score_psi",
+        "worst_csi",
+        "realized_gini",
+        "realized_rate"
+      ],
+      "rules": [
+        {
+          "id": "score_psi_amber",
+          "kpi": "score_psi",
+          "op": ">",
+          "threshold": 0.1,
+          "windows": 3,
+          "severity": "amber",
+          "action": "notify",
+          "rationale": ""
+        },
+        {
+          "id": "score_psi_red",
+          "kpi": "score_psi",
+          "op": ">",
+          "threshold": 0.25,
+          "windows": 3,
+          "severity": "red",
+          "action": "revalidate",
+          "rationale": ""
+        },
+        {
+          "id": "input_csi_red",
+          "kpi": "worst_csi",
+          "op": ">",
+          "threshold": 0.25,
+          "windows": 3,
+          "severity": "red",
+          "action": "revalidate",
+          "rationale": ""
+        },
+        {
+          "id": "errors",
+          "kpi": "error_rate",
+          "op": ">",
+          "threshold": 0.01,
+          "windows": 2,
+          "severity": "amber",
+          "action": "notify",
+          "rationale": ""
+        },
+        {
+          "id": "no_decision",
+          "kpi": "no_decision_rate",
+          "op": ">",
+          "threshold": 0.02,
+          "windows": 2,
+          "severity": "amber",
+          "action": "notify",
+          "rationale": ""
+        },
+        {
+          "id": "latency",
+          "kpi": "latency_p95_ms",
+          "op": ">",
+          "threshold": 150.0,
+          "windows": 3,
+          "severity": "amber",
+          "action": "notify",
+          "rationale": ""
+        },
+        {
+          "id": "adverse_rate",
+          "kpi": "adverse_rate",
+          "op": ">",
+          "threshold": 0.15,
+          "windows": 2,
+          "severity": "amber",
+          "action": "notify",
+          "rationale": ""
+        }
+      ],
+      "panels": [
+        {
+          "id": "volume",
+          "title": "Volume & Latency",
+          "kind": "area",
+          "kpis": [
+            "rpm",
+            "latency_p95_ms"
+          ],
+          "unit": ""
+        },
+        {
+          "id": "stability",
+          "title": "Stability (PSI / CSI)",
+          "kind": "line",
+          "kpis": [
+            "score_psi",
+            "worst_csi"
+          ],
+          "unit": ""
+        },
+        {
+          "id": "quality",
+          "title": "Errors & No-Decision",
+          "kind": "bar",
+          "kpis": [
+            "error_rate",
+            "no_decision_rate"
+          ],
+          "unit": ""
+        },
+        {
+          "id": "decisions",
+          "title": "Mean Score & Adverse Rate",
+          "kind": "line",
+          "kpis": [
+            "mean_score",
+            "adverse_rate"
+          ],
+          "unit": ""
+        },
+        {
+          "id": "outcomes",
+          "title": "Realized Outcomes",
+          "kind": "line",
+          "kpis": [
+            "realized_rate",
+            "realized_gini"
+          ],
+          "unit": ""
+        }
+      ],
+      "scenarios": [
+        {
+          "id": "income_inflation",
+          "title": "Income Inflation",
+          "description": "Income rises across the book.",
+          "transforms": [
+            {
+              "op": "scale",
+              "column": "income",
+              "value": 0.1,
+              "fraction": 1.0
+            }
+          ]
+        },
+        {
+          "id": "pd_increase",
+          "title": "Increase in PD",
+          "description": "Probability of default increases across the book.",
+          "transforms": [
+            {
+              "op": "scale",
+              "column": "pd",
+              "value": 0.2,
+              "fraction": 1.0
+            }
+          ]
+        }
+      ],
+      "rpm": 240,
+      "rationale": "Enhanced monitoring plan to cover operational, stability, and outcome metrics for the CR-003 model."
+    },
+    "summary": "The proposed monitoring plan for CR-003 includes a comprehensive set of KPIs and alert rules tailored to its credit limit assignment function. It also incorporates relevant drift scenarios to ensure proactive management of model performance."
+  }
+}

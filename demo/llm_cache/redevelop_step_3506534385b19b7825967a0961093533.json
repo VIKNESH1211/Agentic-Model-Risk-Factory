@@ -1,0 +1,10 @@
+{
+  "task": "redevelop_step",
+  "model": "openai/gpt-oss-120b",
+  "data": {
+    "thought": "We need to verify that the Python translation matches the exported legacy model before certification, so we should run a parity check.",
+    "action": "call",
+    "tool": "check_parity",
+    "args": {}
+  }
+}

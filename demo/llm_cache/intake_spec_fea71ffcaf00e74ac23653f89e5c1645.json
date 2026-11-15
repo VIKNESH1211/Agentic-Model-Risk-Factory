@@ -1,0 +1,81 @@
+{
+  "task": "intake_spec",
+  "model": "gpt-4o-mini",
+  "data": {
+    "spec": {
+      "name": "PR-001 Motor claims frequency GLM",
+      "purpose": "Pricing model for motor insurance claims frequency",
+      "owner": "Pricing Analytics",
+      "model_type": "Motor claims frequency GLM",
+      "tier": "A",
+      "tier_rationale": "Drives customer decisions or prices directly at scale.",
+      "entry_script": "pr001_claims_freq.R",
+      "task": "frequency",
+      "strategy": "translate",
+      "target": "numclaims",
+      "exposure": "exposure",
+      "id_column": null,
+      "features": [
+        "veh_body",
+        "veh_age",
+        "agecat",
+        "area",
+        "gender"
+      ],
+      "groups": [
+        {
+          "name": "agecat",
+          "column": "agecat",
+          "bins": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "labels": [
+            "under18",
+            "18-25",
+            "26-35",
+            "36-45",
+            "46-55",
+            "56-65",
+            "65plus"
+          ]
+        },
+        {
+          "name": "gender",
+          "column": "gender",
+          "regex_map": {
+            "^female": "F",
+            ".*": "M"
+          }
+        }
+      ],
+      "decision": {
+        "kind": "none",
+        "op": ">",
+        "cutoff": null,
+        "adverse_label": "",
+        "favourable_label": ""
+      },
+      "inputs": [
+        {
+          "ref": "//shared/riskdata/dataCar.csv",
+          "asset": "insuranceData::dataCar"
+        }
+      ],
+      "harness": {
+        "args": []
+      },
+      "upstream": [],
+      "deployable": true,
+      "notes": [
+        "Ensure the dataCar asset is correctly referenced and available.",
+        "The model uses age categories that need to be clearly defined in the data."
+      ]
+    },
+    "notes_for_reviewer": "Double-check the mapping of inputs and ensure the age category labels align with the intended bins."
+  }
+}

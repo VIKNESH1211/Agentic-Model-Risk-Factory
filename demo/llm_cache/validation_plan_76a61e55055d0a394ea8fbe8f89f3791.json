@@ -1,0 +1,142 @@
+{
+  "task": "validation_plan",
+  "model": "gpt-4o-mini",
+  "data": {
+    "plan": {
+      "title": "Validation Plan for CR-003 Credit Limit Assignment Strategy",
+      "checks": [
+        {
+          "id": "perf.ks_test",
+          "title": "Kolmogorov-Smirnov Statistic on Test",
+          "category": "performance",
+          "metric": "ks",
+          "params": {
+            "target": "occurred",
+            "score": "score",
+            "split": "test"
+          },
+          "threshold": {
+            "op": "<",
+            "amber": 0.3,
+            "red": 0.2
+          },
+          "severity": "high",
+          "rationale": "To assess the model's ability to discriminate between positive and negative outcomes."
+        },
+        {
+          "id": "perf.ks_oot",
+          "title": "Kolmogorov-Smirnov Statistic on Out-of-Time",
+          "category": "performance",
+          "metric": "ks",
+          "params": {
+            "target": "occurred",
+            "score": "score",
+            "split": "oot"
+          },
+          "threshold": {
+            "op": "<",
+            "amber": 0.3,
+            "red": 0.2
+          },
+          "severity": "high",
+          "rationale": "To evaluate the model's performance on out-of-time data."
+        },
+        {
+          "id": "calibration.psi_train_oot",
+          "title": "Population Stability Index from Train to Out-of-Time",
+          "category": "stability",
+          "metric": "psi",
+          "params": {
+            "col": "score",
+            "base": "train",
+            "comp": "oot"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.1,
+            "red": 0.25
+          },
+          "severity": "high",
+          "rationale": "To monitor the stability of the score distribution over time."
+        },
+        {
+          "id": "fairness.dp_diff",
+          "title": "Demographic Parity Difference in Approval Rate",
+          "category": "fairness",
+          "metric": "dp_diff",
+          "params": {
+            "group": "pd_band",
+            "approve": "approve",
+            "split": "test"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.05,
+            "red": 0.1
+          },
+          "severity": "medium",
+          "rationale": "To ensure equitable approval rates across different PD bands."
+        },
+        {
+          "id": "data_quality.missing_any_rate",
+          "title": "Rate of Missing Any Data",
+          "category": "data_quality",
+          "metric": "rate_true",
+          "params": {
+            "col": "missing_any",
+            "split": "all"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.05,
+            "red": 0.1
+          },
+          "severity": "high",
+          "rationale": "To assess the completeness of the data used in the model."
+        },
+        {
+          "id": "policy.adverse_decision_share",
+          "title": "Share of Adverse Decisions",
+          "category": "policy",
+          "metric": "rate_true",
+          "params": {
+            "col": "flag",
+            "split": "all"
+          },
+          "threshold": {
+            "op": ">",
+            "amber": 0.2,
+            "red": 0.3
+          },
+          "severity": "high",
+          "rationale": "To ensure that the model does not excessively decline applications."
+        },
+        {
+          "id": "policy.monotonicity_check",
+          "title": "Monotonicity Check by PD Band",
+          "category": "policy",
+          "metric": "monotone_by",
+          "params": {
+            "col": "limit",
+            "by": "pd_band",
+            "split": "all"
+          },
+          "threshold": {
+            "op": "<=",
+            "amber": 1,
+            "red": 0
+          },
+          "severity": "high",
+          "rationale": "To ensure that credit limits do not increase with higher PD bands."
+        }
+      ],
+      "investigations": [
+        "challenger",
+        "slice_search",
+        "stress_test"
+      ],
+      "rationale": "This validation plan covers performance, calibration, stability, fairness, data quality, and policy checks relevant to the CR-003 model. The thresholds are set based on industry standards to ensure the model's reliability and fairness."
+    },
+    "summary": "The validation plan for CR-003 includes checks for performance, calibration, stability, fairness, data quality, and policy adherence. Each check is designed to ensure the model meets industry standards and operates effectively across various metrics."
+  }
+}

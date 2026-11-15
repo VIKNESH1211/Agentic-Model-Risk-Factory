@@ -1,0 +1,15 @@
+{
+  "task": "report_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The report has been successfully drafted with no violations and a valid summary. I will proceed to finalize the report.",
+    "action": "finish",
+    "args": {},
+    "summary": "The validation report for model CR-001 has been completed with traceable tokens and a compliant summary.",
+    "recommendation": "promote",
+    "reasons": [
+      "The report meets all requirements with no violations.",
+      "The summary passes the unsourced-number checker."
+    ]
+  }
+}

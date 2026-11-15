@@ -1,0 +1,11 @@
+{
+  "task": "validate_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "I will start by scoring the legacy export frame to build the evidence artifact for model FR-001.",
+    "action": "call",
+    "tool": "build_scored",
+    "args": {},
+    "reasons": []
+  }
+}

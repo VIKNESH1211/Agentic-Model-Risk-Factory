@@ -1,0 +1,18 @@
+{
+  "task": "validate_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The model has significant issues, including low Gini scores in critical segments and a challenger model performing better. A stress test also revealed decision flips, indicating instability. Further investigation is warranted before concluding.",
+    "action": "call",
+    "tool": "fuzz",
+    "args": {
+      "n": 2000
+    },
+    "recommendation": "hold",
+    "reasons": [
+      "High severity findings related to performance and fairness.",
+      "Challenger model shows material improvement over the legacy model.",
+      "Stress test indicates potential instability in decision-making."
+    ]
+  }
+}

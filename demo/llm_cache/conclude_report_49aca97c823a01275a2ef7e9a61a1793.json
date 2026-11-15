@@ -1,0 +1,11 @@
+{
+  "task": "conclude_report",
+  "model": "openai/gpt-oss-20b",
+  "data": {
+    "summary": "Stage 'report' for model CR-001 is complete with tool observations indicating a live source draft. Three high\u2011severity findings remain open. The report ID is rep_run_352940, the checker passed, and the token count is 51.",
+    "recommendation": "hold",
+    "reasons": [
+      "Three high\u2011severity findings are still open, requiring human review before promotion."
+    ]
+  }
+}

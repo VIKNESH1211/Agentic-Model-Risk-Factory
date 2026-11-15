@@ -1,0 +1,11 @@
+{
+  "task": "diagnose_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The input drift analysis shows a significant PSI of 0.6915 for the 'credit.amount' feature, indicating a substantial shift in this input. Additionally, the data quality check reveals an out-of-range rate of 0.0975 for 'credit.amount', which is concerning and may affect model performance.",
+    "action": "call",
+    "tool": "score_shift",
+    "args": {},
+    "reasons": []
+  }
+}

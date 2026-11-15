@@ -1,0 +1,70 @@
+{
+  "task": "intake_spec",
+  "model": "gpt-4o-mini",
+  "data": {
+    "spec": {
+      "name": "PR-001 Motor claims frequency GLM",
+      "purpose": "Pricing model for motor claims frequency",
+      "owner": "Pricing Analytics",
+      "model_type": "Motor claims frequency GLM",
+      "tier": "B",
+      "tier_rationale": "Supports decisions based on pricing analytics.",
+      "entry_script": "pr001_claims_freq.R",
+      "task": "frequency",
+      "strategy": "translate",
+      "target": "numclaims",
+      "exposure": "exposure",
+      "id_column": null,
+      "features": [
+        "veh_body",
+        "veh_age",
+        "agecat",
+        "area",
+        "gender"
+      ],
+      "groups": [
+        {
+          "name": "agecat",
+          "column": "agecat",
+          "bins": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "labels": [
+            "cat1",
+            "cat2",
+            "cat3",
+            "cat4",
+            "cat5",
+            "cat6"
+          ],
+          "regex_map": null
+        }
+      ],
+      "decision": {
+        "kind": "none",
+        "op": ">",
+        "cutoff": null,
+        "adverse_label": "",
+        "favourable_label": ""
+      },
+      "inputs": [
+        {
+          "ref": "insuranceData::dataCar",
+          "asset": "insuranceData::dataCar"
+        }
+      ],
+      "harness": {
+        "args": []
+      },
+      "upstream": [],
+      "deployable": true,
+      "notes": []
+    },
+    "notes_for_reviewer": "Double-check the age category bins and labels for accuracy and ensure the model's outputs align with the expected frequency calculations."
+  }
+}

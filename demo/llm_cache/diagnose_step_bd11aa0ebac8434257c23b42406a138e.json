@@ -1,0 +1,11 @@
+{
+  "task": "diagnose_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The alert indicates significant input shift, particularly with the worst CSI related to the 'credit.amount' feature. I will check for input drift to understand the extent of the changes.",
+    "action": "call",
+    "tool": "input_drift",
+    "args": {},
+    "reasons": []
+  }
+}

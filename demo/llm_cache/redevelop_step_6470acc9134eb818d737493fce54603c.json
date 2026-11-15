@@ -1,0 +1,14 @@
+{
+  "task": "redevelop_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The legacy model CR-001 needs to be exported from the sandbox, but the export process has not yet been initiated. I will start by running the unmodified legacy script along with the epilogue to validate the bundle.",
+    "action": "call",
+    "tool": "run_export",
+    "args": {},
+    "recommendation": "hold",
+    "reasons": [
+      "The export process must be completed before proceeding to certification."
+    ]
+  }
+}

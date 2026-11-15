@@ -1,0 +1,15 @@
+{
+  "task": "discover_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The specification for model PR-001 has been successfully drafted, including all required elements based on the observed outputs and structure. The inputs were correctly limited to those available in the data room, and the decision rule was aligned with the model's intended use.",
+    "action": "finish",
+    "args": {},
+    "summary": "Drafted a valid specification for model PR-001 that passes the linter.",
+    "recommendation": "promote",
+    "reasons": [
+      "Specification meets all requirements and passes the linter.",
+      "Inputs are correctly sourced from the data room."
+    ]
+  }
+}

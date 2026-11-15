@@ -1,0 +1,11 @@
+{
+  "task": "diagnose_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The alert indicates a significant shift in input characteristics, necessitating a detailed analysis of input drift to understand the changes.",
+    "action": "call",
+    "tool": "input_drift",
+    "args": {},
+    "reasons": []
+  }
+}

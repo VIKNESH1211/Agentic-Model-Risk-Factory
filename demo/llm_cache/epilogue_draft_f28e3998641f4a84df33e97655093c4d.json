@@ -1,0 +1,8 @@
+{
+  "task": "epilogue_draft",
+  "model": "gpt-4o-mini",
+  "data": {
+    "r_code": "mrf_export(frame = dat, score = pd, decision = decision, coef = coef(fit))",
+    "explanation": "The frame used is 'dat', which contains the raw input data as the model saw it, including the outcome column 'bad'. The score is derived from the predicted probabilities 'pd' calculated from the model. Since the model was fitted on all rows of 'dat', there is no need to specify training rows."
+  }
+}

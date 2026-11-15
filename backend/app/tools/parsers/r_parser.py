@@ -18,7 +18,11 @@ def _smart_title(s: str) -> str:
 
 
 def parse(path: Path) -> dict:
-    text = path.read_text()
+    return parse_text(Path(path).read_text(), Path(path).name)
+
+
+def parse_text(text: str, filename: str) -> dict:
+    path = Path(filename)
     lines = text.splitlines()
     header = [l.lstrip("# ").rstrip() for l in lines[:12] if l.startswith("#") and not l.startswith("#!")]
     header = [h for h in header if h and not set(h) <= {"="}]

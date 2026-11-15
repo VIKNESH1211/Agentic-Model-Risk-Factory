@@ -1,0 +1,20 @@
+{
+  "task": "validate_step",
+  "model": "gpt-4o-mini",
+  "data": {
+    "thought": "The model shows significant weaknesses in performance and fairness, particularly in specific segments. The challenger model outperforms the legacy model significantly, indicating a need for further investigation and potential replacement.",
+    "action": "call",
+    "tool": "raise_finding",
+    "args": {
+      "severity": "high",
+      "category": "performance",
+      "title": "Challenger Model Outperforms Legacy Model",
+      "detail": "The challenger model has a Gini of 0.83 compared to the legacy model's Gini of 0.6165, indicating a material uplift of 0.213, which suggests the legacy model is not fit for use.",
+      "tokens": [
+        "m:run_422ac2:investigate.gini.champion",
+        "m:run_422ac2:investigate.gini.challenger"
+      ]
+    },
+    "reasons": []
+  }
+}
