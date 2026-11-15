@@ -66,6 +66,29 @@ contracts, validation plans, monitoring plans, prompts and policy rules are vers
 
 <sub>From the recorded demo run (`gpt-4o-mini`). Your timings depend on the model, the hardware and how fast reviewers decide.</sub>
 
+### Cost of one complete lifecycle, per model
+
+| Path | Example | LLM calls | Agent steps | LLM cost |
+|---|---|---:|---:|---:|
+| **Translate** · discover → document → R→Python parity → validate → deploy → drift alert → re-validation | CR-001 | 68 | 195 | $0.017 |
+| **Rehost** · discover → document → validate in R → closed (not deployed) | CR-002 | 27 | 68 | $0.002 |
+| **Average per model** | | **≈ 48** | **≈ 132** | **≈ $0.01** |
+
+**Five models, full lifecycle (projected from the average):** ≈ 240 LLM calls, ≈ 660 agent steps, ≈ $0.05. That ranges
+from ≈ $0.01 if all five are rehosted to ≈ $0.08 if all five are translated and go through a drift re-validation.
+
+<sub>Measured on the two models that completed a full lifecycle in the recorded run; the 5-model figure multiplies the
+average, so it's an estimate. Step counts include every plan, thought, tool call, result and decision.</sub>
+
+### Capacity
+
+- **No limit on how many models are in the factory.** Any number can be onboarded and in progress; a model waiting at a
+  human gate holds no compute.
+- **4 agent stages run at the same time** (`ThreadPoolExecutor(max_workers=4)` in `backend/app/orchestrator/pipeline.py`).
+  A fifth model shows *queued: waiting for a free agent worker* until one frees up.
+- **Each R sandbox gets up to 2 CPUs / 2 GB**, so 4 concurrent stages need about 8 CPUs / 8 GB. That fits a 10-core,
+  16 GB laptop; raise the worker count on a larger machine.
+
 ## ✨ What's new
 
 | | |
