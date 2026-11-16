@@ -1,5 +1,0 @@
-node_modules
-out
-public/clips/*.mp4
-public/vo/*.wav
-.render-public
