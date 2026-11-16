@@ -34,6 +34,7 @@
 
 ---
 
+<a id="#-see-it-in-3-minutes"></a>
 ## 🎬 See it in 3 minutes
 
 <p align="center">
