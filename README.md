@@ -35,7 +35,7 @@
 ---
 
 <a id="#-see-it-in-3-minutes"></a>
-## 🎬 See it in 3 minutes
+## 🎬 See it in 3 minutes | Click on the image to stream the demo from YouTube
 
 <p align="center">
   <a href="https://www.youtube.com/watch?v=uY42OlJuPKs" title="Watch the demo on YouTube">
