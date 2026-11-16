@@ -26,8 +26,8 @@
 <p align="center">
   <a href="#-see-it-in-3-minutes">Demo</a> ·
   <a href="#-why-it-matters">Why</a> ·
-  <a href="#-whats-new">Innovation</a> ·
-  <a href="#-a-tour-of-the-product">Tour</a> ·
+  <a href="#-whats-new">What's new</a> ·
+  <a href="#%EF%B8%8F-a-tour-of-the-product">Tour</a> ·
   <a href="#%EF%B8%8F-how-a-model-flows">How it works</a> ·
   <a href="#-run-it">Run it</a>
 </p>
@@ -58,9 +58,18 @@ model is, document it, rebuild it in Python with **proven parity**, validate it 
 model, and monitor it live. **People approve every step.** Nothing about any model is hard-coded: specifications,
 contracts, validation plans, monitoring plans, prompts and policy rules are versioned records you can edit.
 
+### What the challenge asked for, and where it lives
+
+| Requirement | How it is met |
+|---|---|
+| Document 3-5 sample models | Five legacy R models onboarded through the normal upload path (see *Test estate*); SR 11-7 documentation generated for each |
+| Rebuild a model in Python with parity proof | R → Python translation certified on every row (scores, coefficients, decisions within 1e-6, plus single-request scoring) |
+| Validation report on performance, stability and fairness | Plan-driven validation with fairness checks in every run; every figure in the report is reproducible |
+| Monitoring | Agent-designed KPIs, alert rules and drift scenarios, with a live dashboard |
+
 ### Measured in the recorded run
 
-| ⏱️ Legacy R → certified Python | 🏭 Models processed in parallel | 💸 LLM cost, whole run | 🧾 Agent steps on the ledger |
+| ⏱️ Legacy R → certified Python | 🏭 Models in the run | 💸 LLM cost, whole run | 🧾 Agent steps on the ledger |
 |:---:|:---:|:---:|:---:|
 | **15 min** for CR-001, reviews included | **5** | **$0.03** | **445** |
 
@@ -178,6 +187,8 @@ flowchart LR
     class G1,G2,G3,G4,G5 gate
 ```
 
+Agents decide; deterministic tools verify.
+
 | Agent | Decides (LLM) | Verifies (deterministic) |
 |---|---|---|
 | **Intake** | how to run the script (arguments, input files), then the **ModelSpec**: task, target, features, fairness groups, decision rule, tier, strategy | static parse, sandbox **probe** of every object the script creates, spec **linter** |
@@ -199,6 +210,8 @@ serving, the traffic pool, outcomes) reads that bundle, so the platform needs no
 
 ## 🚀 Run it
 
+**Prerequisites:** Docker, Python 3.11 with `uv`, Node.js, `make`, and an LLM API key.
+
 ```bash
 git clone https://github.com/VIKNESH1211/Agentic-Model-Risk-Factory.git
 cd Agentic-Model-Risk-Factory
@@ -207,14 +220,15 @@ make setup             # Python 3.11 venv (uv) + npm install
 make sandbox           # builds the no-network R image (rocker/r-ver + ranger + insuranceData)
 make test              # unit + API tests
 make demo              # build, start API :8100 + web :3210, factory reset, onboard the 5 test models
-open http://localhost:3210
+open http://localhost:3210   # then click "Start all" on the factory floor and approve the gates
 make e2e               # every test model through the whole factory via the API, then drift → alert
 make logs              # follow the platform log
 ```
 
 > [!TIP]
-> **LLM:** `OPENAI_API_KEY` → OpenAI (`gpt-4o-mini`, plain HTTPS, no SDK); a `gsk_…` key → Groq; `LLM_MODEL` overrides.
-> Responses are recorded in `demo/llm_cache/` (`LLM_MODE=replay`), so a repeated run replays identical prompts.
+> **LLM:** `OPENAI_API_KEY` → OpenAI (`gpt-4o-mini`, plain HTTPS, no SDK); a `gsk_…` key → Groq; Anthropic is also
+> supported; `LLM_MODEL` overrides. Responses are recorded in `demo/llm_cache/` (`LLM_MODE=replay`), so a repeated run
+> replays identical prompts.
 
 <details>
 <summary><b>🗺️ Code map (backend/app)</b></summary>
