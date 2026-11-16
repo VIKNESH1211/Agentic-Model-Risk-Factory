@@ -37,11 +37,9 @@
 ## 🎬 See it in 3 minutes
 
 <p align="center">
-  <a href="docs/demo/model-risk-factory-demo.mp4">
-    <img src="docs/assets/demo-thumbnail.png" alt="Watch the 3-minute demo" width="85%">
+  <a href="https://www.youtube.com/watch?v=uY42OlJuPKs" title="Watch the demo on YouTube">
+    <img src="https://img.youtube.com/vi/uY42OlJuPKs/maxresdefault.jpg" alt="Watch the demo video" width="560" height="315">
   </a>
-  <br>
-  <sub>A real run, recorded end to end: five legacy R models, six agents, one reviewer. Click to play (MP4, 3:01).</sub>
 </p>
 
 <!-- INLINE PLAYER: on github.com, edit this README, drag docs/demo/model-risk-factory-demo.mp4 into the editor,
